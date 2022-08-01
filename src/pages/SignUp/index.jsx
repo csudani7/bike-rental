@@ -1,26 +1,25 @@
-import React, { useContext, useState } from "react";
-import { ApplicationProcessContext } from "../../Context";
+import React, {  useState } from "react";
 import db, { auth } from "../../Firebase";
+import {useNavigate} from "react-router-dom"
 
-function SignIn() {
+function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setHandleUser } = useContext(ApplicationProcessContext);
-  const handleSignIn = () => {
+  const navigate = useNavigate()
+  const signUp = () => {
     auth
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then((d) => {
+        console.log(d, d.user.email, d.user.uid);
         db.collection("users")
-          .where("uid", "==", d.user.uid)
-          .get()
-          .then((snap) => {
-            let data = snap.docs[0].data();
-            setHandleUser({
-              email: data.email,
-              uid: data.uid,
-              role: data.role,
-            });
-            
+          .add({
+            uid: d.user.uid,
+            email: d.user.email,
+            role: "user",
+          })
+          .then((dd) => {
+            console.log(dd)
+            navigate("/signin")
           });
       })
       .catch((e) => {
@@ -38,7 +37,7 @@ function SignIn() {
               alt="Workflow"
             />
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-              Sign in to your account
+              Sign up to your account
             </h2>
           </div>
 
@@ -93,10 +92,10 @@ function SignIn() {
 
                 <div>
                   <button
-                    onClick={handleSignIn}
+                    onClick={signUp}
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Sign in
+                    Sign up
                   </button>
                 </div>
               </div>
@@ -115,4 +114,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;

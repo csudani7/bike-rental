@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import "./global.css";
+import "./assets/global.css";
 import { ApplicationProcessContext } from "./Context";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";

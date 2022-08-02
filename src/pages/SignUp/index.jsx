@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import db, { auth } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import db, { auth } from "../../Firebase";
 
 function SignUp() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const navigate = useNavigate();
+
   const signUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((d) => {
-        console.log(d, d.user.email, d.user.uid);
-
         db.collection("users")
           .add({
             fullName: fullName,
@@ -21,16 +20,20 @@ function SignUp() {
             email: d.user.email,
             role: "user",
           })
-          .then((dd) => {
-            console.log(dd);
+          .then(() => {
             toast.success("User Register Successfully");
             navigate("/auth/sign-in");
           });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          toast.error("Email is already registered");
+        } else {
+          toast.error("Something went wrong. Please try again later");
+        }
       });
   };
+
   return (
     <div className="min-h-[100vh] flex">
       <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -124,6 +127,16 @@ function SignUp() {
                   >
                     Sign up
                   </button>
+                </div>
+                <div className="flex items-center justify-end">
+                  <div className="text-sm">
+                    <div
+                      onClick={() => navigate("/auth/sign-in")}
+                      className="font-medium text-indigo-600 cursor-pointer hover:text-indigo-500"
+                    >
+                      Already Registered User?
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

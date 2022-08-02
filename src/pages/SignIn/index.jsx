@@ -1,19 +1,26 @@
 //#Global Imports
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 //#Local Imports
 import { ApplicationProcessContext } from "../../Context";
 import db, { auth } from "../../Firebase";
+import { regexForEmailAddress, regexForPassword } from "../../utils";
 
 function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { setHandleUser } = useContext(ApplicationProcessContext);
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSignIn = () => {
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
     auth
       .signInWithEmailAndPassword(email, password)
       .then((d) => {
@@ -31,10 +38,17 @@ function SignIn() {
             navigate("/home");
           });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        if (error.code === "auth/user-not-found") {
+          toast.error("User is not Registered");
+        } else if (error.code === "auth/wrong-password") {
+          toast.error("Wrong Password");
+        } else {
+          toast.error("Something went wrong. Please try again later");
+        }
       });
   };
+
   return (
     <div className="min-h-[100vh] flex">
       <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -53,59 +67,82 @@ function SignIn() {
           <div className="mt-8">
             <div className="mt-6">
               <div className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col w-full gap-8 m-auto mt-6"
+                >
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email address
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        {...register("email", {
+                          required: true,
+                          pattern: regexForEmailAddress,
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-sm font-semibold text-red-500">
+                        email
+                      </p>
+                    )}
                   </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        {...register("password", {
+                          required: true,
+                          pattern: regexForPassword,
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.password && (
+                      <p className="text-sm font-semibold text-red-500">
+                        password
+                      </p>
+                    )}
                   </div>
-                </div>
 
-                <div>
-                  <button
-                    onClick={handleSignIn}
-                    className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Sign in
-                  </button>
+                  <div>
+                    <button
+                      type="submit"
+                      className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Sign in
+                    </button>
+                  </div>
+                </form>
+                <div className="flex items-center justify-end">
+                  <div className="text-sm">
+                    <div
+                      onClick={() => navigate("/auth/sign-up")}
+                      className="font-medium text-indigo-600 cursor-pointer hover:text-indigo-500"
+                    >
+                      Not Registered User?
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import db, { auth } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ function SignUp() {
       .createUserWithEmailAndPassword(email, password)
       .then((d) => {
         console.log(d, d.user.email, d.user.uid);
+
         db.collection("users")
           .add({
             fullName: fullName,
@@ -21,6 +23,7 @@ function SignUp() {
           })
           .then((dd) => {
             console.log(dd);
+            toast.success("User Register Successfully");
             navigate("/auth/sign-in");
           });
       })

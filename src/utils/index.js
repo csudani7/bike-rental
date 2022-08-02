@@ -111,7 +111,7 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 
   var currDate = moment(startDate).startOf("day");
   var lastDate = moment(endDate).startOf("day");
-  dates.push(currDate.clone().toDate())
+  dates.push(currDate.clone().toDate());
   while (currDate.add(1, "days").diff(lastDate) <= 0) {
     console.log(currDate.format("MM/DD/YYYY"));
     dates.push(currDate.clone().format("MM/DD/YYYY"));
@@ -119,3 +119,17 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 
   return dates;
 };
+
+export const routes = [
+  { path: "/home", value: "Home" },
+  { path: "/my-bike", value: "My Bike" },
+  { path: "/user-manage", value: "User Manage" },
+  { path: "/bike-manage", value: "Bike Manage" },
+];
+
+export const bikeManageData = [
+  { modal: "Unicorn", color: "black", location: "Surat", id: 1 },
+  { modal: "KTM", color: "gray", location: "Gandhinagr", id: 2 },
+  { modal: "Gixxer", color: "black", location: "Baroda", id: 3 },
+  { modal: "Ducati", color: "red", location: "Ahemdabad", id: 4 },
+];

@@ -1,5 +1,9 @@
+//#Global Imports
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+//#Local Imports
 import { ApplicationProcessContext } from "../../Context";
 import db, { auth } from "../../Firebase";
 
@@ -23,6 +27,7 @@ function SignIn() {
               uid: data.uid,
               role: data.role,
             });
+            toast.success("Sign In Successful");
             navigate("/home");
           });
       })

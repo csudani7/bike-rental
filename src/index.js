@@ -1,9 +1,14 @@
+//#Global Imports
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./assets/index.css";
+
+//#Local Impoprts
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Context } from "./Context";
+
+//#CSS Imports
+import "./assets/index.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { BrowserRouter as Router } from "react-router-dom";

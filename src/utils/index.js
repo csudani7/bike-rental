@@ -128,8 +128,8 @@ export const routes = [
 ];
 
 export const bikeManageData = [
-  { modal: "Unicorn", color: "black", location: "Surat" },
-  { modal: "KTM", color: "gray", location: "Gandhinagr" },
-  { modal: "Gixxer", color: "black", location: "Baroda" },
-  { modal: "Ducati", color: "red", location: "Ahemdabad" },
+  { modal: "Unicorn", color: "black", location: "Surat", id: 1 },
+  { modal: "KTM", color: "gray", location: "Gandhinagr", id: 2 },
+  { modal: "Gixxer", color: "black", location: "Baroda", id: 3 },
+  { modal: "Ducati", color: "red", location: "Ahemdabad", id: 4 },
 ];

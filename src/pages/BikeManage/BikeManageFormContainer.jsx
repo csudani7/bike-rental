@@ -81,7 +81,7 @@ const BikeManageFormContainer = () => {
                           : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
                         "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
                       )}
-                      value={value || null}
+                      value={value ?? ""}
                       onChange={(v) => onChange(v)}
                     >
                       <option></option>
@@ -125,7 +125,7 @@ const BikeManageFormContainer = () => {
                           : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
                         "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
                       )}
-                      value={value || null}
+                      value={value ?? ""}
                       onChange={(v) => onChange(v)}
                     >
                       <option></option>

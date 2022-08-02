@@ -14,13 +14,13 @@ import { bikeManageData } from "../../utils";
 
 const BikeMange = () => {
   const [bikeData, setBikeData] = React.useState([]);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState("");
   const [selectedUser, setSelectedUser] = React.useState({});
 
   const handleEditEvent = (selectedID) => {
     const temData = bikeData.filter((data) => data.id === selectedID)[0];
     setSelectedUser(temData);
-    setIsModalOpen(true);
+    setIsModalOpen("edit");
   };
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ const BikeMange = () => {
           <button
             type="button"
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen("add")}
           >
             <span>Add</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
@@ -71,8 +71,8 @@ const BikeMange = () => {
       </div>
       {/* Add and Edit User/Manager Form Modal Section */}
       <Modal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen === "edit" || isModalOpen === "add"}
+        setIsModalOpen={() => setIsModalOpen("")}
         isConfirmation={false}
       >
         <BikeManageFormContainer />

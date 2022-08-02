@@ -1,16 +1,19 @@
-import React, {  useState } from "react";
+//#Global Imports
+import React, { useState } from "react";
 import db, { auth } from "../../Firebase";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const signUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((d) => {
         console.log(d, d.user.email, d.user.uid);
+
         db.collection("users")
           .add({
             uid: d.user.uid,
@@ -18,8 +21,9 @@ function SignUp() {
             role: "user",
           })
           .then((dd) => {
-            console.log(dd)
-            navigate("/auth/sign-in")
+            console.log(dd);
+            toast.success("User Register Successfully");
+            navigate("/auth/sign-in");
           });
       })
       .catch((e) => {

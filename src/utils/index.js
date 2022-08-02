@@ -160,3 +160,34 @@ export const myBikeData = [
     EndDate: "10/11/2022",
   },
 ];
+
+export const bikeData = [
+  {
+    modal: "Modal_1",
+    color: "Red",
+    location: "India",
+    rating: "1",
+    id: 1,
+  },
+  {
+    modal: "Modal_2",
+    color: "Yellow",
+    location: "USA",
+    rating: "2",
+    id: 2,
+  },
+  {
+    modal: "Modal_3",
+    color: "Green",
+    location: "UK",
+    rating: "3",
+    id: 3,
+  },
+  {
+    modal: "Modal_4",
+    color: "Black",
+    location: "Canada",
+    rating: "4",
+    id: 4,
+  },
+];

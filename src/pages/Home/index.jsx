@@ -1,6 +1,5 @@
 //#Global Imports
 import React from "react";
-
 //#Local Imports
 
 const Home = () => {

@@ -1,7 +1,7 @@
 //#Global imports
 import React from "react";
 import clsx from "clsx";
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 //#Local Imports
 import {

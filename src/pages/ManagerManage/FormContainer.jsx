@@ -201,6 +201,7 @@ const FormContainer = (props) => {
                       value={value || null}
                       onChange={(v) => onChange(v)}
                     >
+                      <option></option>
                       <option>User</option>
                       <option>Manager</option>
                     </select>

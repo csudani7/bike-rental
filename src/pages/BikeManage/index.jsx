@@ -10,22 +10,31 @@ import {
 //#Local Imports
 import Modal from "../../Components/Modal";
 import BikeManageFormContainer from "./BikeManageFormContainer";
-import { bikeManageData } from "../../utils";
+import db from "../../Firebase";
 
 const BikeMange = () => {
   const [bikeData, setBikeData] = React.useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState("");
-  const [selectedUser, setSelectedUser] = React.useState({});
+  const [selectedBike, setSelectedBike] = React.useState({});
 
-  const handleEditEvent = (selectedID) => {
-    const temData = bikeData.filter((data) => data.id === selectedID)[0];
-    setSelectedUser(temData);
+  const handleEditEvent = (bikeData) => {
+    setSelectedBike(bikeData);
     setIsModalOpen("edit");
   };
 
+  const handleAddEvent = () => {
+    setIsModalOpen("add");
+  };
+
   React.useEffect(() => {
-    //Implementation of fetch API of User/Manager Data
-    setBikeData(bikeManageData); //TODO: set the get data from response as per Role is Selected
+    db.collection("bikes").onSnapshot((snapshot) => {
+      setBikeData(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+      );
+    });
   }, []);
 
   return (
@@ -36,7 +45,7 @@ const BikeMange = () => {
           <button
             type="button"
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={() => setIsModalOpen("add")}
+            onClick={handleAddEvent}
           >
             <span>Add</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
@@ -51,13 +60,22 @@ const BikeMange = () => {
             <div className="flex items-center justify-between w-full gap-8">
               <div className="focus:outline-none">
                 <p className="text-sm font-medium text-gray-900">
-                  {items.modal}
+                  Modal Name : {items.modalName}
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  Color : {items.color}
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  Location : {items.location}
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  Rating : {items.rating}
                 </p>
               </div>
               <div className="flex items-center gap-4">
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleEditEvent(items.id)}
+                  onClick={() => handleEditEvent(items)}
                 >
                   <PencilIcon className="w-5 h-5" aria-hidden="true" />
                 </div>
@@ -75,7 +93,11 @@ const BikeMange = () => {
         setIsModalOpen={() => setIsModalOpen("")}
         isConfirmation={false}
       >
-        <BikeManageFormContainer />
+        <BikeManageFormContainer
+          mode={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          data={selectedBike}
+        />
       </Modal>
     </div>
   );

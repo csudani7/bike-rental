@@ -126,3 +126,10 @@ export const routes = [
   { path: "/user-manage", value: "User Manage" },
   { path: "/bike-manage", value: "Bike Manage" },
 ];
+
+export const bikeManageData = [
+  { modal: "Unicorn", color: "black", location: "Surat" },
+  { modal: "KTM", color: "gray", location: "Gandhinagr" },
+  { modal: "Gixxer", color: "black", location: "Baroda" },
+  { modal: "Ducati", color: "red", location: "Ahemdabad" },
+];

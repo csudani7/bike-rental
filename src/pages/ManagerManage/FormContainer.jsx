@@ -27,7 +27,7 @@ const FormContainer = () => {
       >
         <div>
           <label
-            htmlFor="first-name"
+            htmlFor="firstName"
             className="block text-sm font-medium text-gray-900"
           >
             First name

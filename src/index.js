@@ -4,6 +4,8 @@ import "./assets/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Context } from "./Context";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { BrowserRouter as Router } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

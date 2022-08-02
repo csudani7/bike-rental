@@ -76,28 +76,28 @@ export const userData = [
 
 export const managerData = [
   {
-    name: "Leslie Alexander_1",
+    name: "Leslie_manager_Alexander_1",
     email: "test1@test.com",
     password: "test1",
     role: "manager",
     id: 1,
   },
   {
-    name: "Leslie Alexander_2",
+    name: "Leslie_manager_Alexander_2",
     email: "test2@test.com",
     password: "test2",
     role: "manager",
     id: 2,
   },
   {
-    name: "Leslie Alexander_3",
+    name: "Leslie_manager_Alexander_3",
     email: "test3@test.com",
     password: "test3",
     role: "manager",
     id: 3,
   },
   {
-    name: "Leslie Alexander_4",
+    name: "Leslie_manager_Alexander_4",
     email: "test4@test.com",
     password: "test4",
     role: "manager",

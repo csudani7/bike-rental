@@ -1,151 +1,123 @@
 //#Global Imports
 import React from "react";
-import { useForm } from "react-hook-form";
-import { userData } from "../../utils";
-import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
+import clsx from "clsx";
+import {
+  PencilIcon,
+  PlusCircleIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
+
 //#Local Imports
+import { userData, managerData } from "../../utils";
+import Modal from "../../Components/Modal";
+import FormContainer from "./FormContainer";
 
 const ManagerManage = () => {
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [data, setData] = React.useState([]);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [toggleButtonValue, setToggleButtonValue] = React.useState("User");
+  const [selectedUser, setSelectedUser] = React.useState({});
+
+  const handleEditEvent = (selectedID) => {
+    const temData = data.filter((data) => data.id === selectedID)[0];
+    setSelectedUser(temData);
+    setIsModalOpen(true);
+  };
+
+  React.useEffect(() => {
+    const tempData = toggleButtonValue === "User" ? userData : managerData;
+    //Implementation of fetch API of User/Manager Data
+    setData(tempData); //TODO: set the get data from response as per Role is Selected
+  }, [toggleButtonValue]);
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen ">
-      <div className="flex items-center justify-center w-full">
-        <div className="gap-4 flex items-center flex-col w-2/3">
-          {userData.map((user) => (
-            <div
-              key={user.id}
-              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center justify-between space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 w-full"
-            >
-              <div className="flex items-center justify-between gap-8 w-full">
-                <div className="focus:outline-none">
-                  <span className="absolute inset-0" aria-hidden="true" />
-                  <p className="text-sm font-medium text-gray-900">
-                    {user.name}
-                  </p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="cursor-pointer">
-                    <PencilIcon className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div className="cursor cursor-pointer">
-                    <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Contact form */}
-        <div className="py-10 px-6 sm:px-10 xl:p-12 w-full">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-6 w-full flex flex-col gap-8 m-auto"
+    <div className="flex flex-col items-center w-full h-screen py-8">
+      <div className="flex flex-col items-center justify-center w-2/3 gap-4">
+        {/* Add and Toggle Button Section */}
+        <div className="flex items-center justify-between w-full mb-12">
+          <button
+            type="button"
+            className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={() => setIsModalOpen(true)}
           >
-            <div>
-              <label
-                htmlFor="first-name"
-                className="block text-sm font-medium text-gray-900"
-              >
-                First name
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="first-name"
-                  id="first-name"
-                  autoComplete="given-name"
-                  className="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-900"
-              >
-                Email
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  className="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  autoComplete="password"
-                  className="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2">
-              <div className="flex justify-between">
-                <label
-                  htmlFor="role"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Role
-                </label>
-              </div>
-              <div className="mt-1">
-                <select
-                  id="role"
-                  name="role"
-                  className="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                >
-                  <option>User</option>
-                  <option>Manager</option>
-                </select>
-              </div>
-            </div>
-            <div className="relative flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="comments"
-                  aria-describedby="comments-description"
-                  name="comments"
-                  type="checkbox"
-                  className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                />
-              </div>
-              <div className="ml-3 text-sm">
-                <label htmlFor="comments" className="font-medium text-gray-700">
-                  Is bike available for rent ?
-                </label>
-              </div>
-            </div>
-            <div className="sm:col-span-2 sm:flex sm:justify-end">
+            <span>Add</span>
+            <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
+          </button>
+          {/* Toggle Button */}
+          <div
+            className={clsx(
+              "relative flex items-center justify-between border rounded-2xl border-blue-600 overflow-hidden w-auto bg-gray-50"
+            )}
+          >
+            {toggleButtonValue === "Manager" ? (
               <button
-                type="submit"
-                className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
+                type="button"
+                className="flex items-center justify-center w-20 p-2 text-base font-medium text-white bg-indigo-600 border border-transparent shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-offset-2"
               >
-                Submit
+                Manager
               </button>
-            </div>
-          </form>
+            ) : (
+              <div
+                className="w-20 p-2 text-base font-medium cursor-pointer"
+                onClick={() => {
+                  setToggleButtonValue("Manager");
+                }}
+              >
+                Manager
+              </div>
+            )}
+            {toggleButtonValue === "User" ? (
+              <button
+                type="button"
+                className="flex items-center justify-center w-20 p-2 text-base font-medium text-white bg-indigo-600 border border-transparent shadow-sm rounded-2xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                User
+              </button>
+            ) : (
+              <div
+                className="flex justify-center w-20 p-2 text-base font-medium cursor-pointer"
+                onClick={() => {
+                  setToggleButtonValue("User");
+                }}
+              >
+                User
+              </div>
+            )}
+          </div>
         </div>
+        {/* Data Listing Section */}
+        {data.map((user) => (
+          <div
+            key={user.id}
+            className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+          >
+            <div className="flex items-center justify-between w-full gap-8">
+              <div className="focus:outline-none">
+                <p className="text-sm font-medium text-gray-900">{user.name}</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div
+                  className="cursor-pointer"
+                  onClick={() => handleEditEvent(user.id)}
+                >
+                  <PencilIcon className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <div className="cursor-pointer cursor">
+                  <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
+      {/* Add and Edit User/Manager Form Modal Section */}
+      <Modal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isConfirmation={false}
+      >
+        <FormContainer />
+      </Modal>
     </div>
   );
 };

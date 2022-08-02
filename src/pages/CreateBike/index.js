@@ -31,7 +31,8 @@ function CreateBike() {
   const [model, setModel] = useState();
   const [color, setColor] = useState(colors[0]);
   const [location, setLocation] = useState(locations[0]);
-  const [rating, setRating] = useState();
+  // const [rating, setRating] = useState(); //TODO: Need to uncomment when its come to use
+
   useEffect(() => {
     console.log(color);
   }, [color]);
@@ -54,7 +55,7 @@ function CreateBike() {
               type="model"
               name="model"
               id="model"
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
         </div>
@@ -88,11 +89,11 @@ function CreateBike() {
             Rating
           </label>
           <div className="mt-1">
-            <StarIcon className="h-5 w-5" />
-            <StarIcon className="h-5 w-5" />
-            <StarIcon className="h-5 w-5" />
-            <StarIcon className="h-5 w-5" />
-            <StarIcon className="h-5 w-5" />
+            <StarIcon className="w-5 h-5" />
+            <StarIcon className="w-5 h-5" />
+            <StarIcon className="w-5 h-5" />
+            <StarIcon className="w-5 h-5" />
+            <StarIcon className="w-5 h-5" />
           </div>
         </div>
       </div>

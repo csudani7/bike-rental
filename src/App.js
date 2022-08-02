@@ -1,16 +1,13 @@
 import { useContext, useEffect } from "react";
-import "./assets/global.css";
-import { ApplicationProcessContext } from "./Context";
+import { Route, Routes, useNavigate } from "react-router-dom";
+
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
 import PrivateRoute from "./hoc/PrivateRoute";
 import CreateBike from "./pages/CreateBike";
+import { ApplicationProcessContext } from "./Context";
+
+import "./assets/global.css";
 function App() {
   const { user } = useContext(ApplicationProcessContext);
   const navigate = useNavigate();
@@ -20,6 +17,7 @@ function App() {
       navigate("/createBike");
     }
   }, [user]);
+
   return (
     <div>
       <Routes>

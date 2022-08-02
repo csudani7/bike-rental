@@ -15,16 +15,13 @@ export const regexForMobileNumber = /^[0-9]{10}$/;
 (?=\S+$)          # no whitespace allowed in the entire string
 .{8,}             # anything, at least eight places though
 $                 # end-of-string */
-export const regexForPassword = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
+export const regexForPassword =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
 
 export const regexForName = /^[a-zA-Z ]{2,30}$/;
 
 /* Global Errors state Utils */
-export const getErrorMessage = (
-  errors,
-  fieldName,
-  fieldLabel,
-) => {
+export const getErrorMessage = (errors, fieldName, fieldLabel) => {
   if (errors[fieldName]) {
     const { type } = errors[fieldName];
     switch (type) {
@@ -45,3 +42,65 @@ export const getErrorMessage = (
     return false;
   }
 };
+
+export const userData = [
+  {
+    name: "Leslie Alexander_1",
+    email: "test1@test.com",
+    password: "test1",
+    role: "user",
+    id: 1,
+  },
+  {
+    name: "Leslie Alexander_2",
+    email: "test2@test.com",
+    password: "test2",
+    role: "user",
+    id: 2,
+  },
+  {
+    name: "Leslie Alexander_3",
+    email: "test3@test.com",
+    password: "test3",
+    role: "user",
+    id: 3,
+  },
+  {
+    name: "Leslie Alexander_4",
+    email: "test4@test.com",
+    password: "test4",
+    role: "user",
+    id: 4,
+  },
+];
+
+export const managerData = [
+  {
+    name: "Leslie Alexander_1",
+    email: "test1@test.com",
+    password: "test1",
+    role: "manager",
+    id: 1,
+  },
+  {
+    name: "Leslie Alexander_2",
+    email: "test2@test.com",
+    password: "test2",
+    role: "manager",
+    id: 2,
+  },
+  {
+    name: "Leslie Alexander_3",
+    email: "test3@test.com",
+    password: "test3",
+    role: "manager",
+    id: 3,
+  },
+  {
+    name: "Leslie Alexander_4",
+    email: "test4@test.com",
+    password: "test4",
+    role: "manager",
+    id: 4,
+  },
+];

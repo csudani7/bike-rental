@@ -1,11 +1,12 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import db, { auth } from "../../Firebase";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const [fullName, setFullName] = useState("");
+  const navigate = useNavigate();
   const signUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -13,13 +14,14 @@ function SignUp() {
         console.log(d, d.user.email, d.user.uid);
         db.collection("users")
           .add({
+            fullName: fullName,
             uid: d.user.uid,
             email: d.user.email,
             role: "user",
           })
           .then((dd) => {
-            console.log(dd)
-            navigate("/auth/sign-in")
+            console.log(dd);
+            navigate("/auth/sign-in");
           });
       })
       .catch((e) => {
@@ -44,6 +46,28 @@ function SignUp() {
           <div className="mt-8">
             <div className="mt-6">
               <div className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Full Name
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="fullName"
+                      autoComplete="fullName"
+                      required
+                      value={fullName}
+                      onChange={(e) => {
+                        setFullName(e.target.value);
+                      }}
+                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label
                     htmlFor="email"

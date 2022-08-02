@@ -1,7 +1,7 @@
 //#Global imports
 import React from "react";
 import clsx from "clsx";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 
 //#Local Imports
 import {
@@ -10,14 +10,48 @@ import {
   regexForName,
   regexForPassword,
 } from "../../utils";
+import db, { auth } from "../../Firebase";
 
-const FormContainer = () => {
+const FormContainer = (props) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    if (props.mode === "add") {
+      auth
+        .createUserWithEmailAndPassword(data.email, data.password)
+        .then((d) => {
+          db.collection("users")
+            .add({
+              fullName: data.fullName,
+              uid: d.user.uid,
+              email: d.user.email,
+              role: data.role,
+            })
+            .then((dd) => {
+              console.log(dd);
+              props.setIsModalOpen(false);
+              props.setToggleButtonValue(data.role);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (props.mode === "edit") {
+      db.collection("users")
+        .doc(props.data.id)
+        .update({ fullName: data.fullName, role: data.role })
+        .then((p) => {
+          props.setIsModalOpen(false);
+          props.setToggleButtonValue(data.role);
+        });
+    }
+  };
 
   return (
     <div className="w-full px-6 py-10 sm:px-10 xl:p-12">
@@ -30,11 +64,12 @@ const FormContainer = () => {
             htmlFor="first-name"
             className="block text-sm font-medium text-gray-900"
           >
-            First name
+            Full name
           </label>
           <Controller
             control={control}
-            name="firstName"
+            defaultValue={props.mode === "edit" ? props.data?.fullName : ""}
+            name="fullName"
             rules={{ required: true, pattern: regexForName }}
             render={({ field: { name, value, onChange } }) => {
               return (
@@ -44,9 +79,8 @@ const FormContainer = () => {
                     name={name}
                     id={name}
                     value={value}
-                    autoComplete="off"
                     className={clsx(
-                      errors.firstName
+                      errors.fullName
                         ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                         : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
                       "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
@@ -58,82 +92,84 @@ const FormContainer = () => {
             }}
           />
           <p className="text-sm font-semibold text-red-500">
-            {getErrorMessage(errors, "firstName", "First Name")}
+            {getErrorMessage(errors, "fullName", "Full Name")}
           </p>
         </div>
 
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-900"
-          >
-            Email
-          </label>
-          <Controller
-            control={control}
-            name="email"
-            rules={{ required: true, pattern: regexForEmailAddress }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <input
-                    type="email"
-                    name={name}
-                    id={name}
-                    value={value}
-                    autoComplete="off"
-                    className={clsx(
-                      errors.email
-                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                        : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                      "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                    )}
-                    onChange={(v) => onChange(v)}
-                  />
-                </div>
-              );
-            }}
-          />
-          <p className="text-sm font-semibold text-red-500">
-            {getErrorMessage(errors, "email", "Email")}
-          </p>
-        </div>
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-900"
-          >
-            Password
-          </label>
-          <Controller
-            control={control}
-            name="password"
-            rules={{ required: true, pattern: regexForPassword }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <input
-                    type="password"
-                    name={name}
-                    id={name}
-                    value={value}
-                    autoComplete="off"
-                    className={clsx(
-                      errors.password
-                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                        : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                      "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                    )}
-                    onChange={(v) => onChange(v)}
-                  />
-                </div>
-              );
-            }}
-          />
-          <p className="text-sm font-semibold text-red-500">
-            {getErrorMessage(errors, "password", "Password")}
-          </p>
-        </div>
+        {props.mode === "add" && (
+          <>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-900"
+              >
+                Email
+              </label>
+              <Controller
+                control={control}
+                name="email"
+                rules={{ required: true, pattern: regexForEmailAddress }}
+                render={({ field: { name, value, onChange } }) => {
+                  return (
+                    <div className="mt-1">
+                      <input
+                        type="email"
+                        name={name}
+                        id={name}
+                        value={value}
+                        className={clsx(
+                          errors.email
+                            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                            : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                          "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                        )}
+                        onChange={(v) => onChange(v)}
+                      />
+                    </div>
+                  );
+                }}
+              />
+              <p className="text-sm font-semibold text-red-500">
+                {getErrorMessage(errors, "email", "Email")}
+              </p>
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-900"
+              >
+                Password
+              </label>
+              <Controller
+                control={control}
+                name="password"
+                rules={{ required: true, pattern: regexForPassword }}
+                render={({ field: { name, value, onChange } }) => {
+                  return (
+                    <div className="mt-1">
+                      <input
+                        type="password"
+                        name={name}
+                        id={name}
+                        value={value}
+                        className={clsx(
+                          errors.password
+                            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                            : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                          "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                        )}
+                        onChange={(v) => onChange(v)}
+                      />
+                    </div>
+                  );
+                }}
+              />
+              <p className="text-sm font-semibold text-red-500">
+                {getErrorMessage(errors, "password", "Password")}
+              </p>
+            </div>
+          </>
+        )}
 
         <div className="sm:col-span-2">
           <div className="flex justify-between">
@@ -147,6 +183,7 @@ const FormContainer = () => {
           <Controller
             control={control}
             name="role"
+            defaultValue={props.mode === "edit" && props.data?.role}
             rules={{ required: true }}
             render={({ field: { name, value, onChange } }) => {
               return (
@@ -178,37 +215,7 @@ const FormContainer = () => {
             </p>
           )}
         </div>
-        <div className="relative flex items-start">
-          <Controller
-            control={control}
-            name="isBikeOnRent"
-            rules={{ required: false }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="flex items-center h-5">
-                  <input
-                    id={name}
-                    aria-describedby="comments-description"
-                    name={name}
-                    type="checkbox"
-                    className={clsx(
-                      errors.isBikeOnRent
-                        ? "text-red-500 border-red-500 rounded focus:ring-red-500"
-                        : "text-indigo-600 border-gray-300 rounded focus:ring-indigo-500",
-                      "w-4 h-4"
-                    )}
-                  />
-                </div>
-              );
-            }}
-          />
 
-          <div className="ml-3 text-sm">
-            <label htmlFor="comments" className="font-medium text-gray-700">
-              Is bike available for rent ?
-            </label>
-          </div>
-        </div>
         <div className="sm:col-span-2 sm:flex sm:justify-end">
           <button
             type="submit"

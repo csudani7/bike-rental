@@ -8,37 +8,52 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
-import { userData, managerData } from "../../utils";
 import Modal from "../../Components/Modal";
 import FormContainer from "./FormContainer";
+import db from "../../Firebase";
 
 const ManagerManage = () => {
   const [data, setData] = React.useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [mode, setMode] = React.useState("add");
   const [toggleButtonValue, setToggleButtonValue] = React.useState("User");
   const [selectedUser, setSelectedUser] = React.useState({});
 
-  const handleEditEvent = (selectedID) => {
-    const temData = data.filter((data) => data.id === selectedID)[0];
-    setSelectedUser(temData);
+  const handleEditEvent = (user) => {
+    setMode("edit");
+    setSelectedUser(user);
     setIsModalOpen(true);
   };
 
+  const handleAddUser = () => {
+    setMode("add");
+    setIsModalOpen(true);
+  };
   React.useEffect(() => {
-    const tempData = toggleButtonValue === "User" ? userData : managerData;
-    //Implementation of fetch API of User/Manager Data
-    setData(tempData); //TODO: set the get data from response as per Role is Selected
+    console.log(toggleButtonValue)
+    let users = [];
+    setData([]);
+    db.collection("users")
+      .where("role", "==", toggleButtonValue)
+      .onSnapshot((snapshot) => {
+        setData(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
   }, [toggleButtonValue]);
 
   return (
-    <div className="flex flex-col items-center w-full h-screen py-8">
+    <div className="flex flex-col items-center w-full  py-8">
       <div className="flex flex-col items-center justify-center w-2/3 gap-4">
         {/* Add and Toggle Button Section */}
         <div className="flex items-center justify-between w-full mb-12">
           <button
             type="button"
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleAddUser}
           >
             <span>Add</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
@@ -93,12 +108,20 @@ const ManagerManage = () => {
           >
             <div className="flex items-center justify-between w-full gap-8">
               <div className="focus:outline-none">
-                <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {user.fullName}
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  {user.email}
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  Role : {user.role}
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleEditEvent(user.id)}
+                  onClick={() => handleEditEvent(user)}
                 >
                   <PencilIcon className="w-5 h-5" aria-hidden="true" />
                 </div>
@@ -116,7 +139,12 @@ const ManagerManage = () => {
         setIsModalOpen={setIsModalOpen}
         isConfirmation={false}
       >
-        <FormContainer />
+        <FormContainer
+          setIsModalOpen={setIsModalOpen}
+          data={selectedUser}
+          mode={mode}
+          setToggleButtonValue={setToggleButtonValue}
+        />
       </Modal>
     </div>
   );

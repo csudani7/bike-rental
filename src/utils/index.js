@@ -111,7 +111,7 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 
   var currDate = moment(startDate).startOf("day");
   var lastDate = moment(endDate).startOf("day");
-  dates.push(currDate.clone().toDate())
+  dates.push(currDate.clone().toDate());
   while (currDate.add(1, "days").diff(lastDate) <= 0) {
     console.log(currDate.format("MM/DD/YYYY"));
     dates.push(currDate.clone().format("MM/DD/YYYY"));
@@ -119,3 +119,10 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 
   return dates;
 };
+
+export const routes = [
+  { path: "/home", value: "Home" },
+  { path: "/my-bike", value: "My Bike" },
+  { path: "/user-manage", value: "User Manage" },
+  { path: "/bike-manage", value: "Bike Manage" },
+];

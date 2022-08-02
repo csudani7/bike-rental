@@ -1,14 +1,19 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
+//#Global Imports
+import React, { Fragment } from "react";
+import clsx from "clsx";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+
+//#Local Imports
+import { routes } from "../../utils";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
+  const [isActive, setIsActive] = React.useState("Home");
   return (
     <Disclosure as="nav" className="w-full bg-white shadow">
       {({ open }) => (
@@ -19,31 +24,24 @@ export default function Navbar() {
                 <div className="flex items-center flex-shrink-0">
                   {/* TODO : in Future Logo will be Addde here if there is a logo */}
                 </div>
-                <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <Link
-                    to="/home"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 border-b-2 border-indigo-500"
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    to="/my-bike"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700"
-                  >
-                    My Bike
-                  </Link>
-                  <Link
-                    to="/user-manage"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700"
-                  >
-                    User Mange
-                  </Link>
-                  <Link
-                    to="bike-manage"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Bike Manage
-                  </Link>
+                <div className="items-center hidden sm:ml-6 sm:flex sm:space-x-8">
+                  {routes.map((items, index) => {
+                    return (
+                      <div
+                        onClick={() => setIsActive(items.value)}
+                        className={clsx(
+                          isActive === items.value
+                            ? "text-gray-900 border-indigo-500 border-b-2 "
+                            : "text-gray-500",
+                          "inline-flex items-center px-1 pt-1 text-base font-medium h-full"
+                        )}
+                      >
+                        <Link to={items?.path} key={index}>
+                          {items.value}
+                        </Link>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">

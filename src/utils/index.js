@@ -32,10 +32,8 @@ export const getErrorMessage = (errors, fieldName, fieldLabel) => {
         return "Passwords does not match. Please try again.";
       case "pattern":
         return `Invalid ${fieldLabel}`;
-      case "maxLength":
-        return `Please Enter 10 digit ${fieldLabel}`;
       case "minLength":
-        return `Please Enter At least 10 digit ${fieldLabel}`;
+        return `Please Enter At least 8 digit ${fieldLabel}`;
       default:
         return type;
     }

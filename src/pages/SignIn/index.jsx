@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 //#Local Imports
 import { ApplicationProcessContext } from "../../Context";
 import db, { auth } from "../../Firebase";
-import { regexForEmailAddress, regexForPassword } from "../../utils";
+import {
+  getErrorMessage,
+  regexForEmailAddress,
+  regexForPassword,
+} from "../../utils";
 
 function SignIn() {
   const { setHandleUser } = useContext(ApplicationProcessContext);
@@ -93,7 +97,7 @@ function SignIn() {
                     </div>
                     {errors.email && (
                       <p className="text-sm font-semibold text-red-500">
-                        email
+                        {getErrorMessage(errors, "email", "Email Address")}
                       </p>
                     )}
                   </div>
@@ -113,6 +117,7 @@ function SignIn() {
                         autoComplete="current-password"
                         {...register("password", {
                           required: true,
+                          minLength: 8,
                           pattern: regexForPassword,
                         })}
                         className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -120,7 +125,7 @@ function SignIn() {
                     </div>
                     {errors.password && (
                       <p className="text-sm font-semibold text-red-500">
-                        password
+                        {getErrorMessage(errors, "password", "Password")}
                       </p>
                     )}
                   </div>

@@ -1,15 +1,28 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import db, { auth } from "../../Firebase";
+import {
+  getErrorMessage,
+  regexForEmailAddress,
+  regexForName,
+  regexForPassword,
+} from "../../utils";
 
 function SignUp() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
-  const signUp = () => {
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    const fullName = data.fullName;
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((d) => {
@@ -52,82 +65,131 @@ function SignUp() {
           <div className="mt-8">
             <div className="mt-6">
               <div className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Full Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="fullName"
-                      name="fullName"
-                      type="fullName"
-                      autoComplete="fullName"
-                      required
-                      value={fullName}
-                      onChange={(e) => {
-                        setFullName(e.target.value);
-                      }}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col w-full gap-8 m-auto mt-6"
+                >
+                  <div>
+                    <label
+                      htmlFor="fullName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Full Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="fullName"
+                        name="fullName"
+                        type="fullName"
+                        autoComplete="fullName"
+                        {...register("fullName", {
+                          required: true,
+                          pattern: regexForName,
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.fullName && (
+                      <p className="text-sm font-semibold text-red-500">
+                        {getErrorMessage(errors, "fullName", "Full Name")}
+                      </p>
+                    )}
                   </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email address
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        {...register("email", {
+                          required: true,
+                          pattern: regexForEmailAddress,
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-sm font-semibold text-red-500">
+                        {getErrorMessage(errors, "email", "Email Address")}
+                      </p>
+                    )}
                   </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        {...register("password", {
+                          required: true,
+                          minLength: 8,
+                          pattern: regexForPassword,
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.password && (
+                      <p className="text-sm font-semibold text-red-500">
+                        {getErrorMessage(errors, "password", "Password")}
+                      </p>
+                    )}
                   </div>
-                </div>
-
-                <div>
-                  <button
-                    onClick={signUp}
-                    className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Sign up
-                  </button>
-                </div>
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="confirmPassword"
+                        {...register("confirmPassword", {
+                          required: true,
+                          minLength: 8,
+                          validate: {
+                            sameAs: () => {
+                              return (
+                                getValues("password") ===
+                                getValues("confirmPassword")
+                              );
+                            },
+                          },
+                        })}
+                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    {errors.confirmPassword && (
+                      <p className="text-sm font-semibold text-red-500">
+                        {getErrorMessage(errors, "confirmPassword", "Confirm Password")}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <button
+                      type="submit"
+                      className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Sign up
+                    </button>
+                  </div>
+                </form>
                 <div className="flex items-center justify-end">
                   <div className="text-sm">
                     <div

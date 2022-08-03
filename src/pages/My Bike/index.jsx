@@ -22,13 +22,13 @@ const MyBike = () => {
                       <span>
                         <strong>Modal: </strong>
                       </span>
-                      {item.Modal}
+                      {item.modal}
                     </p>
                     <p className="mt-6 text-sm font-medium text-gray-900">
                       <span>
                         <strong>Color: </strong>
                       </span>
-                      {item.Color}
+                      {item.color}
                     </p>
                   </div>
 
@@ -37,13 +37,13 @@ const MyBike = () => {
                       <span>
                         <strong>Location: </strong>
                       </span>
-                      {item.Location}
+                      {item.location}
                     </p>
                     <p className="mt-6 text-sm font-medium text-gray-900">
                       <span>
                         <strong>Rating: </strong>
                       </span>
-                      {item.Rating}
+                      {item.rating}
                     </p>
                   </div>
                   <div className="justify-start focus:outline-none">
@@ -51,13 +51,13 @@ const MyBike = () => {
                       <span>
                         <strong>Start Date: </strong>
                       </span>
-                      {item.StartDate}
+                      {item.startDate}
                     </p>
                     <p className="mt-6 text-sm font-medium text-gray-900">
                       <span>
                         <strong>End Date: </strong>
                       </span>
-                      {item.EndDate}
+                      {item.endDate}
                     </p>
                   </div>
                 </div>

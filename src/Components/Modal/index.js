@@ -63,7 +63,7 @@ export default function Modal({
                 </div>
               )}
 
-              <div className="mt-10">{children}</div>
+              <div>{children}</div>
 
               {isConfirmation && (
                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">

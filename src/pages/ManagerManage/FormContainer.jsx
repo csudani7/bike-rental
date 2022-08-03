@@ -54,7 +54,7 @@ const FormContainer = (props) => {
   };
 
   return (
-    <div className="w-full px-6 py-10 sm:px-10 xl:p-12">
+    <div className="w-full p-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full gap-8 m-auto mt-6"

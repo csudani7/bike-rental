@@ -12,6 +12,7 @@ const Home = () => {
   const [endDate, setEndDate] = useState(null);
   const [value, setValue] = useState([]);
   const dt = enumerateDaysBetweenDates("08/03/2022", "08/08/2022");
+  // eslint-disable-next-line no-unused-vars
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
@@ -49,23 +50,23 @@ const Home = () => {
         selectsRange
         inline
       /> */}
-      <div className="flex items-center justify-center w-full lg:w-1/2 mx-auto my-12">
-        <div className="gap-4 flex items-center flex-col w-full px-4 lg:px-0">
+      <div className="flex items-center justify-center w-full mx-auto my-12 lg:w-1/2">
+        <div className="flex flex-col items-center w-full gap-4 px-4 lg:px-0">
           {bikeData.map((bike) => (
             <div
               key={bike.id}
-              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center justify-between space-x-3 hover:border-indigo-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 w-full cursor-pointer"
+              className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-indigo-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
             >
-              <div className="flex items-center justify-between gap-8 w-full">
+              <div className="flex items-center justify-between w-full gap-8">
                 <div className="flex items-center gap-8 md:gap-20">
-                  <div className="focus:outline-none justify-start">
+                  <div className="justify-start focus:outline-none">
                     <p className="text-sm font-medium text-gray-900">
                       <span>
                         <strong>Modal: </strong>
                       </span>
                       {bike.modal}
                     </p>
-                    <p className="text-sm font-medium text-gray-900 mt-2">
+                    <p className="mt-2 text-sm font-medium text-gray-900">
                       <span>
                         <strong>Color: </strong>
                       </span>
@@ -73,14 +74,14 @@ const Home = () => {
                     </p>
                   </div>
 
-                  <div className="focus:outline-none justify-end">
+                  <div className="justify-end focus:outline-none">
                     <p className="text-sm font-medium text-gray-900">
                       <span>
                         <strong>Location: </strong>
                       </span>{" "}
                       {bike.location}
                     </p>
-                    <p className="text-sm font-medium text-gray-900 mt-2">
+                    <p className="mt-2 text-sm font-medium text-gray-900">
                       <span>
                         <strong>Rating: </strong>
                       </span>{" "}
@@ -89,14 +90,14 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className="focus:outline-none flex items-center">
+                <div className="flex items-center focus:outline-none">
                   <div className="text-sm font-medium text-gray-900 lg:mr-20">
                     Datepicker
                   </div>
 
                   <button
                     type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer"
+                    className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                   >
                     Book
                   </button>

@@ -1,7 +1,7 @@
 //#Global imports
 import React from "react";
 import clsx from "clsx";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 //#Local Imports
 import { getErrorMessage, regexForName } from "../../utils";
@@ -10,11 +10,11 @@ import db from "../../Firebase";
 const BikeManageFormContainer = (props) => {
   const {
     handleSubmit,
-    control,
+    register,
     formState: { errors },
   } = useForm({ mode: "onChange" });
+
   const onSubmit = (data) => {
-    console.log("00000000");
     if (props.mode === "add") {
       db.collection("bikes")
         .add({
@@ -42,8 +42,8 @@ const BikeManageFormContainer = (props) => {
           props.setIsModalOpen(null);
         });
     }
-    console.log(data);
   };
+
   const handleDeleteBike = () => {
     db.collection("bikes")
       .doc(props.data.id)
@@ -66,37 +66,29 @@ const BikeManageFormContainer = (props) => {
           >
             Modal Name
           </label>
-          <Controller
-            control={control}
-            name="modalName"
-            defaultValue={props.mode === "edit" ? props.data.modalName : ""}
-            rules={{ required: true, pattern: regexForName }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name={name}
-                    id={name}
-                    value={value}
-                    autoComplete="off"
-                    className={clsx(
-                      errors.modalName
-                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                        : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                      "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                    )}
-                    onChange={(v) => onChange(v)}
-                  />
-                </div>
-              );
-            }}
-          />
+          <div className="mt-1">
+            <input
+              id="modalName"
+              name="modalName"
+              type="text"
+              autoComplete="off"
+              defaultValue={props.mode === "edit" ? props.data.modalName : ""}
+              {...register("modalName", {
+                required: true,
+                pattern: regexForName,
+              })}
+              className={clsx(
+                errors.modalName
+                  ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                  : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+              )}
+            />
+          </div>
           <p className="text-sm font-semibold text-red-500">
             {getErrorMessage(errors, "modalName", "Modal Name")}
           </p>
         </div>
-
         <div>
           <label
             htmlFor="color"
@@ -104,40 +96,32 @@ const BikeManageFormContainer = (props) => {
           >
             Color
           </label>
-          <Controller
-            control={control}
-            name="color"
-            defaultValue={props.mode === "edit" ? props.data.color : ""}
-            rules={{ required: true }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <div className="mt-1">
-                    <select
-                      id={name}
-                      name={name}
-                      className={clsx(
-                        errors.color
-                          ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                          : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                        "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                      )}
-                      value={value ?? ""}
-                      onChange={(v) => onChange(v)}
-                    >
-                      <option></option>
-                      <option>Black</option>
-                      <option>Blue</option>
-                      <option>Red</option>
-                      <option>Gray</option>
-                      <option>Orange</option>
-                      <option>Yellow</option>
-                    </select>
-                  </div>
-                </div>
-              );
-            }}
-          />
+          <div className="mt-1">
+            <div className="mt-1">
+              <select
+                id="color"
+                name="color"
+                className={clsx(
+                  errors.color
+                    ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                )}
+                defaultValue={props.mode === "edit" ? props.data.color : ""}
+                {...register("color", {
+                  required: true,
+                })}
+              >
+                <option></option>
+                <option>Black</option>
+                <option>Blue</option>
+                <option>Red</option>
+                <option>Gray</option>
+                <option>Orange</option>
+                <option>Yellow</option>
+              </select>
+            </div>
+          </div>
           {errors.color && (
             <p className="text-sm font-semibold text-red-500">
               Select a Color is Required.
@@ -151,38 +135,30 @@ const BikeManageFormContainer = (props) => {
           >
             Location
           </label>
-          <Controller
-            control={control}
-            name="location"
-            defaultValue={props.mode === "edit" ? props.data.location : ""}
-            rules={{ required: true }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <div className="mt-1">
-                    <select
-                      id={name}
-                      name={name}
-                      className={clsx(
-                        errors.location
-                          ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                          : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                        "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                      )}
-                      value={value ?? ""}
-                      onChange={(v) => onChange(v)}
-                    >
-                      <option></option>
-                      <option>Suart</option>
-                      <option>Baroda</option>
-                      <option>Gandhinagar</option>
-                      <option>Ahemdabad</option>
-                    </select>
-                  </div>
-                </div>
-              );
-            }}
-          />
+          <div className="mt-1">
+            <div className="mt-1">
+              <select
+                id="location"
+                name="location"
+                className={clsx(
+                  errors.location
+                    ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                )}
+                defaultValue={props.mode === "edit" ? props.data.location : ""}
+                {...register("location", {
+                  required: true,
+                })}
+              >
+                <option></option>
+                <option>Suart</option>
+                <option>Baroda</option>
+                <option>Gandhinagar</option>
+                <option>Ahemdabad</option>
+              </select>
+            </div>
+          </div>
           {errors.location && (
             <p className="text-sm font-semibold text-red-500">
               Select a Location is Required.

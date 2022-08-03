@@ -1,7 +1,7 @@
 //#Global imports
 import React from "react";
 import clsx from "clsx";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 //#Local Imports
 import {
@@ -15,9 +15,10 @@ import db, { auth } from "../../Firebase";
 const FormContainer = (props) => {
   const {
     handleSubmit,
-    control,
+    register,
     formState: { errors },
   } = useForm({ mode: "onChange" });
+
   const onSubmit = (data) => {
     if (props.mode === "add") {
       auth
@@ -66,34 +67,29 @@ const FormContainer = (props) => {
           >
             Full name
           </label>
-          <Controller
-            control={control}
-            defaultValue={props.mode === "edit" ? props.data?.fullName : ""}
-            name="fullName"
-            rules={{ required: true, pattern: regexForName }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name={name}
-                    id={name}
-                    value={value}
-                    className={clsx(
-                      errors.fullName
-                        ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                        : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                      "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                    )}
-                    onChange={(v) => onChange(v)}
-                  />
-                </div>
-              );
-            }}
-          />
-          <p className="text-sm font-semibold text-red-500">
-            {getErrorMessage(errors, "fullName", "Full Name")}
-          </p>
+          <div className="mt-1">
+            <input
+              id="fullName"
+              name="fullName"
+              type="fullName"
+              autoComplete="fullName"
+              {...register("fullName", {
+                required: true,
+                pattern: regexForName,
+              })}
+              className={clsx(
+                errors.fullName
+                  ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                  : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+              )}
+            />
+          </div>
+          {errors.fullName && (
+            <p className="text-sm font-semibold text-red-500">
+              {getErrorMessage(errors, "fullName", "Full Name")}
+            </p>
+          )}
         </div>
 
         {props.mode === "add" && (
@@ -105,33 +101,29 @@ const FormContainer = (props) => {
               >
                 Email
               </label>
-              <Controller
-                control={control}
-                name="email"
-                rules={{ required: true, pattern: regexForEmailAddress }}
-                render={({ field: { name, value, onChange } }) => {
-                  return (
-                    <div className="mt-1">
-                      <input
-                        type="email"
-                        name={name}
-                        id={name}
-                        value={value}
-                        className={clsx(
-                          errors.email
-                            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                            : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                          "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                        )}
-                        onChange={(v) => onChange(v)}
-                      />
-                    </div>
-                  );
-                }}
-              />
-              <p className="text-sm font-semibold text-red-500">
-                {getErrorMessage(errors, "email", "Email")}
-              </p>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  {...register("email", {
+                    required: true,
+                    pattern: regexForEmailAddress,
+                  })}
+                  className={clsx(
+                    errors.email
+                      ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                    "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  )}
+                />
+              </div>
+              {errors.email && (
+                <p className="text-sm font-semibold text-red-500">
+                  {getErrorMessage(errors, "email", "Email Address")}
+                </p>
+              )}
             </div>
             <div>
               <label
@@ -140,33 +132,30 @@ const FormContainer = (props) => {
               >
                 Password
               </label>
-              <Controller
-                control={control}
-                name="password"
-                rules={{ required: true, pattern: regexForPassword }}
-                render={({ field: { name, value, onChange } }) => {
-                  return (
-                    <div className="mt-1">
-                      <input
-                        type="password"
-                        name={name}
-                        id={name}
-                        value={value}
-                        className={clsx(
-                          errors.password
-                            ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                            : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                          "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                        )}
-                        onChange={(v) => onChange(v)}
-                      />
-                    </div>
-                  );
-                }}
-              />
-              <p className="text-sm font-semibold text-red-500">
-                {getErrorMessage(errors, "password", "Password")}
-              </p>
+              <div className="mt-1">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  {...register("password", {
+                    required: true,
+                    minLength: 8,
+                    pattern: regexForPassword,
+                  })}
+                  className={clsx(
+                    errors.password
+                      ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                    "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  )}
+                />
+              </div>
+              {errors.password && (
+                <p className="text-sm font-semibold text-red-500">
+                  {getErrorMessage(errors, "password", "Password")}
+                </p>
+              )}
             </div>
           </>
         )}
@@ -180,36 +169,28 @@ const FormContainer = (props) => {
               Role
             </label>
           </div>
-          <Controller
-            control={control}
-            name="role"
-            defaultValue={props.mode === "edit" && props.data?.role}
-            rules={{ required: true }}
-            render={({ field: { name, value, onChange } }) => {
-              return (
-                <div className="mt-1">
-                  <div className="mt-1">
-                    <select
-                      id={name}
-                      name={name}
-                      className={clsx(
-                        errors.role
-                          ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                          : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                        "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
-                      )}
-                      value={value || null}
-                      onChange={(v) => onChange(v)}
-                    >
-                      <option></option>
-                      <option>User</option>
-                      <option>Manager</option>
-                    </select>
-                  </div>
-                </div>
-              );
-            }}
-          />
+          <div className="mt-1">
+            <div className="mt-1">
+              <select
+                id="role"
+                name="role"
+                className={clsx(
+                  errors.role
+                    ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                )}
+                {...register("role", {
+                  required: true,
+                })}
+                defaultValue={props.mode === "edit" && props.data?.role}
+              >
+                <option></option>
+                <option>User</option>
+                <option>Manager</option>
+              </select>
+            </div>
+          </div>
           {errors.role && (
             <p className="text-sm font-semibold text-red-500">
               Select a Role is Required.

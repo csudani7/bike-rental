@@ -34,6 +34,7 @@ function SignIn() {
           .then((snap) => {
             let data = snap.docs[0].data();
             setHandleUser({
+              id:snap.docs[0].id,
               email: data.email,
               uid: data.uid,
               role: data.role,

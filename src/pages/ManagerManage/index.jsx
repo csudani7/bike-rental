@@ -30,7 +30,6 @@ const ManagerManage = () => {
     setIsModalOpen(true);
   };
   React.useEffect(() => {
-    console.log(toggleButtonValue)
     let users = [];
     setData([]);
     db.collection("users")

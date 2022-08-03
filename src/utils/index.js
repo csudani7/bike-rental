@@ -106,16 +106,19 @@ export const managerData = [
 
 export const enumerateDaysBetweenDates = (startDate, endDate) => {
   var dates = [];
-
   var currDate = moment(startDate).startOf("day");
   var lastDate = moment(endDate).startOf("day");
   dates.push(currDate.clone().toDate());
   while (currDate.add(1, "days").diff(lastDate) <= 0) {
-    console.log(currDate.format("MM/DD/YYYY"));
-    dates.push(currDate.clone().format("MM/DD/YYYY"));
+    // console.log(currDate.format("MM/DD/YYYY"));
+    dates.push(currDate.clone().toDate());
   }
-
   return dates;
+};
+
+export const dateToString = (date) => {
+  return date.map(d => moment(d).format("MM/DD/YYYY"))
+  
 };
 
 export const routes = [

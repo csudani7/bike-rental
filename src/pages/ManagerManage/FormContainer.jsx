@@ -32,16 +32,13 @@ const FormContainer = (props) => {
               role: data.role,
             })
             .then((dd) => {
-              console.log(dd);
               props.setIsModalOpen(false);
               props.setToggleButtonValue(data.role);
             })
             .catch((e) => {
-              console.log(e);
             });
         })
         .catch((e) => {
-          console.log(e);
         });
     } else if (props.mode === "edit") {
       db.collection("users")

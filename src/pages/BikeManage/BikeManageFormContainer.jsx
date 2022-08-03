@@ -24,11 +24,9 @@ const BikeManageFormContainer = (props) => {
           rating: 0,
         })
         .then((dd) => {
-          console.log(dd);
           props.setIsModalOpen(null);
         })
         .catch((e) => {
-          console.log(e);
         });
     } else if (props.mode === "edit") {
       db.collection("bikes")

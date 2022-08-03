@@ -1,109 +1,197 @@
 //#Global Imports
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import DatePicker from "react-datepicker";
+
+import db from "../../Firebase";
 // import DatePicker from "react-datepicker";
-import { enumerateDaysBetweenDates, bikeData } from "../../utils";
+import Bike from "./Bike";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
 //#Local Imports
 
 const Home = () => {
+  const moment = extendMoment(Moment);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
-  const [value, setValue] = useState([]);
-  const dt = enumerateDaysBetweenDates("08/03/2022", "08/08/2022");
+
   // eslint-disable-next-line no-unused-vars
+  const [filterColor, setFilterColor] = useState("");
+  const [filterLocation, setFilterLocation] = useState("");
+  const [filterRating, setFilterRating] = useState(0);
+  const [filterModal, setFilterModal] = useState("");
+  const [bikeData, setBikeData] = useState([]);
+  const [filterdBikeData, setFilteredBikeData] = useState([]);
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
   };
   useEffect(() => {
-    console.log(value.map((v) => console.log(v.toString())));
-  }, [startDate, endDate, value]);
+    console.log(filterdBikeData, "filterdBikeData");
+  }, [filterdBikeData]);
+
+  const temp = (bike) => {
+    return new Promise((resolve, reject) => {
+      db.collection("trip")
+        .where("bid", "==", bike.id)
+        .where("isRideCompleted", "==", false)
+        .onSnapshot((snapshot) => {
+          let d = snapshot.docs.map((doc) => {
+            let a = moment.range(
+              startDate.toLocaleDateString(),
+              endDate
+                ? endDate.toLocaleDateString()
+                : startDate.toLocaleDateString()
+            );
+            let ed = endDate
+              ? endDate.toLocaleDateString()
+              : startDate.toLocaleDateString();
+
+            let b = moment.range(
+              doc.data().start_date.toDate().toLocaleDateString(),
+              doc.data().end_date.toDate().toLocaleDateString()
+            );
+            return a.overlaps(b, { adjacent: true });
+          });
+
+          if (d.every((element) => element === false)) {
+            resolve(bike);
+          } else {
+            resolve(null);
+          }
+        });
+    });
+  };
+ 
+  useEffect(() => {
+    console.log(filterRating, filterLocation, filterColor, filterModal);
+    var query = db.collection("bikes");
+    if (filterColor) {
+      query = query.where("color", "==", filterColor);
+    }
+    if (filterLocation) {
+      query = query.where("location", "==", filterLocation);
+    }
+    if (Number(filterRating) > 0) {
+      query = query.where("rating", ">=", Number(filterRating));
+    }
+    query.onSnapshot((snapshot) => {
+      Promise.all(
+        snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((bike) =>
+            bike.modalName.toLowerCase().includes(filterModal.toLowerCase())
+          )
+          .map((m) => temp(m))
+      ).then((d) => {
+        console.log(d);
+        let x = d.filter((p) => p !== null);
+        setFilteredBikeData(x);
+      });
+    });
+  }, [
+    filterRating,
+    filterColor,
+    filterLocation,
+    filterModal,
+    startDate,
+    endDate,
+  ]);
   return (
     <div className="w-full">
-      Welcome to Home Page
-      <DatePicker
-        multiple
-        value={value}
-        format="MM/DD/YYYY"
-        onChange={setValue}
-        plugins={[<DatePanel sort="date" />]}
-        mapDays={({ date }) => {
-          let isWeekend = dt.includes(date.toString());
-
-          if (isWeekend)
-            return {
-              disabled: true,
-              style: { color: "#ccc" },
-            };
-        }}
-      />
-      ;
-      {/* <DatePicker
-        selected={startDate}
-        onChange={onChange}
-        startDate={startDate}
-        endDate={endDate}
-        excludeDates={enumerateDaysBetweenDates("08/02/2022","08/06/2022")}
-        selectsRange
-        inline
-      /> */}
-      <div className="flex items-center justify-center w-full mx-auto my-12 lg:w-1/2">
-        <div className="flex flex-col items-center w-full gap-4 px-4 lg:px-0">
-          {bikeData.map((bike) => (
-            <div
-              key={bike.id}
-              className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-indigo-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+      <div className="flex justify-between">
+        <div className="mt-1">
+          <input
+            value={filterModal}
+            onChange={(e) => {
+              setFilterModal(e.target.value);
+            }}
+            placeholder="Search by Modal Name"
+            type="model"
+            name="model"
+            id="model"
+            className="block w-full px-3 py-2 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
+          />
+        </div>
+        <div className="flex space-x-4">
+          <DatePicker
+            selected={startDate}
+            onChange={onChange}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={moment().toDate()}
+            selectsRange
+          />
+          <div className="mt-1">
+            <select
+              id={"color"}
+              name={"color"}
+              className={
+                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
+              }
+              value={filterColor}
+              onChange={(v) => {
+                setFilterColor(v.target.value);
+              }}
             >
-              <div className="flex items-center justify-between w-full gap-8">
-                <div className="flex items-center gap-8 md:gap-20">
-                  <div className="justify-start focus:outline-none">
-                    <p className="text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Modal: </strong>
-                      </span>
-                      {bike.modal}
-                    </p>
-                    <p className="mt-2 text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Color: </strong>
-                      </span>
-                      {bike.color}
-                    </p>
-                  </div>
-
-                  <div className="justify-end focus:outline-none">
-                    <p className="text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Location: </strong>
-                      </span>{" "}
-                      {bike.location}
-                    </p>
-                    <p className="mt-2 text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Rating: </strong>
-                      </span>{" "}
-                      {bike.rating}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center focus:outline-none">
-                  <div className="text-sm font-medium text-gray-900 lg:mr-20">
-                    Datepicker
-                  </div>
-
-                  <button
-                    type="button"
-                    className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  >
-                    Book
-                  </button>
-                </div>
-              </div>
-            </div>
+              <option></option>
+              <option>Black</option>
+              <option>Blue</option>
+              <option>Red</option>
+              <option>Gray</option>
+              <option>Orange</option>
+              <option>Yellow</option>
+            </select>
+          </div>
+          <div className="mt-1">
+            <select
+              id={"location"}
+              name={"location"}
+              className={
+                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
+              }
+              value={filterLocation}
+              onChange={(v) => {
+                setFilterLocation(v.target.value);
+              }}
+            >
+              <option></option>
+              <option>Suart</option>
+              <option>Baroda</option>
+              <option>Gandhinagar</option>
+              <option>Ahemdabad</option>
+            </select>
+          </div>
+          <div className="mt-1">
+            <select
+              id={"rating"}
+              name={"rating"}
+              className={
+                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
+              }
+              value={filterRating}
+              onChange={(v) => {
+                setFilterRating(v.target.value);
+              }}
+            >
+              <option></option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-center w-full lg:w-1/2 mx-auto my-12">
+        <div className="gap-4 flex items-center flex-col w-full px-4 lg:px-0">
+          {filterdBikeData.map((bike) => (
+            <Bike data={bike} key={bike.id} />
           ))}
         </div>
       </div>

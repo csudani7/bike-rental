@@ -32,10 +32,6 @@ function CreateBike() {
   const [color, setColor] = useState(colors[0]);
   const [location, setLocation] = useState(locations[0]);
   // const [rating, setRating] = useState(); //TODO: Need to uncomment when its come to use
-
-  useEffect(() => {
-    console.log(color);
-  }, [color]);
   return (
     <form>
       <div>

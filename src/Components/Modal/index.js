@@ -48,14 +48,17 @@ export default function Modal({
           >
             <div className="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               {isClosable && (
-                <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                <div className="absolute top-0 right-0 block pt-4 pr-4">
                   <button
                     type="button"
-                    className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     onClick={() => setIsModalOpen(false)}
                   >
                     <span className="sr-only">Close</span>
-                    <XIcon className="w-6 h-6" aria-hidden="true" />
+                    <XIcon
+                      className="w-6 h-6 text-red-400"
+                      aria-hidden="true"
+                    />
                   </button>
                 </div>
               )}

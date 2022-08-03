@@ -133,3 +133,61 @@ export const bikeManageData = [
   { modal: "Gixxer", color: "black", location: "Baroda", id: 3 },
   { modal: "Ducati", color: "red", location: "Ahemdabad", id: 4 },
 ];
+
+export const myBikeData = [
+  {
+    Modal: "GT",
+    Color: "RED",
+    Location: "USA",
+    Rating: 4,
+    StartDate: "10/11/2022",
+    EndDate: "10/11/2022",
+  },
+  {
+    Modal: "GT",
+    Color: "RED",
+    Location: "USA",
+    Rating: 4,
+    StartDate: "10/11/2022",
+    EndDate: "10/11/2022",
+  },
+  {
+    Modal: "GT",
+    Color: "RED",
+    Location: "USA",
+    Rating: 4,
+    StartDate: "10/11/2022",
+    EndDate: "10/11/2022",
+  },
+];
+
+export const bikeData = [
+  {
+    modal: "Modal_1",
+    color: "Red",
+    location: "India",
+    rating: "1",
+    id: 1,
+  },
+  {
+    modal: "Modal_2",
+    color: "Yellow",
+    location: "USA",
+    rating: "2",
+    id: 2,
+  },
+  {
+    modal: "Modal_3",
+    color: "Green",
+    location: "UK",
+    rating: "3",
+    id: 3,
+  },
+  {
+    modal: "Modal_4",
+    color: "Black",
+    location: "Canada",
+    rating: "4",
+    id: 4,
+  },
+];

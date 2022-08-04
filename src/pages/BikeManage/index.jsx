@@ -10,11 +10,13 @@ import {
 import Modal from "../../Components/Modal";
 import BikeManageFormContainer from "./BikeManageFormContainer";
 import db from "../../Firebase";
+import { manageBikeHistoryData } from "../../utils";
 
 const BikeMange = () => {
   const [bikeData, setBikeData] = React.useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState("");
   const [selectedBike, setSelectedBike] = React.useState({});
+  const [isBikeHistoryModal, setIsBikeHistoryModal] = React.useState(false);
 
   const handleEditEvent = (bikeData) => {
     setSelectedBike(bikeData);
@@ -54,7 +56,11 @@ const BikeMange = () => {
         {bikeData.map((items) => (
           <div
             key={items.id}
-            className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+            className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+            onClick={() => {
+              setIsBikeHistoryModal(true);
+              setSelectedBike(items);
+            }}
           >
             <div className="flex items-center justify-between w-full gap-8">
               <div className="focus:outline-none">
@@ -97,6 +103,71 @@ const BikeMange = () => {
           setIsModalOpen={setIsModalOpen}
           data={selectedBike}
         />
+      </Modal>
+
+      {/* Bike Used as a Ride by User History Modal Section */}
+      <Modal
+        isModalOpen={isBikeHistoryModal}
+        setIsModalOpen={setIsBikeHistoryModal}
+        isConfirmation={false}
+      >
+        <div className="flex flex-col justify-between h-[40rem] overflow-scroll pb-8">
+          <div className="flex items-center space-x-4">
+            <span className="text-base font-extrabold">BID : </span>
+            <span className="font-semibold text-normal">{selectedBike.id}</span>
+          </div>
+          <div className="flex flex-wrap max-h-1/2">
+            {manageBikeHistoryData.map((items, i) => {
+              return (
+                <div
+                  className="flex flex-col items-center w-full gap-4 mt-8 mr-4"
+                  key={i}
+                >
+                  <div className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                    <div className="flex items-center w-full space-x-4">
+                      <div className="flex flex-col w-full space-y-1">
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Full Name: </strong>
+                          <div>{items.fullName}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Email: </strong>
+                          <div>{items.email}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Start Date: </strong>
+                          <div>{items.startDate}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>End Date: </strong>
+                          <div>{items.endDate}</div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Location: </strong>
+                          <div>{items.location}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Rating: </strong>
+                          <div>{items.rating}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Modal: </strong>
+                          <div>{items.modal}</div>
+                        </div>
+                        <div className="flex space-x-2 text-sm font-medium text-gray-900">
+                          <strong>Color: </strong>
+                          <div>{items.color}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </Modal>
     </div>
   );

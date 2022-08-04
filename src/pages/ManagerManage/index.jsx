@@ -13,6 +13,7 @@ import FormContainer from "./FormContainer";
 import db from "../../Firebase";
 import { userReservedBikeHiostory } from "../../utils";
 import HistoryModal from "./HistoryModal";
+import Temp from "../../Components/Temp";
 
 const ManagerManage = () => {
   const [data, setData] = React.useState([]);
@@ -21,17 +22,19 @@ const ManagerManage = () => {
   const [mode, setMode] = React.useState("add");
   const [toggleButtonValue, setToggleButtonValue] = React.useState("User");
   const [selectedUser, setSelectedUser] = React.useState({});
-  const [selectedUserForHistory, setSelectedUserForHistory] = React.useState({});
+  const [selectedUserForHistory, setSelectedUserForHistory] = React.useState(
+    {}
+  );
 
   const handleEditEvent = (user) => {
     setMode("edit");
     setSelectedUser(user);
     setIsModalOpen(true);
   };
-  const showHistory = (user) =>{
-    setSelectedUserForHistory(user)
-    setIsUserHistoryModal(true)
-  }
+  const showHistory = (user) => {
+    setSelectedUserForHistory(user);
+    setIsUserHistoryModal(true);
+  };
   const handleAddUser = () => {
     setMode("add");
     setIsModalOpen(true);
@@ -106,8 +109,12 @@ const ManagerManage = () => {
             )}
           </div>
         </div>
+
+        {/* Card Listing UI from Temp.js*/}
+        <Temp />
+
         {/* Data Listing Section */}
-        {data.map((user,index) => (
+        {data.map((user, index) => (
           <div
             key={index}
             className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
@@ -116,7 +123,12 @@ const ManagerManage = () => {
               setSelectedUser(user);
             }}
           >
-            <div onClick={() => {showHistory(user)}} className="flex items-center justify-between w-full gap-8">
+            <div
+              onClick={() => {
+                showHistory(user);
+              }}
+              className="flex items-center justify-between w-full gap-8"
+            >
               <div className="focus:outline-none">
                 <p className="text-sm font-medium text-gray-900">
                   {user.fullName}
@@ -163,7 +175,7 @@ const ManagerManage = () => {
         setIsModalOpen={setIsUserHistoryModal}
         isConfirmation={false}
       >
-        <HistoryModal user={selectedUserForHistory}/>
+        <HistoryModal user={selectedUserForHistory} />
       </Modal>
     </div>
   );

@@ -44,10 +44,6 @@ const Home = () => {
                 ? endDate.toLocaleDateString()
                 : startDate.toLocaleDateString()
             );
-            let ed = endDate
-              ? endDate.toLocaleDateString()
-              : startDate.toLocaleDateString();
-
             let b = moment.range(
               doc.data().start_date.toDate().toLocaleDateString(),
               doc.data().end_date.toDate().toLocaleDateString()
@@ -63,7 +59,7 @@ const Home = () => {
         });
     });
   };
- 
+
   useEffect(() => {
     console.log(filterRating, filterLocation, filterColor, filterModal);
     var query = db.collection("bikes");
@@ -111,9 +107,9 @@ const Home = () => {
               setFilterModal(e.target.value);
             }}
             placeholder="Search by Modal Name"
-            type="model"
-            name="model"
-            id="model"
+            type="modal"
+            name="modal"
+            id="modal"
             className="block w-full px-3 py-2 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
           />
         </div>

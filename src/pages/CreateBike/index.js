@@ -28,7 +28,7 @@ const locations = [
   { id: 10, name: "Emil Schaefer" },
 ];
 function CreateBike() {
-  const [model, setModel] = useState();
+  const [modal, setmodal] = useState();
   const [color, setColor] = useState(colors[0]);
   const [location, setLocation] = useState(locations[0]);
   // const [rating, setRating] = useState(); //TODO: Need to uncomment when its come to use
@@ -37,20 +37,20 @@ function CreateBike() {
       <div>
         <div>
           <label
-            htmlFor="model"
+            htmlFor="modal"
             className="block text-sm font-medium text-gray-700"
           >
-            Model
+            modal
           </label>
           <div className="mt-1">
             <input
-              value={model}
+              value={modal}
               onChange={(e) => {
-                setModel(e.target.value);
+                setmodal(e.target.value);
               }}
-              type="model"
-              name="model"
-              id="model"
+              type="modal"
+              name="modal"
+              id="modal"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -65,7 +65,7 @@ function CreateBike() {
         </div>
         <div>
           <label
-            htmlFor="model"
+            htmlFor="modal"
             className="block text-sm font-medium text-gray-700"
           >
             Location
@@ -79,7 +79,7 @@ function CreateBike() {
         </div>
         <div>
           <label
-            htmlFor="model"
+            htmlFor="modal"
             className="block text-sm font-medium text-gray-700"
           >
             Rating

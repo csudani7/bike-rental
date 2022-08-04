@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import db from "../../Firebase";
 
 function HistoryModal({ bike }) {
-  console.log(bike);
   const [history, setHistory] = useState([]);
   const temp = (trip) => {
     return new Promise((resolve, reject) => {
       db.collection("users")
         .where("uid", "==", trip.uid)
         .onSnapshot((snapshot) => {
-            console.log(snapshot.docs[0].data())
           resolve({ ...snapshot.docs[0].data(), ...trip });
         });
     });
@@ -31,9 +29,7 @@ function HistoryModal({ bike }) {
         });
       });
   }, []);
-  useEffect(() => {
-    console.log(history);
-  }, [history]);
+
   return (
     <div>
       <div className="flex flex-col justify-between h-[40rem] overflow-scroll pb-8">

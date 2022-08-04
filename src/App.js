@@ -13,7 +13,7 @@ import ManagerManage from "./pages/ManagerManage";
 import BikeManage from "./pages/BikeManage";
 import MyBike from "./pages/My Bike";
 import { ApplicationProcessContext } from "./Context";
-
+import { Navigate } from "react-router-dom";
 //CSS Import
 import "./assets/global.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,8 +37,26 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
           <Route path="/createBike" element={<CreateBike />} />
-          <Route path="/user-manage" element={<ManagerManage />} />
-          <Route path="/bike-manage" element={<BikeManage />} />
+          <Route
+            path="/user-manage"
+            element={
+              user?.role === "Manager" ? (
+                <ManagerManage />
+              ) : (
+                <Navigate to={"/home"} />
+              )
+            }
+          />
+          <Route
+            path="/bike-manage"
+            element={
+              user?.role === "Manager" ? (
+                <BikeManage />
+              ) : (
+                <Navigate to={"/home"} />
+              )
+            }
+          />
           <Route path="/my-bike" element={<MyBike />} />
         </Route>
         <Route path="*" element={<p>Not Found</p>} />

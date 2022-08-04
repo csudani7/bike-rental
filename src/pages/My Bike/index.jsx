@@ -18,7 +18,6 @@ const MyBike = () => {
       .doc(selectedTrip.id)
       .update({ rating: r, isRideCompleted: true })
       .then((s) => {
-        console.log(s);
         db.collection("trip")
           .where("bid", "==", selectedTrip.bid)
           .where("isRideCompleted", "==", true)
@@ -27,7 +26,6 @@ const MyBike = () => {
               .map((doc) => doc.data().rating)
               .reduce((a, b) => a + b, 0);
             let avgRating = Number((ar / snapshot.docs.length).toFixed(2));
-            console.log(avgRating);
             db.collection("bikes")
               .doc(selectedTrip.bid)
               .update({ rating: avgRating })
@@ -45,16 +43,12 @@ const MyBike = () => {
         setIsModalOpen("");
       });
   };
-  useEffect(() => {
-    console.log(tripData);
-  }, [tripData]);
+
   const temp = (bike) => {
-    console.log(bike);
     return new Promise((resolve, reject) => {
       db.collection("bikes")
         .doc(bike.bid)
         .onSnapshot((doc) => {
-          // console.log(snapshot.data());
           resolve({ ...bike,...doc.data(),  });
         });
     });
@@ -72,7 +66,6 @@ const MyBike = () => {
             }))
             .map((m) => temp(m))
         ).then((d) => {
-          console.log(d, "---");
           setTripDate(d);
         });
       });

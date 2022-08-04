@@ -24,18 +24,6 @@ function BookModal(props) {
           }))
         )
       );
-
-    // db.collection("trip")
-    //   .where("bid", "in", [props.data.id, "KGLl0DsnXI3ne1fQUvCZ"])
-    //   .where("isRideCompleted", "==", false)
-    //   .onSnapshot((snapshot) =>
-    //     console.log(
-    //       snapshot.docs.map((doc) => ({
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       }))
-    //     )
-    //   );
   }, []);
   useEffect(() => {
     let reservedDate = [];
@@ -48,17 +36,12 @@ function BookModal(props) {
         ),
       ];
     });
-    // console.log(reservedDate);
     setDisabledDate(reservedDate);
   }, [trip]);
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    // let intersectionDate = dateToString(
-    //   enumerateDaysBetweenDates(start, end)
-    // ).filter((element) => dateToString(disabledDate).includes(element));
-    // // console.log(moment("08/04/2022") >= moment("08/08/2022"));
     let startDisabledDate = trip.map((t) => t.start_date.toDate());
     let co = startDisabledDate
       .map(

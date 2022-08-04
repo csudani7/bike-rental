@@ -27,9 +27,7 @@ const Home = () => {
     setStartDate(start);
     setEndDate(end);
   };
-  useEffect(() => {
-    console.log(filterdBikeData, "filterdBikeData");
-  }, [filterdBikeData]);
+
 
   const temp = (bike) => {
     return new Promise((resolve, reject) => {
@@ -61,7 +59,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(filterRating, filterLocation, filterColor, filterModal);
     var query = db.collection("bikes");
     if (filterColor) {
       query = query.where("color", "==", filterColor);
@@ -84,9 +81,7 @@ const Home = () => {
           )
           .map((m) => temp(m))
       ).then((d) => {
-        console.log(d);
-        let x = d.filter((p) => p !== null);
-        setFilteredBikeData(x);
+        setFilteredBikeData(d.filter((p) => p !== null));
       });
     });
   }, [

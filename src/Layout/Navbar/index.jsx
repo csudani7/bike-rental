@@ -28,6 +28,7 @@ export default function Navbar() {
                   {routes.map((items, index) => {
                     return (
                       <div
+                        key={index}
                         onClick={() => setIsActive(items.value)}
                         className={clsx(
                           isActive === items.value

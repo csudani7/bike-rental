@@ -10,7 +10,6 @@ export default function CompleteRideModal({ trip, onConfirm }) {
   const [rating, setRating] = useState(0);
   return (
     <div>
-      {trip.id}
       <div className="flex items-center gap-4 pb-8 ">
         <div className="text-base font-bold">Satisfied</div>
         {[...Array(5)].map((_items, index) => {

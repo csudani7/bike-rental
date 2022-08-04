@@ -38,11 +38,11 @@ function HistoryModal({ bike }) {
           <span className="font-semibold text-normal">{}</span>
         </div>
         <div className="flex flex-wrap max-h-1/2">
-          {history.map((items, i) => {
+          {history.map((items, index) => {
             return (
               <div
                 className="flex flex-col items-center w-full gap-4 mt-8 mr-4"
-                key={i}
+                key={index}
               >
                 <div className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                   <div className="flex items-center w-full space-x-4">

@@ -181,8 +181,8 @@ const Home = () => {
       </div>
       <div className="flex items-center justify-center w-full lg:w-1/2 mx-auto my-12">
         <div className="gap-4 flex items-center flex-col w-full px-4 lg:px-0">
-          {filterdBikeData.map((bike) => (
-            <Bike data={bike} key={bike.id} />
+          {filterdBikeData.map((bike,index) => (
+            <Bike data={bike} key={index} />
           ))}
         </div>
       </div>

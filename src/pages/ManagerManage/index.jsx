@@ -107,9 +107,9 @@ const ManagerManage = () => {
           </div>
         </div>
         {/* Data Listing Section */}
-        {data.map((user) => (
+        {data.map((user,index) => (
           <div
-            key={user.uid}
+            key={index}
             className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
             onClick={() => {
               setIsUserHistoryModal(true);

@@ -49,7 +49,7 @@ const MyBike = () => {
       db.collection("bikes")
         .doc(bike.bid)
         .onSnapshot((doc) => {
-          resolve({ ...bike,...doc.data(),  });
+          resolve({ ...bike, ...doc.data() });
         });
     });
   };
@@ -72,9 +72,12 @@ const MyBike = () => {
   }, []);
   return (
     <>
-      {tripData.map((item, i) => {
+      {tripData.map((item, index) => {
         return (
-          <div className="flex flex-col items-center w-2/3 gap-4 mt-8" key={i}>
+          <div
+            key={index}
+            className="flex flex-col items-center w-2/3 gap-4 mt-8"
+          >
             <div className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
               <div className="flex items-center justify-between w-full gap-8">
                 <div className="flex items-center justify-between gap-44">

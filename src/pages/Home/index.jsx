@@ -28,7 +28,6 @@ const Home = () => {
     setEndDate(end);
   };
 
-
   const temp = (bike) => {
     return new Promise((resolve, reject) => {
       db.collection("trip")
@@ -60,6 +59,7 @@ const Home = () => {
 
   useEffect(() => {
     var query = db.collection("bikes");
+    query = query.where("isBikeAvailable", "==", true);
     if (filterColor) {
       query = query.where("color", "==", filterColor);
     }
@@ -105,18 +105,25 @@ const Home = () => {
             type="modal"
             name="modal"
             id="modal"
-            className="block w-full px-3 py-2 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
+            className="block w-full px-4 py-2.5 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
           />
         </div>
         <div className="flex space-x-4">
-          <DatePicker
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate}
-            endDate={endDate}
-            minDate={moment().toDate()}
-            selectsRange
-          />
+          <div>
+            <DatePicker
+              onChange={onChange}
+              startDate={startDate}
+              endDate={endDate}
+              minDate={moment().toDate()}
+              selectsRange
+              customInput={
+                <input
+                  className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
+                  value={`${startDate} - ${endDate ? endDate : startDate}`}
+                />
+              }
+            />
+          </div>
           <div className="mt-1">
             <select
               id={"color"}
@@ -181,7 +188,7 @@ const Home = () => {
       </div>
       <div className="flex items-center justify-center w-full lg:w-1/2 mx-auto my-12">
         <div className="gap-4 flex items-center flex-col w-full px-4 lg:px-0">
-          {filterdBikeData.map((bike,index) => (
+          {filterdBikeData.map((bike, index) => (
             <Bike data={bike} key={index} />
           ))}
         </div>

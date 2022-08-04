@@ -16,7 +16,7 @@ function Bike(props) {
               <span>
                 <strong>Modal: </strong>
               </span>
-              {props.data.modalName} {props.data.id}
+              {props.data.modalName}
             </p>
             <p className="text-sm font-medium text-gray-900 mt-2">
               <span>
@@ -43,10 +43,6 @@ function Bike(props) {
         </div>
 
         <div className="focus:outline-none flex items-center">
-          <div className="text-sm font-medium text-gray-900 lg:mr-20">
-            Datepicker
-          </div>
-
           <button
             type="button"
             onClick={() => {

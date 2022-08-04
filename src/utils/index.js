@@ -19,7 +19,7 @@ $                 # end-of-string */
 export const regexForPassword =
   /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
 
-export const regexForName = /^[a-zA-Z ]{2,30}$/;
+export const regexForName = /^[0-9A-Za-z\s\-]+$/;
 
 /* Global Errors state Utils */
 export const getErrorMessage = (errors, fieldName, fieldLabel) => {
@@ -116,8 +116,7 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 };
 
 export const dateToString = (date) => {
-  return date.map(d => moment(d).format("MM/DD/YYYY"))
-  
+  return date.map((d) => moment(d).format("MM/DD/YYYY"));
 };
 
 export const routes = [

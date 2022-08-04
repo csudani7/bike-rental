@@ -12,22 +12,29 @@ const BikeManageFormContainer = (props) => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ mode: "onChange" });
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      isBikeAvailable:
+        props.mode === "edit" ? props.data.isBikeAvailable : false,
+    },
+  });
 
   const onSubmit = (data) => {
     if (props.mode === "add") {
+      console.log(data);
       db.collection("bikes")
         .add({
           modalName: data.modalName,
           color: data.color,
           location: data.location,
           rating: 0,
+          isBikeAvailable: data.isBikeAvailable
         })
         .then((dd) => {
           props.setIsModalOpen(null);
         })
-        .catch((e) => {
-        });
+        .catch((e) => {console.log(e)});
     } else if (props.mode === "edit") {
       db.collection("bikes")
         .doc(props.data.id)
@@ -163,6 +170,24 @@ const BikeManageFormContainer = (props) => {
             </p>
           )}
         </div>
+
+        <div className="flex justify-start items-center space-x-5">
+          <input
+            id="candidates"
+            aria-describedby="candidates-description"
+            name="candidates"
+            type="checkbox"
+            {...register("isBikeAvailable", {})}
+            className="h-6 w-6 text-indigo-600 border-gray-300 rounded"
+          />
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-900"
+          >
+            Is bike available for rent ?
+          </label>
+        </div>
+
         <div className="space-x-3 sm:col-span-2 sm:flex sm:justify-end">
           <button
             type="submit"

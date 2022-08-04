@@ -55,7 +55,7 @@ const MyBike = () => {
         .doc(bike.bid)
         .onSnapshot((doc) => {
           // console.log(snapshot.data());
-          resolve({ ...doc.data(), ...bike });
+          resolve({ ...bike,...doc.data(),  });
         });
     });
   };

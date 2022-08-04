@@ -31,7 +31,7 @@ function SignUp() {
             fullName: fullName,
             uid: d.user.uid,
             email: d.user.email,
-            role: "user",
+            role: "User",
           })
           .then(() => {
             toast.success("User Register Successfully");

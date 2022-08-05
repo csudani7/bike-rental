@@ -1,24 +1,25 @@
 //#Global Imports
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
 
 //#Local Impoprts
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Context } from "./Context";
+import { UserDataContext } from "./context";
 
 //#CSS Imports
-import "./assets/index.css";
+import "./assets/css/index.css";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { BrowserRouter as Router } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <Router>
-      <Context>
+      <UserDataContext>
         <App />
-      </Context>
+      </UserDataContext>
     </Router>
   </React.StrictMode>
 );

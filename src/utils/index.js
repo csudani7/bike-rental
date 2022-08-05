@@ -19,6 +19,7 @@ $                 # end-of-string */
 export const regexForPassword =
   /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
 
+// eslint-disable-next-line no-useless-escape
 export const regexForName = /^[0-9A-Za-z\s\-]+$/;
 
 /* Global Errors state Utils */
@@ -408,3 +409,7 @@ export const manageBikeHistoryData = [
     endDate: "14/11/2022",
   },
 ];
+
+export function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}

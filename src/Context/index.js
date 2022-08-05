@@ -1,10 +1,12 @@
+//Global Imports
 import { createContext, useState } from "react";
+
 export const ApplicationProcessContext = createContext({
   user: {},
   setUser: {},
 });
 
-export const Context = (props) => {
+export const UserDataContext = (props) => {
   const [user, setUser] = useState(null);
   const setHandleUser = (user) => {
     setUser(user);

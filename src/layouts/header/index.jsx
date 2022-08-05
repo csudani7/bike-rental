@@ -3,10 +3,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 //#Local Imports
-import { routes } from "../../utils";
+import { UserConfigContext } from "../../context";
 
 function Navbar() {
   const navigate = useNavigate();
+  const { user } = React.useContext(UserConfigContext);
 
   return (
     <header className="bg-indigo-600">
@@ -22,15 +23,34 @@ function Navbar() {
               />
             </a>
             <div className="hidden ml-10 space-x-8 lg:block">
-              {routes.map((link) => (
-                <button
-                  key={link.name}
-                  onClick={() => navigate(link.href)}
-                  className="text-base font-medium text-white hover:text-indigo-50"
-                >
-                  {link.name}
-                </button>
-              ))}
+              <button
+                onClick={() => navigate("/home")}
+                className="text-base font-medium text-white hover:text-indigo-50"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => navigate("/my-bike")}
+                className="text-base font-medium text-white hover:text-indigo-50"
+              >
+                My Bikes
+              </button>
+              {user?.role === "manager" && (
+                <>
+                  <button
+                    onClick={() => navigate("/manage-role")}
+                    className="text-base font-medium text-white hover:text-indigo-50"
+                  >
+                    Users
+                  </button>
+                  <button
+                    onClick={() => navigate("/manage-bike")}
+                    className="text-base font-medium text-white hover:text-indigo-50"
+                  >
+                    Bikes
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div className="ml-10 space-x-4">
@@ -43,15 +63,34 @@ function Navbar() {
           </div>
         </div>
         <div className="flex flex-wrap justify-center py-4 space-x-6 lg:hidden">
-          {routes.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-base font-medium text-white hover:text-indigo-50"
-            >
-              {link.name}
-            </a>
-          ))}
+          <button
+            onClick={() => navigate("/home")}
+            className="text-base font-medium text-white hover:text-indigo-50"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => navigate("/my-bike")}
+            className="text-base font-medium text-white hover:text-indigo-50"
+          >
+            My Bikes
+          </button>
+          {user?.role === "manager" && (
+            <>
+              <button
+                onClick={() => navigate("/manage-role")}
+                className="text-base font-medium text-white hover:text-indigo-50"
+              >
+                Users
+              </button>
+              <button
+                onClick={() => navigate("/manage-bike")}
+                className="text-base font-medium text-white hover:text-indigo-50"
+              >
+                Bikes
+              </button>
+            </>
+          )}
         </div>
       </nav>
     </header>

@@ -1,8 +1,9 @@
 //#Global Imports
 import React from "react";
 import DatePicker from "react-datepicker";
-import moment from "moment";
+import Moment from "moment";
 import { toast } from "react-toastify";
+import { extendMoment } from "moment-range";
 
 //#Local Imports
 import db from "../../firebase";
@@ -10,6 +11,7 @@ import { UserConfigContext } from "../../context";
 import { enumerateDaysBetweenDates } from "../../utils";
 
 function BookModal(props) {
+  const moment = extendMoment(Moment);
   const { bikeData, handleCloseModal } = props;
   const { user } = React.useContext(UserConfigContext);
   const [tripData, setTripData] = React.useState([]);
@@ -23,31 +25,60 @@ function BookModal(props) {
     const [start, end] = dates;
     setTripStartDate(start);
     setTripEndDate(end);
-    let disableStartDate = tripData.map((item) => item.start_date.toDate());
-    let disableBookButton = disableStartDate
-      .map(
-        (item) =>
-          moment(item) >= moment(start) &&
-          moment(item) <= moment(end ? end : start)
-      )
+
+    let disableStartDate = tripData
+      .map((item) => {
+        let date_range_one = moment.range(
+          start.toLocaleDateString(),
+          end
+            ? end.toLocaleDateString()
+            : start.toLocaleDateString()
+        );
+        let date_range_two = moment.range(
+          item.start_date.toDate().toLocaleDateString(),
+          item.end_date.toDate().toLocaleDateString()
+        );
+        return date_range_one.overlaps(date_range_two, { adjacent: true });
+      })
       .every((element) => element === false);
-    setBookBikeButtonDisable(disableBookButton);
+    setBookBikeButtonDisable(disableStartDate);
   };
 
   const handleBookBikeTrip = () => {
-    db.collection("trip")
-      .add({
-        bid: bikeData.id,
-        uid: user.uid,
-        start_date: tripStartDate,
-        end_date: tripEndDate,
-        rating: 0,
-        isRideCompleted: false,
+    let disableStartDate = tripData
+      .map((item) => {
+        let date_range_one = moment.range(
+          tripStartDate.toLocaleDateString(),
+          tripEndDate
+            ? tripEndDate.toLocaleDateString()
+            : tripStartDate.toLocaleDateString()
+        );
+        let date_range_two = moment.range(
+          item.start_date.toDate().toLocaleDateString(),
+          item.end_date.toDate().toLocaleDateString()
+        );
+        return date_range_one.overlaps(date_range_two, { adjacent: true });
       })
-      .then(() => handleCloseModal(false))
-      .catch((error) => {
-        toast.error(error.data.message);
-      });
+      .every((element) => element === false);
+
+    if (disableStartDate) {
+      console.log("API Call");
+      db.collection("trip")
+        .add({
+          bid: bikeData.id,
+          uid: user.uid,
+          start_date: tripStartDate,
+          end_date: tripEndDate ? tripEndDate : tripStartDate,
+          rating: 0,
+          isRideCompleted: false,
+        })
+        .then(() => handleCloseModal(false))
+        .catch((error) => {
+          toast.error(error.data.message);
+        });
+    } else {
+      setBookBikeButtonDisable(false);
+    }
   };
 
   React.useEffect(() => {
@@ -84,6 +115,7 @@ function BookModal(props) {
       {bikeData.id}
       <DatePicker
         inline
+        minDate={Moment().toDate()}
         selectsRange
         selected={tripStartDate}
         onChange={handleDateChange}

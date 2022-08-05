@@ -1,7 +1,7 @@
 //#Global Imports
 import { useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 //#Local Impoprts
 import SignUp from "./pages/sign-up";
@@ -39,26 +39,8 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
           <Route path="/add-bike" element={<AddBike />} />
-          <Route
-            path="/manage-role"
-            element={
-              user?.role === "manager" ? (
-                <ManageRole />
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
-          <Route
-            path="/manage-bike"
-            element={
-              user?.role === "manager" ? (
-                <ManageBike />
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
+          <Route path="/manage-role" element={<ManageRole />} />
+          <Route path="/manage-bike" element={<ManageBike />} />
           <Route path="/my-bike" element={<MyBike />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

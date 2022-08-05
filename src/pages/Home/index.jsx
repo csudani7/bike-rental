@@ -81,13 +81,13 @@ const HomePage = () => {
   React.useEffect(() => {
     let query = db.collection("bikes");
     query = query.where("isBikeAvailable", "==", true);
-    if (filterColor) {
+    if (filterColor !== "Select Color" && filterColor !== "") {
       query = query.where("color", "==", filterColor);
     }
-    if (filterLocation) {
+    if (filterLocation !== "Select Location" && filterLocation !== "") {
       query = query.where("location", "==", filterLocation);
     }
-    if (Number(filterRating) > 0) {
+    if (filterBikeModal !== "Select Rating" && Number(filterRating) > 0) {
       query = query.where("rating", ">=", Number(filterRating));
     }
     query.onSnapshot((snapshot) => {

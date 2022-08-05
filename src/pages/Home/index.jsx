@@ -1,12 +1,37 @@
 //#Global Imports
 import React from "react";
 import Moment from "moment";
+import clsx from "clsx";
 import DatePicker from "react-datepicker";
 import { extendMoment } from "moment-range";
+import { Dialog, Disclosure, Transition, Combobox } from "@headlessui/react";
+import { XIcon } from "@heroicons/react/outline";
+import {
+  FilterIcon,
+  MinusSmIcon,
+  PlusSmIcon,
+  SearchIcon,
+  StarIcon,
+} from "@heroicons/react/solid";
 
 //#Local Imports
 import db from "../../firebase";
 import BikeCard from "./BikeCard";
+
+const filters = [
+  {
+    id: "color",
+    name: "Color",
+    options: [
+      { value: "gray", label: "Gray" },
+      { value: "orange", label: "Orange" },
+      { value: "blue", label: "Blue" },
+      { value: "brown", label: "Brown" },
+      { value: "green", label: "Green" },
+      { value: "purple", label: "Purple" },
+    ],
+  },
+];
 
 const HomePage = () => {
   const moment = extendMoment(Moment);
@@ -17,6 +42,7 @@ const HomePage = () => {
   const [filterRating, setFilterRating] = React.useState(0);
   const [filterBikeModal, setFilterBikeModal] = React.useState("");
   const [filteredBikeData, setFilteredBikeData] = React.useState([]);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = React.useState(false);
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
@@ -72,7 +98,9 @@ const HomePage = () => {
             ...doc.data(),
           }))
           .filter((bike) =>
-            bike.modalName.toLowerCase().includes(filterBikeModal.toLowerCase())
+            bike.modalName
+              ?.toLowerCase()
+              .includes(filterBikeModal?.toLowerCase())
           )
           .map((item) => fetchBikesFromTrip(item))
       ).then((response) => {
@@ -90,107 +118,458 @@ const HomePage = () => {
   ]);
 
   return (
-    <div className="w-full">
-      <div className="flex justify-between">
-        <div className="mt-1">
-          <input
-            id="modalName"
-            name="modalName"
-            type="text"
-            placeholder="Search by Modal Name eg. Ducati"
-            className="block w-full px-4 py-2.5 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
-            value={filterBikeModal}
-            onChange={(e) => {
-              setFilterBikeModal(e.target.value);
-            }}
-          />
-        </div>
-        <div className="flex space-x-4">
-          <div>
-            <DatePicker
-              onChange={handleDateChange}
-              startDate={selectedStartDate}
-              endDate={selectedEndDate}
-              minDate={moment().toDate()}
-              selectsRange
-              customInput={
-                <input
-                  className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
-                  value={`${selectedStartDate} - ${
-                    selectedEndDate ? selectedEndDate : selectedStartDate
-                  }`}
-                />
-              }
-            />
-          </div>
-          <div className="mt-1">
-            <select
-              id="color"
-              name="color"
-              className={
-                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
-              }
-              value={filterColor}
-              onChange={(v) => {
-                setFilterColor(v.target.value);
-              }}
+    <div className="bg-white">
+      <div>
+        {/* Mobile filter dialog */}
+        <Transition.Root show={mobileFiltersOpen} as={React.Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-40 lg:hidden"
+            onClose={setMobileFiltersOpen}
+          >
+            <Transition.Child
+              as={React.Fragment}
+              enter="transition-opacity ease-linear duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <option>Select Color</option>
-              <option>Black</option>
-              <option>Blue</option>
-              <option>Red</option>
-              <option>Gray</option>
-              <option>Orange</option>
-              <option>Yellow</option>
-            </select>
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-40 flex">
+              <Transition.Child
+                as={React.Fragment}
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="relative flex flex-col w-full h-full max-w-xs py-4 pb-12 ml-auto overflow-y-auto bg-white shadow-xl">
+                  <div className="flex items-center justify-between px-4">
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Filters
+                    </h2>
+                    <button
+                      type="button"
+                      className="flex items-center justify-center w-10 h-10 p-2 -mr-2 text-gray-400 bg-white rounded-md"
+                      onClick={() => setMobileFiltersOpen(false)}
+                    >
+                      <span className="sr-only">Close menu</span>
+                      <XIcon className="w-6 h-6" aria-hidden="true" />
+                    </button>
+                  </div>
+
+                  {/* Filters */}
+                  <form className="mt-4 border-t border-gray-200">
+                    <Combobox>
+                      <div className="relative">
+                        <SearchIcon
+                          className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                        <Combobox.Input
+                          className="w-full h-12 pr-4 text-gray-800 placeholder-gray-400 bg-transparent border-0 pl-11 focus:ring-0 sm:text-sm"
+                          placeholder="Search Modal... eg. Ducati"
+                          value={filterBikeModal}
+                          onChange={(event) =>
+                            setFilterBikeModal(event.target.value)
+                          }
+                        />
+                      </div>
+                    </Combobox>
+                    {filters.map((section) => (
+                      <Disclosure
+                        as="div"
+                        key={section.id}
+                        className="px-4 py-6 border-t border-gray-200"
+                      >
+                        {({ open }) => (
+                          <>
+                            <h3 className="flow-root -mx-2 -my-3">
+                              <Disclosure.Button className="flex items-center justify-between w-full px-2 py-3 text-gray-400 bg-white hover:text-gray-500">
+                                <span className="font-medium text-gray-900">
+                                  {section.name}
+                                </span>
+                                <span className="flex items-center ml-6">
+                                  {open ? (
+                                    <MinusSmIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <PlusSmIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </span>
+                              </Disclosure.Button>
+                            </h3>
+                            <Disclosure.Panel className="pt-6">
+                              <div className="space-y-6">
+                                {section.options.map((option, optionIdx) => (
+                                  <div
+                                    key={option.value}
+                                    className="flex items-center"
+                                  >
+                                    <input
+                                      id={`filter-mobile-${section.id}-${optionIdx}`}
+                                      name={`${section.id}[]`}
+                                      defaultValue={option.value}
+                                      type="checkbox"
+                                      defaultChecked={option.checked}
+                                      className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                    />
+                                    <label
+                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                      className="flex-1 min-w-0 ml-3 text-gray-500"
+                                    >
+                                      {option.label}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    ))}
+                    <Disclosure
+                      as="div"
+                      key="location"
+                      className="px-4 py-6 border-t border-gray-200"
+                    >
+                      {({ open }) => (
+                        <>
+                          <h3 className="flow-root -my-3">
+                            <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                              <span className="font-medium text-gray-900">
+                                Location
+                              </span>
+                              <span className="flex items-center ml-6">
+                                {open ? (
+                                  <MinusSmIcon
+                                    className="w-5 h-5"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <PlusSmIcon
+                                    className="w-5 h-5"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="w-full pt-4">
+                              <select
+                                id="location"
+                                name="location"
+                                className={
+                                  "w-full block px-4 py-2 text-gray-900 rounded-md shadow-sm "
+                                }
+                                value={filterLocation}
+                                onChange={(v) => {
+                                  setFilterLocation(v.target.value);
+                                }}
+                              >
+                                <option>Select Location</option>
+                                <option>Suart</option>
+                                <option>Baroda</option>
+                                <option>Gandhinagar</option>
+                                <option>Ahemdabad</option>
+                              </select>
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                    <Disclosure
+                      as="div"
+                      key="location"
+                      className="px-4 py-6 border-t border-gray-200"
+                    >
+                      {({ open }) => (
+                        <>
+                          <h3 className="flow-root -my-3">
+                            <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                              <span className="font-medium text-gray-900">
+                                Rating
+                              </span>
+                              <span className="flex items-center ml-6">
+                                {open ? (
+                                  <MinusSmIcon
+                                    className="w-5 h-5"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <PlusSmIcon
+                                    className="w-5 h-5"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="flex items-center">
+                              {[...Array(5)].map((_items, index) => {
+                                return (
+                                  <StarIcon
+                                    className={clsx(
+                                      filterRating > index
+                                        ? "text-yellow-300"
+                                        : "text-gray-400",
+                                      "w-7 h-7 cursor-pointer"
+                                    )}
+                                    aria-hidden="true"
+                                    onClick={() => setFilterRating(index + 1)}
+                                  />
+                                );
+                              })}
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
+        <main className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="relative z-10 flex items-baseline justify-between pt-12 pb-6 border-b border-gray-200">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+              Bikes
+            </h1>
+
+            <div className="flex items-center">
+              <button
+                type="button"
+                className="p-2 ml-4 -m-2 text-gray-400 sm:ml-6 hover:text-gray-500 lg:hidden"
+                onClick={() => setMobileFiltersOpen(true)}
+              >
+                <span className="sr-only">Filters</span>
+                <FilterIcon className="w-5 h-5" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-          <div className="mt-1">
-            <select
-              id="location"
-              name="location"
-              className={
-                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
-              }
-              value={filterLocation}
-              onChange={(v) => {
-                setFilterLocation(v.target.value);
-              }}
-            >
-              <option>Select Location</option>
-              <option>Suart</option>
-              <option>Baroda</option>
-              <option>Gandhinagar</option>
-              <option>Ahemdabad</option>
-            </select>
-          </div>
-          <div className="mt-1">
-            <select
-              id="rating"
-              name="rating"
-              className={
-                "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
-              }
-              value={filterRating}
-              onChange={(v) => {
-                setFilterRating(v.target.value);
-              }}
-            >
-              <option>Select Rating</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center justify-center w-full mx-auto my-12 lg:w-1/2">
-        <div className="flex flex-col items-center w-full gap-4 px-4 lg:px-0">
-          {filteredBikeData.map((bikeData, index) => (
-            <BikeCard bikeData={bikeData} key={index} />
-          ))}
-        </div>
+
+          <section aria-labelledby="products-heading" className="pt-6 pb-24">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+              {/* Filters */}
+              <form className="hidden lg:block">
+                <Combobox>
+                  <div className="relative">
+                    <SearchIcon
+                      className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    <Combobox.Input
+                      className="w-full h-12 pr-4 text-gray-800 placeholder-gray-400 bg-transparent border-0 pl-11 focus:ring-0 sm:text-sm"
+                      placeholder="Search Modal... eg. Ducati"
+                      value={filterBikeModal}
+                      onChange={(event) =>
+                        setFilterBikeModal(event.target.value)
+                      }
+                    />
+                  </div>
+                </Combobox>
+                {filters.map((section) => (
+                  <Disclosure
+                    as="div"
+                    key={section.id}
+                    className="py-6 border-b border-gray-200"
+                  >
+                    {({ open }) => (
+                      <>
+                        <h3 className="flow-root -my-3">
+                          <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                            <span className="font-medium text-gray-900">
+                              {section.name}
+                            </span>
+                            <span className="flex items-center ml-6">
+                              {open ? (
+                                <MinusSmIcon
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <PlusSmIcon
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                />
+                              )}
+                            </span>
+                          </Disclosure.Button>
+                        </h3>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-4">
+                            {section.options.map((option, optionIdx) => (
+                              <div
+                                key={option.value}
+                                className="flex items-center"
+                              >
+                                <input
+                                  id={`filter-${section.id}-${optionIdx}`}
+                                  name={`${section.id}[]`}
+                                  defaultValue={option.value}
+                                  type="checkbox"
+                                  defaultChecked={option.checked}
+                                  onClick={() => setFilterColor(option.value)}
+                                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                />
+                                <label
+                                  htmlFor={`filter-${section.id}-${optionIdx}`}
+                                  className="ml-3 text-sm text-gray-600"
+                                >
+                                  {option.label}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                ))}
+                <Disclosure
+                  as="div"
+                  key="location"
+                  className="py-6 border-b border-gray-200"
+                >
+                  {({ open }) => (
+                    <>
+                      <h3 className="flow-root -my-3">
+                        <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                          <span className="font-medium text-gray-900">
+                            Location
+                          </span>
+                          <span className="flex items-center ml-6">
+                            {open ? (
+                              <MinusSmIcon
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <PlusSmIcon
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="w-full pt-4">
+                          <select
+                            id="location"
+                            name="location"
+                            className={
+                              "block w-full px-4 py-2 text-gray-900 rounded-md shadow-sm "
+                            }
+                            value={filterLocation}
+                            onChange={(v) => {
+                              setFilterLocation(v.target.value);
+                            }}
+                          >
+                            <option>Select Location</option>
+                            <option>Suart</option>
+                            <option>Baroda</option>
+                            <option>Gandhinagar</option>
+                            <option>Ahemdabad</option>
+                          </select>
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+                <Disclosure
+                  as="div"
+                  key="location"
+                  className="py-6 border-b border-gray-200"
+                >
+                  {({ open }) => (
+                    <>
+                      <h3 className="flow-root -my-3">
+                        <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                          <span className="font-medium text-gray-900">
+                            Rating
+                          </span>
+                          <span className="flex items-center ml-6">
+                            {open ? (
+                              <MinusSmIcon
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <PlusSmIcon
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_items, index) => {
+                            return (
+                              <StarIcon
+                                className={clsx(
+                                  filterRating > index
+                                    ? "text-yellow-300"
+                                    : "text-gray-400",
+                                  "w-7 h-7 cursor-pointer"
+                                )}
+                                aria-hidden="true"
+                                onClick={() => setFilterRating(index + 1)}
+                              />
+                            );
+                          })}
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+              </form>
+
+              {/* Bike Card grid */}
+              <div className="lg:col-span-3">
+                <div className="pb-3 text-right">
+                  <DatePicker
+                    onChange={handleDateChange}
+                    startDate={selectedStartDate}
+                    endDate={selectedEndDate}
+                    minDate={moment().toDate()}
+                    selectsRange
+                    customInput={
+                      <input
+                        className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
+                        value={`${selectedStartDate} - ${
+                          selectedEndDate ? selectedEndDate : selectedStartDate
+                        }`}
+                      />
+                    }
+                  />
+                </div>
+                <div className="grid grid-cols-2 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-x-4">
+                  {filteredBikeData.map((bikeData, index) => (
+                    <BikeCard bikeData={bikeData} key={index} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
   );

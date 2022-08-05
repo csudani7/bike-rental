@@ -31,39 +31,30 @@ const FormContainer = (props) => {
           isBikeAvailable: data.isBikeAvailable,
         })
         .then(() => {
-          setFormActionType(null);
+          setFormActionType("");
         })
         .catch((error) => {
-          toast.error(error.data.message);
+          toast.error(error);
         });
     } else if (actionType === "edit") {
       db.collection("bikes")
-        .doc(data.id)
+        .doc(formData.id)
         .update({
           modalName: data.modalName,
           color: data.color,
           location: data.location,
+          isBikeAvailable: data.isBikeAvailable,
         })
         .then(() => {
-          setFormActionType(null);
+          setFormActionType("");
         })
         .catch((error) => {
-          toast.error(error.data.message);
+          toast.error(error);
         });
     }
   };
 
-  const handleDeleteBike = () => {
-    db.collection("bikes")
-      .doc(formData.id)
-      .delete()
-      .then(() => {
-        setFormActionType(null);
-      })
-      .catch((error) => {
-        toast.error(error.data.message);
-      });
-  };
+  
 
   return (
     <div className="w-full p-6">
@@ -203,15 +194,6 @@ const FormContainer = (props) => {
           >
             Submit
           </button>
-          {actionType === "edit" && (
-            <button
-              type="button"
-              onClick={handleDeleteBike}
-              className="inline-flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto"
-            >
-              Delete
-            </button>
-          )}
         </div>
       </form>
     </div>

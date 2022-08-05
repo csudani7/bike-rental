@@ -61,7 +61,6 @@ function BookModal(props) {
       .every((element) => element === false);
 
     if (disableStartDate) {
-      console.log("API Call");
       db.collection("trip")
         .add({
           bid: bikeData.id,

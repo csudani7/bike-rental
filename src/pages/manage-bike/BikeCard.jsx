@@ -9,10 +9,7 @@ import { classNames } from "../../utils";
 function BikeCard(props) {
   const {
     bikeData,
-    setIsBikeHistoryModal,
-    setSelectedBikeData,
-    handleBikeHistory,
-    handleEditAction,
+    handleAction,
   } = props;
 
   return (
@@ -26,9 +23,7 @@ function BikeCard(props) {
             <div
               className="py-4 text-center hover:bg-indigo-50"
               onClick={() => {
-                handleBikeHistory(bikeData);
-                setIsBikeHistoryModal(true);
-                setSelectedBikeData(bikeData);
+                handleAction(bikeData, "history");
               }}
             >
               <div className="flex items-center justify-around">
@@ -80,13 +75,16 @@ function BikeCard(props) {
                 type="button"
                 className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-700 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
                 onClick={() => {
-                  handleEditAction(bikeData);
+                  handleAction(bikeData, "edit");
                 }}
               >
                 <PencilIcon className="w-5 h-5" aria-hidden="true" />
                 <span className="ml-2">Edit</span>
               </button>
               <button
+                onClick={() => {
+                  handleAction(bikeData, "delete");
+                }}
                 type="button"
                 className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
               >

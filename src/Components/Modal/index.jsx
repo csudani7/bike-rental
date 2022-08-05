@@ -58,7 +58,7 @@ function Modal(props) {
                 <div className="absolute top-0 right-0 block pt-4 pr-4">
                   <button
                     type="button"
-                    className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    className="text-gray-400 bg-white rounded-md hover:text-gray-500 "
                     onClick={() => setIsModalOpen(false)}
                   >
                     <span className="sr-only">Close</span>

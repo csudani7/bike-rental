@@ -14,7 +14,7 @@ function BikeCard(props) {
     handleBikeHistory,
     handleEditAction,
   } = props;
-  console.log(bikeData, "bikeData-inside-component");
+
   return (
     <>
       <div

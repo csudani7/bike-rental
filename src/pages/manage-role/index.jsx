@@ -1,18 +1,14 @@
 //#Global Imports
 import React from "react";
 import clsx from "clsx";
-import {
-  PencilIcon,
-  PlusCircleIcon,
-  TrashIcon,
-} from "@heroicons/react/outline";
+import { PlusCircleIcon } from "@heroicons/react/outline";
 
 //#Local Imports
 import db from "../../firebase";
 import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
-import Temp from "../../components/Temp";
+import UserCard from "./UserCard";
 
 const ManageRole = () => {
   const [fetchedData, setFetchedData] = React.useState([]);
@@ -109,51 +105,21 @@ const ManageRole = () => {
             )}
           </div>
         </div>
-
-        {/* Card Listing UI from Temp.js*/}
-        <Temp />
-
         {/* Data Listing Section */}
-        {fetchedData.map((user, index) => (
-          <div
-            key={index}
-            className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-            onClick={() => {
-              setUserHistoryModalOpen(true);
-              setSelectedUserData(user);
-            }}
-          >
-            <div
-              onClick={() => {
-                handleUserHistory(user);
-              }}
-              className="flex items-center justify-between w-full gap-8"
-            >
-              <div className="focus:outline-none">
-                <p className="text-sm font-medium text-gray-900">
-                  {user.fullName}
-                </p>
-                <p className="text-sm font-medium text-gray-900">
-                  {user.email}
-                </p>
-                <p className="text-sm font-medium text-gray-900">
-                  Role : {user.role}
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <div
-                  className="cursor-pointer"
-                  onClick={() => handleEditAction(user)}
-                >
-                  <PencilIcon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div className="cursor-pointer cursor">
-                  <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
+          {fetchedData.map((user, index) => {
+            return (
+              <UserCard
+                key={index}
+                userData={user}
+                setSelectedUserData={user}
+                handleEditAction={handleEditAction}
+                handleUserHistory={handleUserHistory}
+                setUserHistoryModalOpen={setUserHistoryModalOpen}
+              />
+            );
+          })}
+        </div>
       </div>
 
       {/* Add and Edit User/Manager Form Modal Section */}

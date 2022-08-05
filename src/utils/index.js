@@ -55,13 +55,6 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
   return dates;
 };
 
-export const routes = [
-  { href: "/home", name: "Home" },
-  { href: "/my-bike", name: "My Bikes" },
-  { href: "/manage-role", name: "Users" },
-  { href: "/manage-bike", name: "Bikes" },
-];
-
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }

@@ -39,26 +39,8 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
           <Route path="/add-bike" element={<AddBike />} />
-          <Route
-            path="/manage-role"
-            element={
-              user?.role === "manager" ? (
-                <ManageRole />
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
-          <Route
-            path="/manage-bike"
-            element={
-              user?.role === "manager" ? (
-                <ManageBike />
-              ) : (
-                <Navigate to="/home" />
-              )
-            }
-          />
+          <Route path="/manage-role" element={<ManageRole />} />
+          <Route path="/manage-bike" element={<ManageBike />} />
           <Route path="/my-bike" element={<MyBike />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

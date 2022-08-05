@@ -1,7 +1,7 @@
 //#Global Imports
 import { useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 //#Local Impoprts
 import SignUp from "./pages/sign-up";

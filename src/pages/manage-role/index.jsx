@@ -127,6 +127,7 @@ const ManageRole = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         isConfirmation={false}
+        width="sm:max-w-lg sm:w-full"
       >
         <FormContainer
           actionType={actionType}

@@ -74,6 +74,7 @@ const ManageBike = () => {
         isModalOpen={isFormActionType === "edit" || isFormActionType === "add"}
         setIsModalOpen={() => setFormActionType("")}
         isConfirmation={false}
+        width="sm:max-w-lg sm:w-full"
       >
         <FormContainer
           actionType={isFormActionType}
@@ -87,6 +88,7 @@ const ManageBike = () => {
         isModalOpen={isBikeHistoryModal}
         setIsModalOpen={setIsBikeHistoryModal}
         isConfirmation={false}
+        // width="!sm:max-w-fit"
       >
         <HistoryModal selectedBikeData={selectedBikeData} />
       </Modal>

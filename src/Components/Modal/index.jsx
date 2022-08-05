@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { clsx } from "clsx";
 
 function Modal(props) {
   const {
@@ -10,6 +11,7 @@ function Modal(props) {
     isClosable = true,
     isModalOpen = false,
     setIsModalOpen,
+    width,
   } = props;
 
   return (
@@ -46,7 +48,12 @@ function Modal(props) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div
+              className={clsx(
+                "relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:p-6",
+                width
+              )}
+            >
               {isClosable && (
                 <div className="absolute top-0 right-0 block pt-4 pr-4">
                   <button

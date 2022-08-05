@@ -1,33 +1,28 @@
 //#Global Imports
-import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-
-import db from "../../Firebase";
-// import DatePicker from "react-datepicker";
-import Bike from "./Bike";
+import React from "react";
 import Moment from "moment";
+import DatePicker from "react-datepicker";
 import { extendMoment } from "moment-range";
 
 //#Local Imports
+import db from "../../firebse";
+import Bike from "./Bike";
 
 const Home = () => {
   const moment = extendMoment(Moment);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(null);
+  const [filterColor, setFilterColor] = React.useState("");
+  const [filterLocation, setFilterLocation] = React.useState("");
+  const [filterRating, setFilterRating] = React.useState(0);
+  const [filterModal, setFilterModal] = React.useState("");
+  const [filterdBikeData, setFilteredBikeData] = React.useState([]);
 
-  // eslint-disable-next-line no-unused-vars
-  const [filterColor, setFilterColor] = useState("");
-  const [filterLocation, setFilterLocation] = useState("");
-  const [filterRating, setFilterRating] = useState(0);
-  const [filterModal, setFilterModal] = useState("");
-  const [bikeData, setBikeData] = useState([]);
-  const [filterdBikeData, setFilteredBikeData] = useState([]);
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
   };
-
 
   const temp = (bike) => {
     return new Promise((resolve, reject) => {
@@ -58,8 +53,9 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     var query = db.collection("bikes");
+    query = query.where("isBikeAvailable", "==", true);
     if (filterColor) {
       query = query.where("color", "==", filterColor);
     }
@@ -84,6 +80,7 @@ const Home = () => {
         setFilteredBikeData(d.filter((p) => p !== null));
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterRating,
     filterColor,
@@ -92,6 +89,7 @@ const Home = () => {
     startDate,
     endDate,
   ]);
+
   return (
     <div className="w-full">
       <div className="flex justify-between">
@@ -105,18 +103,25 @@ const Home = () => {
             type="modal"
             name="modal"
             id="modal"
-            className="block w-full px-3 py-2 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
+            className="block w-full px-4 py-2.5 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
           />
         </div>
         <div className="flex space-x-4">
-          <DatePicker
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate}
-            endDate={endDate}
-            minDate={moment().toDate()}
-            selectsRange
-          />
+          <div>
+            <DatePicker
+              onChange={onChange}
+              startDate={startDate}
+              endDate={endDate}
+              minDate={moment().toDate()}
+              selectsRange
+              customInput={
+                <input
+                  className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
+                  value={`${startDate} - ${endDate ? endDate : startDate}`}
+                />
+              }
+            />
+          </div>
           <div className="mt-1">
             <select
               id={"color"}
@@ -179,9 +184,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center w-full lg:w-1/2 mx-auto my-12">
-        <div className="gap-4 flex items-center flex-col w-full px-4 lg:px-0">
-          {filterdBikeData.map((bike,index) => (
+      <div className="flex items-center justify-center w-full mx-auto my-12 lg:w-1/2">
+        <div className="flex flex-col items-center w-full gap-4 px-4 lg:px-0">
+          {filterdBikeData.map((bike, index) => (
             <Bike data={bike} key={index} />
           ))}
         </div>

@@ -7,10 +7,9 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
-import Modal from "../../Components/Modal";
-import BikeManageFormContainer from "./BikeManageFormContainer";
-import db from "../../Firebase";
-import { manageBikeHistoryData } from "../../utils";
+import Modal from "../../components/modal";
+import BikeManageFormContainer from "./FormContainer";
+import db from "../../firebse";
 import HistoryModal from "./HistoryModal";
 
 const BikeMange = () => {

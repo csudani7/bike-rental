@@ -10,7 +10,7 @@ import {
   regexForName,
   regexForPassword,
 } from "../../utils";
-import db, { auth } from "../../Firebase";
+import db, { auth } from "../../firebse";
 
 const FormContainer = (props) => {
   const {

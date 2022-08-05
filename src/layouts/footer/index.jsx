@@ -1,5 +1,7 @@
+//#Global imports
 import React from "react";
 
-export default function Footer() {
+function Footer() {
   return <div>Welcome to Footer</div>;
 }
+export default Footer;

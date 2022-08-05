@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import db from "../../Firebase";
-import { userReservedBikeHiostory } from "../../utils";
+//#Global Imports
+import React from "react";
+
+//#Local Imports
+import db from "../../firebse";
 
 function HistoryModal({ user }) {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = React.useState([]);
+
   const temp = (trip) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       db.collection("bikes")
         .doc(trip.bid)
         .onSnapshot((doc) => {
@@ -13,7 +16,8 @@ function HistoryModal({ user }) {
         });
     });
   };
-  useEffect(() => {
+
+  React.useEffect(() => {
     db.collection("trip")
       .where("uid", "==", user.uid)
       .where("isRideCompleted", "==", false)
@@ -29,10 +33,12 @@ function HistoryModal({ user }) {
           setHistory(d);
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
-      <div className="flex flex-col justify-between  overflow-scroll pb-8">
+      <div className="flex flex-col justify-between pb-8 overflow-scroll">
         <div className="flex items-center space-x-4">
           <span className="text-base font-extrabold">UID : </span>
           <span className="font-semibold text-normal">{user.uid}</span>

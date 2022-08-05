@@ -8,10 +8,9 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
-import Modal from "../../Components/Modal";
+import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
-import db from "../../Firebase";
-import { userReservedBikeHiostory } from "../../utils";
+import db from "../../firebse";
 import HistoryModal from "./HistoryModal";
 import Temp from "../../Components/Temp";
 
@@ -40,7 +39,6 @@ const ManagerManage = () => {
     setIsModalOpen(true);
   };
   React.useEffect(() => {
-    let users = [];
     setData([]);
     db.collection("users")
       .where("role", "==", toggleButtonValue)

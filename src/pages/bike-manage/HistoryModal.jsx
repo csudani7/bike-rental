@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
-import db from "../../Firebase";
+//#Global Imports
+import React from "react";
+
+//#Local Imports
+import db from "../../firebse";
 
 function HistoryModal({ bike }) {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = React.useState([]);
+
   const temp = (trip) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       db.collection("users")
         .where("uid", "==", trip.uid)
         .onSnapshot((snapshot) => {
@@ -12,7 +16,8 @@ function HistoryModal({ bike }) {
         });
     });
   };
-  useEffect(() => {
+
+  React.useEffect(() => {
     db.collection("trip")
       .where("bid", "==", bike.id)
       .where("isRideCompleted", "==", false)
@@ -28,6 +33,7 @@ function HistoryModal({ bike }) {
           setHistory(d);
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

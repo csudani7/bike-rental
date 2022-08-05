@@ -1,18 +1,19 @@
 //#Global Imports
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
 //#Local Imports
-import Modal from "../../Components/Modal";
+import db from "../../firebse";
+import Modal from "../../components/modal";
 import CompleteRideModal from "./CompleteRideModal";
-import db from "../../Firebase";
-import { ApplicationProcessContext } from "../../Context";
 import CancleRideModal from "./CancleRideModal";
+import { ApplicationProcessContext } from "../../context";
 
 const MyBike = () => {
+  const [tripData, setTripDate] = React.useState([]);
+  const [selectedTrip, setSelectedTrip] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState("");
-  const { user } = useContext(ApplicationProcessContext);
-  const [tripData, setTripDate] = useState([]);
-  const [selectedTrip, setSelectedTrip] = useState(null);
+  const { user } = React.useContext(ApplicationProcessContext);
+
   const completeRide = (r) => {
     db.collection("trip")
       .doc(selectedTrip.id)
@@ -35,6 +36,7 @@ const MyBike = () => {
           });
       });
   };
+
   const deleteTrip = () => {
     db.collection("trip")
       .doc(selectedTrip.id)
@@ -53,7 +55,8 @@ const MyBike = () => {
         });
     });
   };
-  useEffect(() => {
+
+  React.useEffect(() => {
     db.collection("trip")
       .where("uid", "==", user.uid)
       .where("isRideCompleted", "==", false)
@@ -69,7 +72,9 @@ const MyBike = () => {
           setTripDate(d);
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {tripData.map((item, index) => {

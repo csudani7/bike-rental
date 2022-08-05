@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
-import DropDown from "../../Components/DropDown";
+//#Global Imports
+import React from "react";
 import { StarIcon } from "@heroicons/react/solid";
+
+//#Local Imports
+import DropDown from "../../components/dropDown";
 
 const colors = [
   { id: 1, name: "Wade Cooper" },
@@ -27,11 +30,13 @@ const locations = [
   { id: 9, name: "Claudie Smitham" },
   { id: 10, name: "Emil Schaefer" },
 ];
+
 function CreateBike() {
-  const [modal, setmodal] = useState();
-  const [color, setColor] = useState(colors[0]);
-  const [location, setLocation] = useState(locations[0]);
-  // const [rating, setRating] = useState(); //TODO: Need to uncomment when its come to use
+  const [modal, setmodal] = React.useState();
+  const [color, setColor] = React.useState(colors[0]);
+  const [location, setLocation] = React.useState(locations[0]);
+  // const [rating, setRating] = React.useState(); //TODO: Need to uncomment when its come to use
+
   return (
     <form>
       <div>

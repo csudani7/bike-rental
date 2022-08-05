@@ -1,21 +1,22 @@
 //#Global Imports
 import { useContext, useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 
 //#Local Impoprts
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import PrivateRoute from "./hoc/PrivateRoute";
-import CreateBike from "./pages/CreateBike";
-import ManagerManage from "./pages/ManagerManage";
-import BikeManage from "./pages/BikeManage";
-import MyBike from "./pages/My Bike";
-import { ApplicationProcessContext } from "./Context";
-import { Navigate } from "react-router-dom";
+import SignUp from "./pages/sign-up";
+import SignIn from "./pages/sign-in";
+import Home from "./pages/home";
+import CreateBike from "./pages/add-bike";
+import ManagerManage from "./pages/manage-role";
+import BikeManage from "./pages/bike-manage";
+import MyBike from "./pages/my-bike";
+import NotFoundPage from "./pages/not-found";
+import PrivateRoute from "./hoc/usePrivateRoute";
+import { ApplicationProcessContext } from "./context";
+
 //CSS Import
-import "./assets/global.css";
+import "./assets/css/global.css";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     if (user?.uid) {
       navigate("/home");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
@@ -59,7 +61,7 @@ function App() {
           />
           <Route path="/my-bike" element={<MyBike />} />
         </Route>
-        <Route path="*" element={<p>Not Found</p>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <ToastContainer
         position="top-right"

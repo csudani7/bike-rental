@@ -1,8 +1,11 @@
+//#Global Imports
 import React from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import db, { auth } from "../../Firebase";
+
+//#Local Imports
+import db, { auth } from "../../firebse";
 import {
   getErrorMessage,
   regexForEmailAddress,
@@ -177,7 +180,11 @@ function SignUp() {
                     </div>
                     {errors.confirmPassword && (
                       <p className="text-sm font-semibold text-red-500">
-                        {getErrorMessage(errors, "confirmPassword", "Confirm Password")}
+                        {getErrorMessage(
+                          errors,
+                          "confirmPassword",
+                          "Confirm Password"
+                        )}
                       </p>
                     )}
                   </div>

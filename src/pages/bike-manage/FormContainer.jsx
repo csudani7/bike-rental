@@ -5,28 +5,37 @@ import { useForm } from "react-hook-form";
 
 //#Local Imports
 import { getErrorMessage, regexForName } from "../../utils";
-import db from "../../Firebase";
+import db from "../../firebse";
 
-const BikeManageFormContainer = (props) => {
+const FormContainer = (props) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ mode: "onChange" });
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      isBikeAvailable:
+        props.mode === "edit" ? props.data.isBikeAvailable : false,
+    },
+  });
 
   const onSubmit = (data) => {
     if (props.mode === "add") {
+      console.log(data);
       db.collection("bikes")
         .add({
           modalName: data.modalName,
           color: data.color,
           location: data.location,
           rating: 0,
+          isBikeAvailable: data.isBikeAvailable,
         })
         .then((dd) => {
           props.setIsModalOpen(null);
         })
         .catch((e) => {
+          console.log(e);
         });
     } else if (props.mode === "edit") {
       db.collection("bikes")
@@ -163,6 +172,24 @@ const BikeManageFormContainer = (props) => {
             </p>
           )}
         </div>
+
+        <div className="flex items-center justify-start space-x-5">
+          <input
+            id="candidates"
+            aria-describedby="candidates-description"
+            name="candidates"
+            type="checkbox"
+            {...register("isBikeAvailable", {})}
+            className="w-6 h-6 text-indigo-600 border-gray-300 rounded"
+          />
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-900"
+          >
+            Is bike available for rent ?
+          </label>
+        </div>
+
         <div className="space-x-3 sm:col-span-2 sm:flex sm:justify-end">
           <button
             type="submit"
@@ -186,4 +213,4 @@ const BikeManageFormContainer = (props) => {
   );
 };
 
-export default BikeManageFormContainer;
+export default FormContainer;

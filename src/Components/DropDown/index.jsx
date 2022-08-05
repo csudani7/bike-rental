@@ -1,22 +1,24 @@
+//Global Imports
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+//Local Impoprts
+import { classNames } from "../../utils";
 
-export default function DropDown(props) {
+function DropDown(props) {
+  const { value, setValue, title, options } = props;
+
   return (
-    <Listbox value={props.value} onChange={props.setValue}>
+    <Listbox value={value} onChange={setValue}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">
-            {props.title}
+            {title}
           </Listbox.Label>
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <span className="block truncate">{props.value.name}</span>
+              <span className="block truncate">{value.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="w-5 h-5 text-gray-400"
@@ -24,7 +26,6 @@ export default function DropDown(props) {
                 />
               </span>
             </Listbox.Button>
-
             <Transition
               show={open}
               as={Fragment}
@@ -33,7 +34,7 @@ export default function DropDown(props) {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {props.options.map((color) => (
+                {options.map((color) => (
                   <Listbox.Option
                     key={color.id}
                     className={({ active }) =>
@@ -54,7 +55,6 @@ export default function DropDown(props) {
                         >
                           {color.name}
                         </span>
-
                         {selected ? (
                           <span
                             className={classNames(
@@ -77,3 +77,5 @@ export default function DropDown(props) {
     </Listbox>
   );
 }
+
+export default DropDown;

@@ -1,19 +1,18 @@
 //#Global Imports
-import React, { Fragment } from "react";
+import React from "react";
 import clsx from "clsx";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 
 //#Local Imports
-import { routes } from "../../utils";
+import { classNames, routes } from "../../utils";
+import { ApplicationProcessContext } from "../../context";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function Navbar() {
+function Navbar() {
+  const { user: currentUser } = React.useContext(ApplicationProcessContext);
   const [isActive, setIsActive] = React.useState("Home");
+
   return (
     <Disclosure as="nav" className="w-full bg-white shadow">
       {({ open }) => (
@@ -67,7 +66,7 @@ export default function Navbar() {
                     </Menu.Button>
                   </div>
                   <Transition
-                    as={Fragment}
+                    as={React.Fragment}
                     enter="transition ease-out duration-200"
                     enterFrom="transform opacity-0 scale-95"
                     enterTo="transform opacity-100 scale-100"
@@ -132,37 +131,35 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-
           <Disclosure.Panel className="sm:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/home"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-indigo-700 border-l-4 border-indigo-500 bg-indigo-50"
               >
-                Dashboard
+                Home
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/my-bike"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
               >
-                Team
+                My Bike
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/user-manage"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
               >
-                Projects
+                User Manage
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/bike-manage"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
               >
-                Calendar
+                Bike Manage
               </Disclosure.Button>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
@@ -171,37 +168,30 @@ export default function Navbar() {
                   <img
                     className="w-10 h-10 rounded-full"
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
+                    alt="user-profile"
                   />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">
-                    Tom Cook
+                    {currentUser.fullName}
                   </div>
                   <div className="text-sm font-medium text-gray-500">
-                    tom@example.com
+                    {currentUser.email}
                   </div>
                 </div>
               </div>
               <div className="mt-3 space-y-1">
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  href="/profile"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                 >
                   Your Profile
                 </Disclosure.Button>
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                >
-                  Settings
-                </Disclosure.Button>
                 {/* TODO: Need to Handle Sign Out */}
                 <Disclosure.Button
-                  as="a"
-                  href="#"
+                  as="button"
+                  href="/auth/sign-in"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                 >
                   Sign out
@@ -214,3 +204,5 @@ export default function Navbar() {
     </Disclosure>
   );
 }
+
+export default Navbar;

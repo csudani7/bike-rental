@@ -1,18 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
-import db from "../../Firebase";
-import { enumerateDaysBetweenDates } from "../../utils";
+//#Global Imports
+import React from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import { ApplicationProcessContext } from "../../Context";
+
+//#Local Imports
+import db from "../../firebse";
+import { enumerateDaysBetweenDates } from "../../utils";
+import { ApplicationProcessContext } from "../../context";
+
 function BookModal(props) {
-  const [trip, setTrip] = useState([]);
-  const [value, setValue] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [disabledDate, setDisabledDate] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const { user } = useContext(ApplicationProcessContext);
-  useEffect(() => {
+  const [trip, setTrip] = React.useState([]);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(new Date());
+  const [disabledDate, setDisabledDate] = React.useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
+  const { user } = React.useContext(ApplicationProcessContext);
+
+  React.useEffect(() => {
     db.collection("trip")
       .where("bid", "==", props.data.id)
       .where("isRideCompleted", "==", false)
@@ -24,8 +28,10 @@ function BookModal(props) {
           }))
         )
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
+
+  React.useEffect(() => {
     let reservedDate = [];
     trip.forEach((t) => {
       reservedDate = [
@@ -38,6 +44,7 @@ function BookModal(props) {
     });
     setDisabledDate(reservedDate);
   }, [trip]);
+
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
@@ -51,6 +58,7 @@ function BookModal(props) {
       .every((element) => element === false);
     setIsButtonDisabled(co);
   };
+
   const bookTrip = () => {
     db.collection("trip")
       .add({
@@ -63,6 +71,7 @@ function BookModal(props) {
       })
       .then(() => props.closeModal(false));
   };
+
   return (
     <div className="">
       {props.data.id}
@@ -85,7 +94,7 @@ function BookModal(props) {
           type="submit"
           disabled={!isButtonDisabled}
           onClick={bookTrip}
-          className=" disabled:cursor-not-allowed disabled:bg-slate-400 inline-flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
+          className="inline-flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
         >
           Book
         </button>

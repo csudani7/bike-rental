@@ -1,15 +1,17 @@
-/* This example requires Tailwind CSS v2.0+ */
+//Global Imports
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 
-export default function Modal({
-  children,
-  isConfirmation = true,
-  isClosable = true,
-  isModalOpen = false,
-  setIsModalOpen,
-}) {
+function Modal(props) {
+  const {
+    children,
+    isConfirmation = true,
+    isClosable = true,
+    isModalOpen = false,
+    setIsModalOpen,
+  } = props;
+
   return (
     <Transition.Root show={isModalOpen} as={Fragment}>
       <Dialog
@@ -27,10 +29,8 @@ export default function Modal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 transition-opacity bg-gray-800 bg-opacity-75" />
+            <Dialog.Overlay className="fixed inset-0 transition-opacity bg-gray-800 bg-opacity-95" />
           </Transition.Child>
-
-          {/* This element is to trick the browser into centering the modal contents. */}
           <span
             className="hidden sm:inline-block sm:align-middle sm:h-screen"
             aria-hidden="true"
@@ -62,9 +62,7 @@ export default function Modal({
                   </button>
                 </div>
               )}
-
               <div className="mt-10">{children}</div>
-
               {isConfirmation && (
                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                   <button
@@ -90,3 +88,5 @@ export default function Modal({
     </Transition.Root>
   );
 }
+
+export default Modal;

@@ -2,9 +2,9 @@
 import React from "react";
 
 //#Local Impoprts
-import Navbar from "./Navbar";
+import Navbar from "./navbar";
 
-export default function ProtectedLayout({ children }) {
+function ProtectedLayout({ children }) {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <Navbar />
@@ -12,3 +12,5 @@ export default function ProtectedLayout({ children }) {
     </div>
   );
 }
+
+export default ProtectedLayout;

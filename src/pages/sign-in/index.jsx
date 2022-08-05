@@ -1,12 +1,12 @@
 //#Global Imports
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import { ApplicationProcessContext } from "../../Context";
-import db, { auth } from "../../Firebase";
+import db, { auth } from "../../firebse";
+import { ApplicationProcessContext } from "../../context";
 import {
   getErrorMessage,
   regexForEmailAddress,
@@ -14,7 +14,7 @@ import {
 } from "../../utils";
 
 function SignIn() {
-  const { setHandleUser } = useContext(ApplicationProcessContext);
+  const { setHandleUser } = React.useContext(ApplicationProcessContext);
   const navigate = useNavigate();
   const {
     register,
@@ -34,10 +34,11 @@ function SignIn() {
           .then((snap) => {
             let data = snap.docs[0].data();
             setHandleUser({
-              id:snap.docs[0].id,
+              id: snap.docs[0].id,
               email: data.email,
               uid: data.uid,
               role: data.role,
+              fullName: data.fullName,
             });
             toast.success("Sign In Successful");
             navigate("/home");

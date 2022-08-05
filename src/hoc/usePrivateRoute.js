@@ -1,13 +1,14 @@
 //Global Imports
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 //Local Impoprts
-import { ApplicationProcessContext } from "../Context";
-import ProtectedLayout from "../Layout";
+import ProtectedLayout from "../layouts";
+import { ApplicationProcessContext } from "../context";
 
 const PrivateRoute = () => {
-  const { user: currentUser } = useContext(ApplicationProcessContext);
+  const { user: currentUser } = React.useContext(ApplicationProcessContext);
+
   return currentUser ? (
     <ProtectedLayout>
       <Outlet />

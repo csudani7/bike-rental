@@ -45,13 +45,13 @@ function BikeCard(props) {
               </div>
               <div className="flex items-center justify-around mt-3">
                 <div
-                  className="flex items-center justify-center w-5 h-5 border-2 rounded-full"
+                  className="flex items-center justify-center w-8 h-8 border-2 rounded-full"
                   style={{ borderColor: tripData.color }}
                 >
                   <div
-                    className="w-5 h-5 rounded-full"
-                    style={{ backgroundColor: tripData.color }}
-                  ></div>
+                    className="w-6 h-6 rounded-full"
+                    style={{ background: tripData.color }}
+                  />
                 </div>
                 <p className="flex items-center text-base font-medium text-gray-900">
                   <LocationMarkerIcon

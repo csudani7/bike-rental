@@ -1,23 +1,19 @@
 //#Global Imports
 import React from "react";
-import {
-  PencilIcon,
-  PlusCircleIcon,
-  TrashIcon,
-} from "@heroicons/react/outline";
+import { PlusCircleIcon } from "@heroicons/react/outline";
 
 //#Local Imports
 import db from "../../firebase";
 import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
+import BikeCard from "./BikeCard";
 
 const ManageBike = () => {
   const [bikeData, setBikeData] = React.useState([]);
   const [isFormActionType, setFormActionType] = React.useState(null);
   const [selectedBikeData, setSelectedBikeData] = React.useState({});
   const [isBikeHistoryModal, setIsBikeHistoryModal] = React.useState(false);
-
   const handleEditAction = (bikeData) => {
     setSelectedBikeData(bikeData);
     setFormActionType("edit");
@@ -59,44 +55,18 @@ const ManageBike = () => {
         </div>
 
         {/* Data Listing Section */}
-        {bikeData.map((items, index) => (
-          <div
-            key={index}
-            className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-            onClick={() => {
-              setIsBikeHistoryModal(true);
-              setSelectedBikeData(items);
-            }}
-          >
-            <div className="flex items-center justify-between w-full gap-8">
-              <div onClick={handleBikeHistory} className="focus:outline-none">
-                <p className="text-sm font-medium text-gray-900">
-                  Modal Name : {items.modalName}
-                </p>
-                <p className="text-sm font-medium text-gray-900">
-                  Color : {items.color}
-                </p>
-                <p className="text-sm font-medium text-gray-900">
-                  Location : {items.location}
-                </p>
-                <p className="text-sm font-medium text-gray-900">
-                  Rating : {items.rating}
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <div
-                  className="cursor-pointer"
-                  onClick={() => handleEditAction(items)}
-                >
-                  <PencilIcon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div className="cursor-pointer cursor">
-                  <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className="grid grid-cols-2 gap-12 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+          {bikeData.map((items, index) => (
+            <BikeCard
+              bikeData={items}
+              handleEditAction={handleEditAction}
+              handleBikeHistory={handleBikeHistory}
+              setSelectedBikeData={setSelectedBikeData}
+              setIsBikeHistoryModal={setIsBikeHistoryModal}
+              key={index}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Add and Edit User/Manager Form Modal Section */}

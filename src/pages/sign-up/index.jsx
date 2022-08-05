@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 //#Local Imports
-import db, { auth } from "../../firebse";
+import db, { auth } from "../../firebase";
 import {
   getErrorMessage,
   regexForEmailAddress,

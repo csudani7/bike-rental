@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import db, { auth } from "../../firebse";
+import db, { auth } from "../../firebase";
 import { UserConfigContext } from "../../context";
 import {
   getErrorMessage,

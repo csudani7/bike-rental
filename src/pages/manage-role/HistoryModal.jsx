@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 
 function HistoryModal(props) {
   const { selectedUserHistory } = props;

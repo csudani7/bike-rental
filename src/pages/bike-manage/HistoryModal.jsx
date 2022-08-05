@@ -2,7 +2,7 @@
 import React from "react";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 
 function HistoryModal(props) {
   const { selectedBikeData } = props;

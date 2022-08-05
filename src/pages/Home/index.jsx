@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import { extendMoment } from "moment-range";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 import BikeCard from "./BikeCard";
 
 const HomePage = () => {

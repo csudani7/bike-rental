@@ -5,7 +5,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 import { UserConfigContext } from "../../context";
 import { enumerateDaysBetweenDates } from "../../utils";
 

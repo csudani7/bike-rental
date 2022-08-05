@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 import Modal from "../../components/modal";
 import CancelRideModal from "./CancelRideModal";
 import CompleteRideModal from "./CompleteRideModal";

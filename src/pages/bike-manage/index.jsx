@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";

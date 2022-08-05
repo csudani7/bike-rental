@@ -11,7 +11,7 @@ import {
   regexForName,
   regexForPassword,
 } from "../../utils";
-import db, { auth } from "../../firebse";
+import db, { auth } from "../../firebase";
 
 const FormContainer = (props) => {
   const { actionType, selectedUserData, setIsModalOpen, setSwitchValue } =

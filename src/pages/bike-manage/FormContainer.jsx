@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 //#Local Imports
-import db from "../../firebse";
+import db from "../../firebase";
 import { getErrorMessage, regexForName } from "../../utils";
 
 const FormContainer = (props) => {

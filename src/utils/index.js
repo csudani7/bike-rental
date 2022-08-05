@@ -56,10 +56,10 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
 };
 
 export const routes = [
-  { path: "/home", value: "Home" },
-  { path: "/my-bike", value: "My Bike" },
-  { path: "/manage-role", value: "User Manage" },
-  { path: "/manage-bike", value: "Bike Manage" },
+  { href: "/home", name: "Home" },
+  { href: "/my-bike", name: "My Bikes" },
+  { href: "/manage-role", name: "Users" },
+  { href: "/manage-bike", name: "Bikes" },
 ];
 
 export function classNames(...classes) {

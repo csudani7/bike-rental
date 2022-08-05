@@ -3,7 +3,7 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 //Local Impoprts
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/main-layout";
 import { UserConfigContext } from "../context";
 
 const PrivateRoute = () => {

@@ -7,7 +7,6 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
 import Home from "./pages/home";
-import AddBike from "./pages/add-bike";
 import ManageRole from "./pages/manage-role";
 import ManageBike from "./pages/manage-bike";
 import MyBike from "./pages/my-bike";
@@ -38,7 +37,6 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
-          <Route path="/add-bike" element={<AddBike />} />
           <Route path="/manage-role" element={<ManageRole />} />
           <Route path="/manage-bike" element={<ManageBike />} />
           <Route path="/my-bike" element={<MyBike />} />

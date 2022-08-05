@@ -422,7 +422,7 @@ const HomePage = () => {
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
-                                  type="checkbox"
+                                  type="radio"
                                   defaultChecked={option.checked}
                                   onClick={() => setFilterColor(option.value)}
                                   className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"

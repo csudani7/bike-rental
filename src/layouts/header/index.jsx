@@ -41,13 +41,13 @@ function Navbar() {
                     onClick={() => navigate("/manage-role")}
                     className="text-base font-medium text-white hover:text-indigo-50"
                   >
-                    Users
+                    Manage Role
                   </button>
                   <button
                     onClick={() => navigate("/manage-bike")}
                     className="text-base font-medium text-white hover:text-indigo-50"
                   >
-                    Bikes
+                    Manage Bikes
                   </button>
                 </>
               )}
@@ -81,13 +81,13 @@ function Navbar() {
                 onClick={() => navigate("/manage-role")}
                 className="text-base font-medium text-white hover:text-indigo-50"
               >
-                Users
+                Manage Role
               </button>
               <button
                 onClick={() => navigate("/manage-bike")}
                 className="text-base font-medium text-white hover:text-indigo-50"
               >
-                Bikes
+                Manage Bikes
               </button>
             </>
           )}

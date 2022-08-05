@@ -64,7 +64,7 @@ const ManageRole = () => {
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             onClick={handleAddUserAction}
           >
-            <span>Add user</span>
+            <span>Add {switchValue === "manager" ? "Manager" : "User"}</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
           </button>
           {/* Toggle Button */}

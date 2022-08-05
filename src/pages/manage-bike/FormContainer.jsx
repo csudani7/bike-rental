@@ -54,8 +54,6 @@ const FormContainer = (props) => {
     }
   };
 
-  
-
   return (
     <div className="w-full p-6">
       <form
@@ -116,13 +114,13 @@ const FormContainer = (props) => {
                   required: true,
                 })}
               >
-                <option>Select Color</option>
-                <option>Black</option>
-                <option>Blue</option>
-                <option>Red</option>
-                <option>Gray</option>
-                <option>Orange</option>
-                <option>Yellow</option>
+                <option value="">Select Color</option>
+                <option value="black">Black</option>
+                <option value="blue">Blue</option>
+                <option value="red">Red</option>
+                <option value="gray">Gray</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
               </select>
             </div>
           </div>
@@ -155,11 +153,11 @@ const FormContainer = (props) => {
                   required: true,
                 })}
               >
-                <option>Select Location</option>
-                <option>Suart</option>
-                <option>Baroda</option>
-                <option>Gandhinagar</option>
-                <option>Ahemdabad</option>
+                <option value="">Select Location</option>
+                <option value="surat">Surat</option>
+                <option value="baroda">Baroda</option>
+                <option value="gandhinagar">Gandhinagar</option>
+                <option value="ahemdabad">Ahemdabad</option>
               </select>
             </div>
           </div>

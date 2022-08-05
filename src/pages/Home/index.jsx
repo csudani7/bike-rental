@@ -279,11 +279,11 @@ const HomePage = () => {
                                   setFilterLocation(v.target.value);
                                 }}
                               >
-                                <option>Select Location</option>
-                                <option>Suart</option>
-                                <option>Baroda</option>
-                                <option>Gandhinagar</option>
-                                <option>Ahemdabad</option>
+                                <option value="">Select Location</option>
+                                <option value="surat">Surat</option>
+                                <option value="baroda">Baroda</option>
+                                <option value="gandhinagar">Gandhinagar</option>
+                                <option value="ahemdabad">Ahemdabad</option>
                               </select>
                             </div>
                           </Disclosure.Panel>
@@ -481,11 +481,11 @@ const HomePage = () => {
                               setFilterLocation(v.target.value);
                             }}
                           >
-                            <option>Select Location</option>
-                            <option>Suart</option>
-                            <option>Baroda</option>
-                            <option>Gandhinagar</option>
-                            <option>Ahemdabad</option>
+                            <option value="">Select Location</option>
+                            <option value="surat">Surat</option>
+                            <option value="baroda">Baroda</option>
+                            <option value="gandhinagar">Gandhinagar</option>
+                            <option value="ahemdabad">Ahemdabad</option>
                           </select>
                         </div>
                       </Disclosure.Panel>

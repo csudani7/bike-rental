@@ -190,9 +190,9 @@ const FormContainer = (props) => {
                 })}
                 defaultValue={actionType === "edit" && selectedUserData?.role}
               >
-                <option>Select Role</option>
-                <option>User</option>
-                <option>Manager</option>
+                <option value="">Select Role</option>
+                <option value="user">User</option>
+                <option value="manager">Manager</option>
               </select>
             </div>
           </div>

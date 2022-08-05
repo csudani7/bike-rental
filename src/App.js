@@ -9,7 +9,7 @@ import SignIn from "./pages/sign-in";
 import Home from "./pages/home";
 import AddBike from "./pages/add-bike";
 import ManageRole from "./pages/manage-role";
-import BikeManage from "./pages/bike-manage";
+import ManageBike from "./pages/manage-bike";
 import MyBike from "./pages/my-bike";
 import NotFoundPage from "./pages/not-found";
 import PrivateRoute from "./hoc/usePrivateRoute";
@@ -53,7 +53,7 @@ function App() {
             path="/manage-bike"
             element={
               user?.role === "manager" ? (
-                <BikeManage />
+                <ManageBike />
               ) : (
                 <Navigate to="/home" />
               )

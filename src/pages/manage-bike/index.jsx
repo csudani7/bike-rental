@@ -12,7 +12,7 @@ import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
 
-const BikeMange = () => {
+const ManageBike = () => {
   const [bikeData, setBikeData] = React.useState([]);
   const [isFormActionType, setFormActionType] = React.useState(null);
   const [selectedBikeData, setSelectedBikeData] = React.useState({});
@@ -124,4 +124,4 @@ const BikeMange = () => {
   );
 };
 
-export default BikeMange;
+export default ManageBike;

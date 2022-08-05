@@ -1,62 +1,80 @@
 //#Global Imports
 import React from "react";
+import { StarIcon, LocationMarkerIcon } from "@heroicons/react/solid";
 
 //#Local Imports
 import BookBikeModal from "./BookBikeModal";
 import Modal from "../../components/modal";
+import { classNames } from "../../utils";
 
 function BikeCard(props) {
   const { bikeData } = props;
   const [isBookModalOpen, setBookModalOpen] = React.useState(false);
 
   return (
-    <div
-      key={bikeData.id}
-      className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-indigo-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-    >
-      <div className="flex items-center justify-between w-full gap-8">
-        <div className="flex items-center gap-8 md:gap-20">
-          <div className="justify-start focus:outline-none">
-            <p className="text-sm font-medium text-gray-900">
-              <span>
-                <strong>Modal: </strong>
-              </span>
-              {bikeData.modalName}
-            </p>
-            <p className="mt-2 text-sm font-medium text-gray-900">
-              <span>
-                <strong>Color: </strong>
-              </span>
-              {bikeData.color}
-            </p>
-          </div>
+    <>
+      <div
+        key={bikeData.id}
+        className="w-full bg-white shadow-sm hover:bg-gray-100"
+      >
+        <div className="mx-auto overflow-hidden max-w-7xl">
+          <div className="relative p-3 border border-gray-200 group">
+            <div className="py-4 text-center">
+              <h4 className="text-xl font-bold tracking-tight text-gray-900">
+                {bikeData.modalName}
+              </h4>
+              <div className="flex items-center justify-around mt-3">
+                <div
+                  className="flex items-center justify-center w-8 h-8 border-2 rounded-full"
+                  style={{ borderColor: bikeData.color }}
+                >
+                  <div
+                    className="w-6 h-6 rounded-full"
+                    style={{ backgroundColor: bikeData.color }}
+                  ></div>
+                </div>
+                <p className="flex items-center text-base font-medium text-gray-900">
+                  <LocationMarkerIcon
+                    className="flex-shrink-0 w-5 h-5 text-gray-900"
+                    aria-hidden="true"
+                  />
+                  {bikeData.location}
+                </p>
+              </div>
+              <div className="flex items-center justify-center mt-3">
+                <p className="sr-only">{bikeData.rating} out of 5 stars</p>
+                <div className="flex items-center">
+                  {[0, 1, 2, 3, 4].map((rating) => (
+                    <StarIcon
+                      key={rating}
+                      className={classNames(
+                        bikeData.rating > rating
+                          ? "text-yellow-400"
+                          : "text-gray-200",
+                        "flex-shrink-0 h-5 w-5"
+                      )}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <p className="text-sm text-gray-500">
+                  &nbsp; ({bikeData.rating} reviews)
+                </p>
+              </div>
+            </div>
 
-          <div className="justify-end focus:outline-none">
-            <p className="text-sm font-medium text-gray-900">
-              <span>
-                <strong>Location: </strong>
-              </span>{" "}
-              {bikeData.location}
-            </p>
-            <p className="mt-2 text-sm font-medium text-gray-900">
-              <span>
-                <strong>Rating: </strong>
-              </span>{" "}
-              {bikeData.rating}
-            </p>
+            <div className="px-3 py-2 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setBookModalOpen(true);
+                }}
+                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+              >
+                Book Now
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="flex items-center focus:outline-none">
-          <button
-            type="button"
-            onClick={() => {
-              setBookModalOpen(true);
-            }}
-            className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-          >
-            Book
-          </button>
         </div>
       </div>
       <Modal
@@ -64,9 +82,12 @@ function BikeCard(props) {
         setIsModalOpen={() => setBookModalOpen(false)}
         isConfirmation={false}
       >
-        <BookBikeModal bikeData={bikeData} handleCloseModal={setBookModalOpen} />
+        <BookBikeModal
+          bikeData={bikeData}
+          handleCloseModal={setBookModalOpen}
+        />
       </Modal>
-    </div>
+    </>
   );
 }
 

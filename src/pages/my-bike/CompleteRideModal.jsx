@@ -9,7 +9,7 @@ function CompleteRideModal(props) {
 
   return (
     <div>
-      <div className="flex items-center gap-4 pb-8 ">
+      <div className="flex items-center gap-4 py-3">
         <div className="text-base font-bold">Satisfied</div>
         {[...Array(5)].map((_items, index) => {
           return (

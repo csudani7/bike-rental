@@ -22,7 +22,7 @@ function BikeCard(props) {
         className="w-full bg-white shadow-sm cursor-pointer"
       >
         <div className="max-w-md mx-auto overflow-hidden">
-          <div className="relative p-2 border">
+          <div className="relative border">
             <div
               className="py-4 text-center hover:bg-indigo-50"
               onClick={() => {
@@ -38,11 +38,11 @@ function BikeCard(props) {
               </div>
               <div className="flex items-center justify-around mt-3">
                 <div
-                  className="flex items-center justify-center w-8 h-8 border-2 rounded-full"
+                  className="flex items-center justify-center w-6 h-6 border-2 rounded-full"
                   style={{ borderColor: bikeData.color }}
                 >
                   <div
-                    className="w-6 h-6 rounded-full"
+                    className="w-4 h-4 rounded-full"
                     style={{ background: bikeData.color }}
                   />
                 </div>
@@ -75,10 +75,10 @@ function BikeCard(props) {
               </div>
             </div>
 
-            <div className="flex items-center justify-center px-3 py-2 text-center">
+            <div className="flex items-center justify-center text-center">
               <button
                 type="button"
-                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-700 border border-transparent rounded-md shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
+                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-700 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
                 onClick={() => {
                   handleEditAction(bikeData);
                 }}
@@ -88,7 +88,7 @@ function BikeCard(props) {
               </button>
               <button
                 type="button"
-                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
               >
                 <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
                 <span className="ml-2">Delete</span>

@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import Moment from "moment";
 import { toast } from "react-toastify";
 import { extendMoment } from "moment-range";
+import { XCircleIcon } from "@heroicons/react/outline";
 
 //#Local Imports
 import db from "../../firebase";
@@ -30,9 +31,7 @@ function BookModal(props) {
       .map((item) => {
         let date_range_one = moment.range(
           start.toLocaleDateString(),
-          end
-            ? end.toLocaleDateString()
-            : start.toLocaleDateString()
+          end ? end.toLocaleDateString() : start.toLocaleDateString()
         );
         let date_range_two = moment.range(
           item.start_date.toDate().toLocaleDateString(),
@@ -111,8 +110,31 @@ function BookModal(props) {
   }, [tripData]);
 
   return (
-    <div>
-      {bikeData.id}
+    <div className="text-center">
+      <div className="pb-3">
+        {!isBookBikeButtonDisable && (
+          <div className="p-4 rounded-md bg-red-50">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <XCircleIcon
+                  className="w-5 h-5 text-red-400"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">
+                  There is 1 errors with your submission
+                </h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <ul className="pl-5 space-y-1 list-disc">
+                    <li>You can't Select in between already Reserved date</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <DatePicker
         inline
         minDate={Moment().toDate()}
@@ -123,28 +145,23 @@ function BookModal(props) {
         endDate={tripEndDate}
         excludeDates={disableBookedBikeDate?.map((date) => new Date(date))}
       />
-      {!isBookBikeButtonDisable && (
-        <p className="text-red-700">
-          You can not select range between selected range
-        </p>
-      )}
-      <div className="flex justify-between">
+      <div className="flex justify-end">
         <button
           type="submit"
           disabled={!isBookBikeButtonDisable}
           onClick={handleBookBikeTrip}
-          className="inline-flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
+          className="inline-flex items-center justify-center w-full px-6 py-3 mt-3 mr-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
         >
-          Book
+          Book Now
         </button>
         <button
           type="button"
           onClick={() => {
             handleCloseModal(false);
           }}
-          className="inline-flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto"
+          className="inline-flex items-center justify-center w-full px-6 py-3 mt-3 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto"
         >
-          Cancel
+          Not Now
         </button>
       </div>
     </div>

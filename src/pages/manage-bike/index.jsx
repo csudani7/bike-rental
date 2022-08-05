@@ -55,7 +55,7 @@ const ManageBike = () => {
         </div>
 
         {/* Data Listing Section */}
-        <div className="grid grid-cols-2 gap-12 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
           {bikeData.map((items, index) => (
             <BikeCard
               bikeData={items}

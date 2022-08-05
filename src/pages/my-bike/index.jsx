@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 
 //#Local Imports
 import db from "../../firebase";
-import Modal from "../../components/modal";
-import CancelRideModal from "./CancelRideModal";
-import CompleteRideModal from "./CompleteRideModal";
+import BikeCard from "./BikeCard";
 import { UserConfigContext } from "../../context";
 
 const MyBike = () => {
@@ -93,105 +91,40 @@ const MyBike = () => {
 
   return (
     <>
-      {tripData.map((item, index) => {
-        return (
-          <div
-            key={index}
-            className="flex flex-col items-center w-2/3 gap-4 mt-8"
-          >
-            <div className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-              <div className="flex items-center justify-between w-full gap-8">
-                <div className="flex items-center justify-between gap-44">
-                  <div className="justify-start focus:outline-none">
-                    <p className="text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Modal: </strong>
-                      </span>
-                      {item.modalName}
-                    </p>
-                    <p className="mt-6 text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Color: </strong>
-                      </span>
-                      {item.color}
-                    </p>
-                  </div>
-
-                  <div className="justify-end focus:outline-none">
-                    <p className="text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Location: </strong>
-                      </span>
-                      {item.location}
-                    </p>
-                    <p className="mt-6 text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Rating: </strong>
-                      </span>
-                      {item.rating}
-                    </p>
-                  </div>
-                  <div className="justify-start focus:outline-none">
-                    <p className="text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>Start Date: </strong>
-                      </span>
-                      {item.start_date.toDate().toLocaleDateString()}
-                    </p>
-                    <p className="mt-6 text-sm font-medium text-gray-900">
-                      <span>
-                        <strong>End Date: </strong>
-                      </span>
-                      {item.end_date.toDate().toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col focus:outline-none">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center w-full px-4 py-2 mb-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => {
-                      setActionType("complete_ride");
-                      setSelectedTrip(item);
-                    }}
-                  >
-                    Done
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => {
-                      setActionType("cancel_ride");
-                      setSelectedTrip(item);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
+      <div className="bg-white">
+        <div>
+          <main className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="relative z-10 flex items-baseline justify-between pt-12 pb-6 border-b border-gray-200">
+              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+                Bikes
+              </h1>
             </div>
 
-            <Modal
-              isModalOpen={
-                actionType === "cancel_ride" || actionType === "complete_ride"
-              }
-              setIsModalOpen={() => setActionType("")}
-              isConfirmation={false}
-            >
-              {actionType === "cancel_ride" && (
-                <CancelRideModal
-                  selectedTrip={selectedTrip}
-                  handleDeleteTrip={handleDeleteTrip}
-                />
-              )}
-              {actionType === "complete_ride" && (
-                <CompleteRideModal handleCompleteRide={handleCompleteRide} />
-              )}
-            </Modal>
-          </div>
-        );
-      })}
+            <section aria-labelledby="products-heading" className="pt-6 pb-24">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+                {/* Bike Card grid */}
+                <div className="lg:col-span-6">
+                  <div className="grid grid-cols-2 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-x-12">
+                    {tripData.map((item, index) => {
+                      return (
+                        <BikeCard
+                          key={index}
+                          tripData={item}
+                          actionType={actionType}
+                          setActionType={setActionType}
+                          setSelectedTrip={setSelectedTrip}
+                          handleDeleteTrip={handleDeleteTrip}
+                          handleCompleteRide={handleCompleteRide}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
     </>
   );
 };

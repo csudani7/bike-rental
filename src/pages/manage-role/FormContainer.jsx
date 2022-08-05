@@ -2,6 +2,7 @@
 import React from "react";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 //#Local Imports
 import {
@@ -13,40 +14,47 @@ import {
 import db, { auth } from "../../firebse";
 
 const FormContainer = (props) => {
+  const { actionType, selectedUserData, setIsModalOpen, setSwitchValue } =
+    props;
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ mode: "onChange" });
+  } = useForm();
 
-  const onSubmit = (data) => {
-    if (props.mode === "add") {
+  const onSubmit = (values) => {
+    if (actionType === "add") {
       auth
-        .createUserWithEmailAndPassword(data.email, data.password)
-        .then((d) => {
+        .createUserWithEmailAndPassword(values.email, values.password)
+        .then((response) => {
           db.collection("users")
             .add({
-              fullName: data.fullName,
-              uid: d.user.uid,
-              email: d.user.email,
-              role: data.role,
+              fullName: values.fullName,
+              uid: response.user.uid,
+              email: response.user.email,
+              role: values.role,
             })
-            .then((dd) => {
-              props.setIsModalOpen(false);
-              props.setToggleButtonValue(data.role);
+            .then(() => {
+              setIsModalOpen(false);
+              setSwitchValue(values.role);
             })
-            .catch((e) => {
+            .catch((error) => {
+              toast.error(error.data.message);
             });
         })
-        .catch((e) => {
+        .catch((error) => {
+          toast.error(error.data.message);
         });
-    } else if (props.mode === "edit") {
+    } else if (actionType === "edit") {
       db.collection("users")
-        .doc(props.data.id)
-        .update({ fullName: data.fullName, role: data.role })
-        .then((p) => {
-          props.setIsModalOpen(false);
-          props.setToggleButtonValue(data.role);
+        .doc(values.id)
+        .update({ fullName: values.fullName, role: values.role })
+        .then(() => {
+          setIsModalOpen(false);
+          setSwitchValue(values.role);
+        })
+        .catch((error) => {
+          toast.error(error.data.message);
         });
     }
   };
@@ -59,7 +67,7 @@ const FormContainer = (props) => {
       >
         <div>
           <label
-            htmlFor="firstName"
+            htmlFor="fullName"
             className="block text-sm font-medium text-gray-900"
           >
             Full name
@@ -89,7 +97,7 @@ const FormContainer = (props) => {
           )}
         </div>
 
-        {props.mode === "add" && (
+        {actionType === "add" && (
           <>
             <div>
               <label
@@ -180,9 +188,9 @@ const FormContainer = (props) => {
                 {...register("role", {
                   required: true,
                 })}
-                defaultValue={props.mode === "edit" && props.data?.role}
+                defaultValue={actionType === "edit" && selectedUserData?.role}
               >
-                <option></option>
+                <option>Select Role</option>
                 <option>User</option>
                 <option>Manager</option>
               </select>

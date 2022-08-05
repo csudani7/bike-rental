@@ -2,15 +2,16 @@
 import React from "react";
 
 //#Local Imports
-import BookModal from "./BookModal";
+import BookBikeModal from "./BookBikeModal";
 import Modal from "../../components/modal";
 
-function Bike(props) {
-  const [isBookModalOpen, setIsBookModalOpen] = React.useState(false);
+function BikeCard(props) {
+  const { bikeData } = props;
+  const [isBookModalOpen, setBookModalOpen] = React.useState(false);
 
   return (
     <div
-      key={props.data.id}
+      key={bikeData.id}
       className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-indigo-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
     >
       <div className="flex items-center justify-between w-full gap-8">
@@ -20,13 +21,13 @@ function Bike(props) {
               <span>
                 <strong>Modal: </strong>
               </span>
-              {props.data.modalName}
+              {bikeData.modalName}
             </p>
             <p className="mt-2 text-sm font-medium text-gray-900">
               <span>
                 <strong>Color: </strong>
               </span>
-              {props.data.color}
+              {bikeData.color}
             </p>
           </div>
 
@@ -35,13 +36,13 @@ function Bike(props) {
               <span>
                 <strong>Location: </strong>
               </span>{" "}
-              {props.data.location}
+              {bikeData.location}
             </p>
             <p className="mt-2 text-sm font-medium text-gray-900">
               <span>
                 <strong>Rating: </strong>
               </span>{" "}
-              {props.data.rating}
+              {bikeData.rating}
             </p>
           </div>
         </div>
@@ -50,7 +51,7 @@ function Bike(props) {
           <button
             type="button"
             onClick={() => {
-              setIsBookModalOpen(true);
+              setBookModalOpen(true);
             }}
             className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
           >
@@ -60,13 +61,13 @@ function Bike(props) {
       </div>
       <Modal
         isModalOpen={isBookModalOpen}
-        setIsModalOpen={() => setIsBookModalOpen(false)}
+        setIsModalOpen={() => setBookModalOpen(false)}
         isConfirmation={false}
       >
-        <BookModal data={props.data} closeModal={setIsBookModalOpen} />
+        <BookBikeModal bikeData={bikeData} handleCloseModal={setBookModalOpen} />
       </Modal>
     </div>
   );
 }
 
-export default Bike;
+export default BikeCard;

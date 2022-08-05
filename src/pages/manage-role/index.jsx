@@ -8,49 +8,51 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
+import db from "../../firebse";
 import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
-import db from "../../firebse";
 import HistoryModal from "./HistoryModal";
-import Temp from "../../Components/Temp";
+import Temp from "../../components/Temp";
 
-const ManagerManage = () => {
-  const [data, setData] = React.useState([]);
+const ManageRole = () => {
+  const [fetchedData, setFetchedData] = React.useState([]);
+  const [actionType, setActionType] = React.useState("add");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [isUserHistoryModal, setIsUserHistoryModal] = React.useState(false);
-  const [mode, setMode] = React.useState("add");
-  const [toggleButtonValue, setToggleButtonValue] = React.useState("User");
-  const [selectedUser, setSelectedUser] = React.useState({});
-  const [selectedUserForHistory, setSelectedUserForHistory] = React.useState(
-    {}
-  );
+  const [switchValue, setSwitchValue] = React.useState("user");
+  const [selectedUserData, setSelectedUserData] = React.useState({});
+  const [selectedUserHistory, setSelectedUserHistory] = React.useState({});
+  const [isUserHistoryModalOpen, setUserHistoryModalOpen] =
+    React.useState(false);
 
-  const handleEditEvent = (user) => {
-    setMode("edit");
-    setSelectedUser(user);
+  const handleEditAction = (user) => {
+    setActionType("edit");
+    setSelectedUserData(user);
     setIsModalOpen(true);
   };
-  const showHistory = (user) => {
-    setSelectedUserForHistory(user);
-    setIsUserHistoryModal(true);
+
+  const handleUserHistory = (user) => {
+    setSelectedUserHistory(user);
+    setUserHistoryModalOpen(true);
   };
-  const handleAddUser = () => {
-    setMode("add");
+
+  const handleAddUserAction = () => {
+    setActionType("add");
     setIsModalOpen(true);
   };
+
   React.useEffect(() => {
-    setData([]);
+    setFetchedData([]);
     db.collection("users")
-      .where("role", "==", toggleButtonValue)
+      .where("role", "==", switchValue)
       .onSnapshot((snapshot) => {
-        setData(
+        setFetchedData(
           snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
         );
       });
-  }, [toggleButtonValue]);
+  }, [switchValue]);
 
   return (
     <div className="flex flex-col items-center w-full py-8">
@@ -60,9 +62,9 @@ const ManagerManage = () => {
           <button
             type="button"
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={handleAddUser}
+            onClick={handleAddUserAction}
           >
-            <span>Add</span>
+            <span>Add user</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
           </button>
           {/* Toggle Button */}
@@ -71,7 +73,7 @@ const ManagerManage = () => {
               "relative flex items-center justify-between border rounded-2xl border-blue-600 overflow-hidden w-auto bg-gray-50"
             )}
           >
-            {toggleButtonValue === "Manager" ? (
+            {switchValue === "manager" ? (
               <button
                 type="button"
                 className="flex items-center justify-center w-20 p-2 text-base font-medium text-white bg-indigo-600 border border-transparent shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -82,13 +84,13 @@ const ManagerManage = () => {
               <div
                 className="w-20 p-2 text-base font-medium cursor-pointer"
                 onClick={() => {
-                  setToggleButtonValue("Manager");
+                  setSwitchValue("manager");
                 }}
               >
                 Manager
               </div>
             )}
-            {toggleButtonValue === "User" ? (
+            {switchValue === "user" ? (
               <button
                 type="button"
                 className="flex items-center justify-center w-20 p-2 text-base font-medium text-white bg-indigo-600 border border-transparent shadow-sm rounded-2xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -99,7 +101,7 @@ const ManagerManage = () => {
               <div
                 className="flex justify-center w-20 p-2 text-base font-medium cursor-pointer"
                 onClick={() => {
-                  setToggleButtonValue("User");
+                  setSwitchValue("user");
                 }}
               >
                 User
@@ -112,18 +114,18 @@ const ManagerManage = () => {
         <Temp />
 
         {/* Data Listing Section */}
-        {data.map((user, index) => (
+        {fetchedData.map((user, index) => (
           <div
             key={index}
             className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
             onClick={() => {
-              setIsUserHistoryModal(true);
-              setSelectedUser(user);
+              setUserHistoryModalOpen(true);
+              setSelectedUserData(user);
             }}
           >
             <div
               onClick={() => {
-                showHistory(user);
+                handleUserHistory(user);
               }}
               className="flex items-center justify-between w-full gap-8"
             >
@@ -141,7 +143,7 @@ const ManagerManage = () => {
               <div className="flex items-center gap-4">
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleEditEvent(user)}
+                  onClick={() => handleEditAction(user)}
                 >
                   <PencilIcon className="w-5 h-5" aria-hidden="true" />
                 </div>
@@ -153,6 +155,7 @@ const ManagerManage = () => {
           </div>
         ))}
       </div>
+
       {/* Add and Edit User/Manager Form Modal Section */}
       <Modal
         isModalOpen={isModalOpen}
@@ -160,23 +163,23 @@ const ManagerManage = () => {
         isConfirmation={false}
       >
         <FormContainer
+          actionType={actionType}
+          selectedUserData={selectedUserData}
           setIsModalOpen={setIsModalOpen}
-          data={selectedUser}
-          mode={mode}
-          setToggleButtonValue={setToggleButtonValue}
+          setSwitchValue={setSwitchValue}
         />
       </Modal>
 
       {/* User/Manager Bike Reserved History Modal Section */}
       <Modal
-        isModalOpen={isUserHistoryModal}
-        setIsModalOpen={setIsUserHistoryModal}
+        isModalOpen={isUserHistoryModalOpen}
+        setIsModalOpen={setUserHistoryModalOpen}
         isConfirmation={false}
       >
-        <HistoryModal user={selectedUserForHistory} />
+        <HistoryModal selectedUserHistory={selectedUserHistory} />
       </Modal>
     </div>
   );
 };
 
-export default ManagerManage;
+export default ManageRole;

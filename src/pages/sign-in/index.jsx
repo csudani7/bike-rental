@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 //#Local Imports
 import db, { auth } from "../../firebse";
-import { ApplicationProcessContext } from "../../context";
+import { UserConfigContext } from "../../context";
 import {
   getErrorMessage,
   regexForEmailAddress,
@@ -14,34 +14,37 @@ import {
 } from "../../utils";
 
 function SignIn() {
-  const { setHandleUser } = React.useContext(ApplicationProcessContext);
   const navigate = useNavigate();
+  const { setHandleUser } = React.useContext(UserConfigContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    const email = data.email;
-    const password = data.password;
+  const onSubmit = (values) => {
+    const email = values.email;
+    const password = values.password;
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((d) => {
+      .then((response) => {
         db.collection("users")
-          .where("uid", "==", d.user.uid)
+          .where("uid", "==", response.user.uid)
           .get()
           .then((snap) => {
-            let data = snap.docs[0].data();
+            let snapData = snap.docs[0].data();
             setHandleUser({
               id: snap.docs[0].id,
-              email: data.email,
-              uid: data.uid,
-              role: data.role,
-              fullName: data.fullName,
+              uid: snapData.uid,
+              fullName: snapData.fullName,
+              email: snapData.email,
+              role: snapData.role,
             });
             toast.success("Sign In Successful");
             navigate("/home");
+          })
+          .catch((error) => {
+            toast.error(error.data.message);
           });
       })
       .catch((error) => {

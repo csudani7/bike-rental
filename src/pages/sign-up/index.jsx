@@ -22,23 +22,26 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    const email = data.email;
-    const password = data.password;
-    const fullName = data.fullName;
+  const onSubmit = (values) => {
+    const fullName = values.fullName;
+    const email = values.email;
+    const password = values.password;
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then((d) => {
+      .then((response) => {
         db.collection("users")
           .add({
             fullName: fullName,
-            uid: d.user.uid,
-            email: d.user.email,
-            role: "User",
+            uid: response.user.uid,
+            email: response.user.email,
+            role: "user",
           })
           .then(() => {
             toast.success("User Register Successfully");
             navigate("/auth/sign-in");
+          })
+          .catch((error) => {
+            toast.error(error.data.message);
           });
       })
       .catch((error) => {

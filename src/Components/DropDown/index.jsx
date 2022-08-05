@@ -7,10 +7,10 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { classNames } from "../../utils";
 
 function DropDown(props) {
-  const { value, setValue, title, options } = props;
+  const { dropDownValue, setDropDownValue, title, options } = props;
 
   return (
-    <Listbox value={value} onChange={setValue}>
+    <Listbox value={dropDownValue} onChange={setDropDownValue}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">
@@ -18,7 +18,7 @@ function DropDown(props) {
           </Listbox.Label>
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <span className="block truncate">{value.name}</span>
+              <span className="block truncate">{dropDownValue.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="w-5 h-5 text-gray-400"

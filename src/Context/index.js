@@ -1,7 +1,7 @@
 //Global Imports
 import { createContext, useState } from "react";
 
-export const ApplicationProcessContext = createContext({
+export const UserConfigContext = createContext({
   user: {},
   setUser: {},
 });
@@ -12,14 +12,14 @@ export const UserDataContext = (props) => {
     setUser(user);
   };
 
-  const ApplicationProcessContextValue = {
+  const UserConfigValue = {
     user,
     setHandleUser,
   };
 
   return (
-    <ApplicationProcessContext.Provider value={ApplicationProcessContextValue}>
+    <UserConfigContext.Provider value={UserConfigValue}>
       {props.children}
-    </ApplicationProcessContext.Provider>
+    </UserConfigContext.Provider>
   );
 };

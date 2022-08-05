@@ -6,45 +6,44 @@ import { extendMoment } from "moment-range";
 
 //#Local Imports
 import db from "../../firebse";
-import Bike from "./Bike";
+import BikeCard from "./BikeCard";
 
-const Home = () => {
+const HomePage = () => {
   const moment = extendMoment(Moment);
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(null);
+  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = React.useState(null);
   const [filterColor, setFilterColor] = React.useState("");
   const [filterLocation, setFilterLocation] = React.useState("");
   const [filterRating, setFilterRating] = React.useState(0);
-  const [filterModal, setFilterModal] = React.useState("");
-  const [filterdBikeData, setFilteredBikeData] = React.useState([]);
+  const [filterBikeModal, setFilterBikeModal] = React.useState("");
+  const [filteredBikeData, setFilteredBikeData] = React.useState([]);
 
-  const onChange = (dates) => {
+  const handleDateChange = (dates) => {
     const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+    setSelectedStartDate(start);
+    setSelectedEndDate(end);
   };
 
-  const temp = (bike) => {
-    return new Promise((resolve, reject) => {
+  const fetchBikesFromTrip = (bike) => {
+    return new Promise((resolve) => {
       db.collection("trip")
         .where("bid", "==", bike.id)
         .where("isRideCompleted", "==", false)
         .onSnapshot((snapshot) => {
-          let d = snapshot.docs.map((doc) => {
-            let a = moment.range(
-              startDate.toLocaleDateString(),
-              endDate
-                ? endDate.toLocaleDateString()
-                : startDate.toLocaleDateString()
+          let response = snapshot.docs.map((doc) => {
+            let date_range_one = moment.range(
+              selectedStartDate.toLocaleDateString(),
+              selectedEndDate
+                ? selectedEndDate.toLocaleDateString()
+                : selectedStartDate.toLocaleDateString()
             );
-            let b = moment.range(
+            let date_range_two = moment.range(
               doc.data().start_date.toDate().toLocaleDateString(),
               doc.data().end_date.toDate().toLocaleDateString()
             );
-            return a.overlaps(b, { adjacent: true });
+            return date_range_one.overlaps(date_range_two, { adjacent: true });
           });
-
-          if (d.every((element) => element === false)) {
+          if (response.every((item) => item === false)) {
             resolve(bike);
           } else {
             resolve(null);
@@ -54,7 +53,7 @@ const Home = () => {
   };
 
   React.useEffect(() => {
-    var query = db.collection("bikes");
+    let query = db.collection("bikes");
     query = query.where("isBikeAvailable", "==", true);
     if (filterColor) {
       query = query.where("color", "==", filterColor);
@@ -73,11 +72,11 @@ const Home = () => {
             ...doc.data(),
           }))
           .filter((bike) =>
-            bike.modalName.toLowerCase().includes(filterModal.toLowerCase())
+            bike.modalName.toLowerCase().includes(filterBikeModal.toLowerCase())
           )
-          .map((m) => temp(m))
-      ).then((d) => {
-        setFilteredBikeData(d.filter((p) => p !== null));
+          .map((item) => fetchBikesFromTrip(item))
+      ).then((response) => {
+        setFilteredBikeData(response.filter((item) => item !== null));
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,9 +84,9 @@ const Home = () => {
     filterRating,
     filterColor,
     filterLocation,
-    filterModal,
-    startDate,
-    endDate,
+    filterBikeModal,
+    selectedStartDate,
+    selectedEndDate,
   ]);
 
   return (
@@ -95,37 +94,39 @@ const Home = () => {
       <div className="flex justify-between">
         <div className="mt-1">
           <input
-            value={filterModal}
-            onChange={(e) => {
-              setFilterModal(e.target.value);
-            }}
-            placeholder="Search by Modal Name"
-            type="modal"
-            name="modal"
-            id="modal"
+            id="modalName"
+            name="modalName"
+            type="text"
+            placeholder="Search by Modal Name eg. Ducati"
             className="block w-full px-4 py-2.5 border border-gray-900 rounded-md shadow-sm appearance-none focus:outline-none  sm:text-sm"
+            value={filterBikeModal}
+            onChange={(e) => {
+              setFilterBikeModal(e.target.value);
+            }}
           />
         </div>
         <div className="flex space-x-4">
           <div>
             <DatePicker
-              onChange={onChange}
-              startDate={startDate}
-              endDate={endDate}
+              onChange={handleDateChange}
+              startDate={selectedStartDate}
+              endDate={selectedEndDate}
               minDate={moment().toDate()}
               selectsRange
               customInput={
                 <input
                   className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
-                  value={`${startDate} - ${endDate ? endDate : startDate}`}
+                  value={`${selectedStartDate} - ${
+                    selectedEndDate ? selectedEndDate : selectedStartDate
+                  }`}
                 />
               }
             />
           </div>
           <div className="mt-1">
             <select
-              id={"color"}
-              name={"color"}
+              id="color"
+              name="color"
               className={
                 "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
               }
@@ -134,7 +135,7 @@ const Home = () => {
                 setFilterColor(v.target.value);
               }}
             >
-              <option></option>
+              <option>Select Color</option>
               <option>Black</option>
               <option>Blue</option>
               <option>Red</option>
@@ -145,8 +146,8 @@ const Home = () => {
           </div>
           <div className="mt-1">
             <select
-              id={"location"}
-              name={"location"}
+              id="location"
+              name="location"
               className={
                 "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
               }
@@ -155,7 +156,7 @@ const Home = () => {
                 setFilterLocation(v.target.value);
               }}
             >
-              <option></option>
+              <option>Select Location</option>
               <option>Suart</option>
               <option>Baroda</option>
               <option>Gandhinagar</option>
@@ -164,8 +165,8 @@ const Home = () => {
           </div>
           <div className="mt-1">
             <select
-              id={"rating"}
-              name={"rating"}
+              id="rating"
+              name="rating"
               className={
                 "block w-40 px-4 py-2 text-gray-900 rounded-md shadow-sm "
               }
@@ -174,7 +175,7 @@ const Home = () => {
                 setFilterRating(v.target.value);
               }}
             >
-              <option></option>
+              <option>Select Rating</option>
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -186,8 +187,8 @@ const Home = () => {
       </div>
       <div className="flex items-center justify-center w-full mx-auto my-12 lg:w-1/2">
         <div className="flex flex-col items-center w-full gap-4 px-4 lg:px-0">
-          {filterdBikeData.map((bike, index) => (
-            <Bike data={bike} key={index} />
+          {filteredBikeData.map((bikeData, index) => (
+            <BikeCard bikeData={bikeData} key={index} />
           ))}
         </div>
       </div>
@@ -195,4 +196,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

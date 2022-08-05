@@ -2,16 +2,16 @@
 import React from "react";
 import clsx from "clsx";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 
 //#Local Imports
 import { classNames, routes } from "../../utils";
-import { ApplicationProcessContext } from "../../context";
+import { UserConfigContext } from "../../context";
 
 function Navbar() {
-  const { user: currentUser } = React.useContext(ApplicationProcessContext);
-  const [isActive, setIsActive] = React.useState("Home");
+  const { user: currentUser } = React.useContext(UserConfigContext);
+  const [isActiveMenu, setActiveMenu] = React.useState("Home");
 
   return (
     <Disclosure as="nav" className="w-full bg-white shadow">
@@ -28,9 +28,9 @@ function Navbar() {
                     return (
                       <div
                         key={index}
-                        onClick={() => setIsActive(items.value)}
+                        onClick={() => setActiveMenu(items.value)}
                         className={clsx(
-                          isActive === items.value
+                          isActiveMenu === items.value
                             ? "text-gray-900 border-indigo-500 border-b-2 "
                             : "text-gray-500",
                           "inline-flex items-center px-1 pt-1 text-base font-medium h-full"
@@ -45,14 +45,6 @@ function Navbar() {
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                <button
-                  type="button"
-                  className="p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="w-6 h-6" aria-hidden="true" />
-                </button>
-
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -91,20 +83,7 @@ function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to="#"
+                            to="/auth/sign-in"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
@@ -149,14 +128,14 @@ function Navbar() {
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="/user-manage"
+                href="/manage-role"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
               >
                 User Manage
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="/bike-manage"
+                href="/manage-bike"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
               >
                 Bike Manage
@@ -190,7 +169,7 @@ function Navbar() {
                 </Disclosure.Button>
                 {/* TODO: Need to Handle Sign Out */}
                 <Disclosure.Button
-                  as="button"
+                  as="a"
                   href="/auth/sign-in"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                 >

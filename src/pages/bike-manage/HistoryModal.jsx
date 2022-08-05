@@ -4,10 +4,11 @@ import React from "react";
 //#Local Imports
 import db from "../../firebse";
 
-function HistoryModal({ bike }) {
-  const [history, setHistory] = React.useState([]);
+function HistoryModal(props) {
+  const { selectedBikeData } = props;
+  const [bikeHistory, setBikeHistory] = React.useState([]);
 
-  const temp = (trip) => {
+  const fetchUserFromTrip = (trip) => {
     return new Promise((resolve) => {
       db.collection("users")
         .where("uid", "==", trip.uid)
@@ -19,7 +20,7 @@ function HistoryModal({ bike }) {
 
   React.useEffect(() => {
     db.collection("trip")
-      .where("bid", "==", bike.id)
+      .where("bid", "==", selectedBikeData.id)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) => {
         Promise.all(
@@ -28,9 +29,9 @@ function HistoryModal({ bike }) {
               id: doc.id,
               ...doc.data(),
             }))
-            .map((m) => temp(m))
-        ).then((d) => {
-          setHistory(d);
+            .map((item) => fetchUserFromTrip(item))
+        ).then((history) => {
+          setBikeHistory(history);
         });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +45,7 @@ function HistoryModal({ bike }) {
           <span className="font-semibold text-normal">{}</span>
         </div>
         <div className="flex flex-wrap max-h-1/2">
-          {history.map((items, index) => {
+          {bikeHistory.map((items, index) => {
             return (
               <div
                 className="flex flex-col items-center w-full gap-4 mt-8 mr-4"
@@ -77,19 +78,19 @@ function HistoryModal({ bike }) {
                     <div className="flex flex-col space-y-1">
                       <div className="flex space-x-2 text-sm font-medium text-gray-900">
                         <strong>Location: </strong>
-                        <div>{bike.location}</div>
+                        <div>{selectedBikeData.location}</div>
                       </div>
                       <div className="flex space-x-2 text-sm font-medium text-gray-900">
                         <strong>Rating: </strong>
-                        <div>{bike.rating}</div>
+                        <div>{selectedBikeData.rating}</div>
                       </div>
                       <div className="flex space-x-2 text-sm font-medium text-gray-900">
                         <strong>Modal: </strong>
-                        <div>{bike.modalName}</div>
+                        <div>{selectedBikeData.modalName}</div>
                       </div>
                       <div className="flex space-x-2 text-sm font-medium text-gray-900">
                         <strong>Color: </strong>
-                        <div>{bike.color}</div>
+                        <div>{selectedBikeData.color}</div>
                       </div>
                     </div>
                   </div>

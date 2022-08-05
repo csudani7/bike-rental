@@ -4,37 +4,12 @@ import { StarIcon } from "@heroicons/react/solid";
 
 //#Local Imports
 import DropDown from "../../components/dropDown";
+import { BIKE_COLORS, LOCATIONS } from "../../utils";
 
-const colors = [
-  { id: 1, name: "Wade Cooper" },
-  { id: 2, name: "Arlene Mccoy" },
-  { id: 3, name: "Devon Webb" },
-  { id: 4, name: "Tom Cook" },
-  { id: 5, name: "Tanya Fox" },
-  { id: 6, name: "Hellen Schmidt" },
-  { id: 7, name: "Caroline Schultz" },
-  { id: 8, name: "Mason Heaney" },
-  { id: 9, name: "Claudie Smitham" },
-  { id: 10, name: "Emil Schaefer" },
-];
-
-const locations = [
-  { id: 1, name: "Wade Cooper" },
-  { id: 2, name: "Arlene Mccoy" },
-  { id: 3, name: "Devon Webb" },
-  { id: 4, name: "Tom Cook" },
-  { id: 5, name: "Tanya Fox" },
-  { id: 6, name: "Hellen Schmidt" },
-  { id: 7, name: "Caroline Schultz" },
-  { id: 8, name: "Mason Heaney" },
-  { id: 9, name: "Claudie Smitham" },
-  { id: 10, name: "Emil Schaefer" },
-];
-
-function CreateBike() {
-  const [modal, setmodal] = React.useState();
-  const [color, setColor] = React.useState(colors[0]);
-  const [location, setLocation] = React.useState(locations[0]);
+function AddBike() {
+  const [modalName, setBikemodal] = React.useState("");
+  const [bikeColor, setBikeColor] = React.useState(BIKE_COLORS[0]);
+  const [bikeLocation, setBikeLocation] = React.useState(LOCATIONS[0]);
   // const [rating, setRating] = React.useState(); //TODO: Need to uncomment when its come to use
 
   return (
@@ -42,49 +17,50 @@ function CreateBike() {
       <div>
         <div>
           <label
-            htmlFor="modal"
+            htmlFor="modalName"
             className="block text-sm font-medium text-gray-700"
           >
-            modal
+            Modal Name
           </label>
           <div className="mt-1">
             <input
-              value={modal}
+              value={modalName}
               onChange={(e) => {
-                setmodal(e.target.value);
+                setBikemodal(e.target.value);
               }}
-              type="modal"
-              name="modal"
-              id="modal"
+              type="modalName"
+              name="modalName"
+              id="modalName"
+              placeholder="eg. Ducati"
               className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
         </div>
         <div>
           <DropDown
-            title={"color"}
-            options={colors}
-            setValue={setColor}
-            value={color}
-          ></DropDown>
+            title="Color"
+            options={BIKE_COLORS}
+            setDropDownValue={setBikeColor}
+            dropDownValue={bikeColor}
+          />
         </div>
         <div>
           <label
-            htmlFor="modal"
+            htmlFor="location"
             className="block text-sm font-medium text-gray-700"
           >
             Location
           </label>
           <DropDown
-            title={"location"}
-            options={locations}
-            setValue={setLocation}
-            value={location}
-          ></DropDown>
+            title="Location"
+            options={LOCATIONS}
+            setDropDownValue={setBikeLocation}
+            dropDownValue={bikeLocation}
+          />
         </div>
         <div>
           <label
-            htmlFor="modal"
+            htmlFor="bike-rating"
             className="block text-sm font-medium text-gray-700"
           >
             Rating
@@ -102,4 +78,4 @@ function CreateBike() {
   );
 }
 
-export default CreateBike;
+export default AddBike;

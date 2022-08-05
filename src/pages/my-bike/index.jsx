@@ -1,53 +1,65 @@
 //#Global Imports
 import React from "react";
+import { toast } from "react-toastify";
 
 //#Local Imports
 import db from "../../firebse";
 import Modal from "../../components/modal";
+import CancelRideModal from "./CancelRideModal";
 import CompleteRideModal from "./CompleteRideModal";
-import CancleRideModal from "./CancleRideModal";
-import { ApplicationProcessContext } from "../../context";
+import { UserConfigContext } from "../../context";
 
 const MyBike = () => {
+  const { user } = React.useContext(UserConfigContext);
   const [tripData, setTripDate] = React.useState([]);
+  const [actionType, setActionType] = React.useState("");
   const [selectedTrip, setSelectedTrip] = React.useState(null);
-  const [isModalOpen, setIsModalOpen] = React.useState("");
-  const { user } = React.useContext(ApplicationProcessContext);
 
-  const completeRide = (r) => {
+  const handleCompleteRide = (rate) => {
     db.collection("trip")
       .doc(selectedTrip.id)
-      .update({ rating: r, isRideCompleted: true })
-      .then((s) => {
+      .update({ rating: rate, isRideCompleted: true })
+      .then(() => {
         db.collection("trip")
           .where("bid", "==", selectedTrip.bid)
           .where("isRideCompleted", "==", true)
           .onSnapshot((snapshot) => {
-            let ar = snapshot.docs
+            let totalRating = snapshot.docs
               .map((doc) => doc.data().rating)
               .reduce((a, b) => a + b, 0);
-            let avgRating = Number((ar / snapshot.docs.length).toFixed(2));
+            let avgRating = Number(
+              (totalRating / snapshot.docs.length).toFixed(2)
+            );
             db.collection("bikes")
               .doc(selectedTrip.bid)
               .update({ rating: avgRating })
               .then(() => {
-                setIsModalOpen("");
+                setActionType("");
+              })
+              .catch((error) => {
+                toast.error(error.data.message);
               });
           });
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
   };
 
-  const deleteTrip = () => {
+  const handleDeleteTrip = () => {
     db.collection("trip")
       .doc(selectedTrip.id)
       .delete()
-      .then((s) => {
-        setIsModalOpen("");
+      .then(() => {
+        setActionType("");
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
   };
 
-  const temp = (bike) => {
-    return new Promise((resolve, reject) => {
+  const fetchBikes = (bike) => {
+    return new Promise((resolve) => {
       db.collection("bikes")
         .doc(bike.bid)
         .onSnapshot((doc) => {
@@ -67,10 +79,14 @@ const MyBike = () => {
               id: doc.id,
               ...doc.data(),
             }))
-            .map((m) => temp(m))
-        ).then((d) => {
-          setTripDate(d);
-        });
+            .map((item) => fetchBikes(item))
+        )
+          .then((response) => {
+            setTripDate(response);
+          })
+          .catch((error) => {
+            toast.error(error.data.message);
+          });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,7 +152,7 @@ const MyBike = () => {
                     type="button"
                     className="inline-flex justify-center w-full px-4 py-2 mb-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => {
-                      setIsModalOpen("done");
+                      setActionType("complete_ride");
                       setSelectedTrip(item);
                     }}
                   >
@@ -146,7 +162,7 @@ const MyBike = () => {
                     type="button"
                     className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => {
-                      setIsModalOpen("cancel");
+                      setActionType("cancel_ride");
                       setSelectedTrip(item);
                     }}
                   >
@@ -157,18 +173,20 @@ const MyBike = () => {
             </div>
 
             <Modal
-              isModalOpen={isModalOpen === "cancel" || isModalOpen === "done"}
-              setIsModalOpen={() => setIsModalOpen("")}
+              isModalOpen={
+                actionType === "cancel_ride" || actionType === "complete_ride"
+              }
+              setIsModalOpen={() => setActionType("")}
               isConfirmation={false}
             >
-              {isModalOpen === "cancel" && (
-                <CancleRideModal trip={selectedTrip} onConfirm={deleteTrip} />
-              )}
-              {isModalOpen === "done" && (
-                <CompleteRideModal
-                  trip={selectedTrip}
-                  onConfirm={completeRide}
+              {actionType === "cancel_ride" && (
+                <CancelRideModal
+                  selectedTrip={selectedTrip}
+                  handleDeleteTrip={handleDeleteTrip}
                 />
+              )}
+              {actionType === "complete_ride" && (
+                <CompleteRideModal handleCompleteRide={handleCompleteRide} />
               )}
             </Modal>
           </div>

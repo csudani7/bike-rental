@@ -7,30 +7,31 @@ import {
 } from "@heroicons/react/outline";
 
 //#Local Imports
-import Modal from "../../components/modal";
-import BikeManageFormContainer from "./FormContainer";
 import db from "../../firebse";
+import Modal from "../../components/modal";
+import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
 
 const BikeMange = () => {
   const [bikeData, setBikeData] = React.useState([]);
-  const [isModalOpen, setIsModalOpen] = React.useState("");
-  const [selectedBike, setSelectedBike] = React.useState({});
+  const [isFormActionType, setFormActionType] = React.useState(null);
+  const [selectedBikeData, setSelectedBikeData] = React.useState({});
   const [isBikeHistoryModal, setIsBikeHistoryModal] = React.useState(false);
 
-  const handleEditEvent = (bikeData) => {
-    setSelectedBike(bikeData);
-    setIsModalOpen("edit");
+  const handleEditAction = (bikeData) => {
+    setSelectedBikeData(bikeData);
+    setFormActionType("edit");
   };
 
-  const handleAddEvent = () => {
-    setIsModalOpen("add");
+  const handleAddAction = () => {
+    setFormActionType("add");
   };
 
-  const showHistory = (bikeData) => {
-    setSelectedBike(bikeData);
-    setIsBikeHistoryModal(true)
-  }
+  const handleBikeHistory = (bikeData) => {
+    setSelectedBikeData(bikeData);
+    setIsBikeHistoryModal(true);
+  };
+
   React.useEffect(() => {
     db.collection("bikes").onSnapshot((snapshot) => {
       setBikeData(
@@ -50,24 +51,25 @@ const BikeMange = () => {
           <button
             type="button"
             className="flex items-center px-6 py-2 space-x-4 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={handleAddEvent}
+            onClick={handleAddAction}
           >
             <span>Add</span>
             <PlusCircleIcon className="w-6 h-6" aria-hidden="true" />
           </button>
         </div>
+
         {/* Data Listing Section */}
-        {bikeData.map((items,index) => (
+        {bikeData.map((items, index) => (
           <div
             key={index}
             className="relative flex items-center justify-between w-full px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
             onClick={() => {
               setIsBikeHistoryModal(true);
-              setSelectedBike(items);
+              setSelectedBikeData(items);
             }}
           >
             <div className="flex items-center justify-between w-full gap-8">
-              <div onClick={showHistory} className="focus:outline-none">
+              <div onClick={handleBikeHistory} className="focus:outline-none">
                 <p className="text-sm font-medium text-gray-900">
                   Modal Name : {items.modalName}
                 </p>
@@ -84,7 +86,7 @@ const BikeMange = () => {
               <div className="flex items-center gap-4">
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleEditEvent(items)}
+                  onClick={() => handleEditAction(items)}
                 >
                   <PencilIcon className="w-5 h-5" aria-hidden="true" />
                 </div>
@@ -96,16 +98,17 @@ const BikeMange = () => {
           </div>
         ))}
       </div>
+
       {/* Add and Edit User/Manager Form Modal Section */}
       <Modal
-        isModalOpen={isModalOpen === "edit" || isModalOpen === "add"}
-        setIsModalOpen={() => setIsModalOpen("")}
+        isModalOpen={isFormActionType === "edit" || isFormActionType === "add"}
+        setIsModalOpen={() => setFormActionType("")}
         isConfirmation={false}
       >
-        <BikeManageFormContainer
-          mode={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          data={selectedBike}
+        <FormContainer
+          actionType={isFormActionType}
+          setFormActionType={setFormActionType}
+          formData={selectedBikeData}
         />
       </Modal>
 
@@ -115,8 +118,7 @@ const BikeMange = () => {
         setIsModalOpen={setIsBikeHistoryModal}
         isConfirmation={false}
       >
-        <HistoryModal bike={selectedBike}/>
-        
+        <HistoryModal selectedBikeData={selectedBikeData} />
       </Modal>
     </div>
   );

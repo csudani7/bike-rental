@@ -7,21 +7,21 @@ import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
 import Home from "./pages/home";
-import CreateBike from "./pages/add-bike";
-import ManagerManage from "./pages/manage-role";
+import AddBike from "./pages/add-bike";
+import ManageRole from "./pages/manage-role";
 import BikeManage from "./pages/bike-manage";
 import MyBike from "./pages/my-bike";
 import NotFoundPage from "./pages/not-found";
 import PrivateRoute from "./hoc/usePrivateRoute";
-import { ApplicationProcessContext } from "./context";
+import { UserConfigContext } from "./context";
 
 //CSS Import
 import "./assets/css/global.css";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const { user } = useContext(ApplicationProcessContext);
   const navigate = useNavigate();
+  const { user } = useContext(UserConfigContext);
 
   useEffect(() => {
     if (user?.uid) {
@@ -38,24 +38,24 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
-          <Route path="/createBike" element={<CreateBike />} />
+          <Route path="/add-bike" element={<AddBike />} />
           <Route
-            path="/user-manage"
+            path="/manage-role"
             element={
-              user?.role === "Manager" ? (
-                <ManagerManage />
+              user?.role === "manager" ? (
+                <ManageRole />
               ) : (
-                <Navigate to={"/home"} />
+                <Navigate to="/home" />
               )
             }
           />
           <Route
-            path="/bike-manage"
+            path="/manage-bike"
             element={
-              user?.role === "Manager" ? (
+              user?.role === "manager" ? (
                 <BikeManage />
               ) : (
-                <Navigate to={"/home"} />
+                <Navigate to="/home" />
               )
             }
           />

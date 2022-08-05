@@ -3,16 +3,16 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 //Local Impoprts
-import ProtectedLayout from "../layouts";
-import { ApplicationProcessContext } from "../context";
+import MainLayout from "../layouts/MainLayout";
+import { UserConfigContext } from "../context";
 
 const PrivateRoute = () => {
-  const { user: currentUser } = React.useContext(ApplicationProcessContext);
+  const { user: currentUser } = React.useContext(UserConfigContext);
 
   return currentUser ? (
-    <ProtectedLayout>
+    <MainLayout>
       <Outlet />
-    </ProtectedLayout>
+    </MainLayout>
   ) : (
     <Navigate to="/auth/sign-in" />
   );

@@ -2,27 +2,26 @@
 import React from "react";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 //#Local Imports
-import { getErrorMessage, regexForName } from "../../utils";
 import db from "../../firebse";
+import { getErrorMessage, regexForName } from "../../utils";
 
 const FormContainer = (props) => {
+  const { actionType, formData, setFormActionType } = props;
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
     defaultValues: {
-      isBikeAvailable:
-        props.mode === "edit" ? props.data.isBikeAvailable : false,
+      isBikeAvailable: actionType === "edit" ? formData.isBikeAvailable : false,
     },
   });
 
   const onSubmit = (data) => {
-    if (props.mode === "add") {
-      console.log(data);
+    if (actionType === "add") {
       db.collection("bikes")
         .add({
           modalName: data.modalName,
@@ -31,32 +30,38 @@ const FormContainer = (props) => {
           rating: 0,
           isBikeAvailable: data.isBikeAvailable,
         })
-        .then((dd) => {
-          props.setIsModalOpen(null);
+        .then(() => {
+          setFormActionType(null);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          toast.error(error.data.message);
         });
-    } else if (props.mode === "edit") {
+    } else if (actionType === "edit") {
       db.collection("bikes")
-        .doc(props.data.id)
+        .doc(data.id)
         .update({
           modalName: data.modalName,
           color: data.color,
           location: data.location,
         })
-        .then((p) => {
-          props.setIsModalOpen(null);
+        .then(() => {
+          setFormActionType(null);
+        })
+        .catch((error) => {
+          toast.error(error.data.message);
         });
     }
   };
 
   const handleDeleteBike = () => {
     db.collection("bikes")
-      .doc(props.data.id)
+      .doc(formData.id)
       .delete()
-      .then((p) => {
-        props.setIsModalOpen(null);
+      .then(() => {
+        setFormActionType(null);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
   };
 
@@ -79,7 +84,8 @@ const FormContainer = (props) => {
               name="modalName"
               type="text"
               autoComplete="off"
-              defaultValue={props.mode === "edit" ? props.data.modalName : ""}
+              placeholder="eg. Ducati"
+              defaultValue={actionType === "edit" ? formData.modalName : ""}
               {...register("modalName", {
                 required: true,
                 pattern: regexForName,
@@ -114,12 +120,12 @@ const FormContainer = (props) => {
                     : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
                   "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
                 )}
-                defaultValue={props.mode === "edit" ? props.data.color : ""}
+                defaultValue={actionType === "edit" ? formData.color : ""}
                 {...register("color", {
                   required: true,
                 })}
               >
-                <option></option>
+                <option>Select Color</option>
                 <option>Black</option>
                 <option>Blue</option>
                 <option>Red</option>
@@ -153,12 +159,12 @@ const FormContainer = (props) => {
                     : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
                   "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
                 )}
-                defaultValue={props.mode === "edit" ? props.data.location : ""}
+                defaultValue={actionType === "edit" ? formData.location : ""}
                 {...register("location", {
                   required: true,
                 })}
               >
-                <option></option>
+                <option>Select Location</option>
                 <option>Suart</option>
                 <option>Baroda</option>
                 <option>Gandhinagar</option>
@@ -175,15 +181,15 @@ const FormContainer = (props) => {
 
         <div className="flex items-center justify-start space-x-5">
           <input
-            id="candidates"
-            aria-describedby="candidates-description"
-            name="candidates"
+            id="isBikeAvailable"
+            aria-describedby="is-bike-available"
+            name="isBikeAvailable"
             type="checkbox"
             {...register("isBikeAvailable", {})}
             className="w-6 h-6 text-indigo-600 border-gray-300 rounded"
           />
           <label
-            htmlFor="location"
+            htmlFor="isBikeAvailable"
             className="block text-sm font-medium text-gray-900"
           >
             Is bike available for rent ?
@@ -197,8 +203,7 @@ const FormContainer = (props) => {
           >
             Submit
           </button>
-
-          {props.mode === "edit" && (
+          {actionType === "edit" && (
             <button
               type="button"
               onClick={handleDeleteBike}

@@ -18,31 +18,30 @@ function BikeCard(props) {
         className="w-full bg-white shadow-sm hover:bg-gray-100"
       >
         <div className="mx-auto overflow-hidden max-w-7xl">
-          <div className="relative p-3 border border-gray-200 group">
+          <div className="relative p-2 border border-gray-200 group">
             <div className="py-4 text-center">
               <h4 className="text-xl font-bold tracking-tight text-gray-900">
                 {bikeData.modalName}
               </h4>
               <div className="flex items-center justify-around mt-3">
                 <div
-                  className="flex items-center justify-center w-8 h-8 border-2 rounded-full"
+                  className="flex items-center justify-center w-5 h-5 border-2 rounded-full"
                   style={{ borderColor: bikeData.color }}
                 >
                   <div
-                    className="w-6 h-6 rounded-full"
+                    className="w-5 h-5 rounded-full"
                     style={{ backgroundColor: bikeData.color }}
                   ></div>
                 </div>
                 <p className="flex items-center text-base font-medium text-gray-900">
                   <LocationMarkerIcon
-                    className="flex-shrink-0 w-5 h-5 text-gray-900"
+                    className="flex-shrink-0 w-4 h-4 text-gray-900"
                     aria-hidden="true"
                   />
                   {bikeData.location}
                 </p>
               </div>
               <div className="flex items-center justify-center mt-3">
-                <p className="sr-only">{bikeData.rating} out of 5 stars</p>
                 <div className="flex items-center">
                   {[0, 1, 2, 3, 4].map((rating) => (
                     <StarIcon
@@ -58,7 +57,7 @@ function BikeCard(props) {
                   ))}
                 </div>
                 <p className="text-sm text-gray-500">
-                  &nbsp; ({bikeData.rating} reviews)
+                  &nbsp; ({bikeData.rating} Ratings)
                 </p>
               </div>
             </div>

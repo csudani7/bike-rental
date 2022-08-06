@@ -165,7 +165,7 @@ function SignUp() {
                       <input
                         id="confirmPassword"
                         name="confirmPassword"
-                        type="confirmPassword"
+                        type="password"
                         {...register("confirmPassword", {
                           required: true,
                           minLength: 8,

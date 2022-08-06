@@ -126,7 +126,7 @@ const FormContainer = (props) => {
           </div>
           {errors.color && (
             <p className="text-sm font-semibold text-red-500">
-              Select a Color is Required.
+              {getErrorMessage(errors, "color", "Color")}
             </p>
           )}
         </div>
@@ -163,7 +163,7 @@ const FormContainer = (props) => {
           </div>
           {errors.location && (
             <p className="text-sm font-semibold text-red-500">
-              Select a Location is Required.
+              {getErrorMessage(errors, "location", "Location")}
             </p>
           )}
         </div>

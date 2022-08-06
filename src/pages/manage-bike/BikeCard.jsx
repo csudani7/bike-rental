@@ -7,21 +7,15 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { classNames } from "../../utils";
 
 function BikeCard(props) {
-  const {
-    bikeData,
-    handleAction,
-  } = props;
+  const { bikeData, handleAction } = props;
 
   return (
     <>
-      <div
-        key={bikeData.id}
-        className="w-full bg-white shadow-sm cursor-pointer"
-      >
-        <div className="max-w-md mx-auto overflow-hidden">
-          <div className="relative border">
+      <div key={bikeData.id} className="shadow-lg cursor-pointer rounded-xl ">
+        <div className="max-w-lg mx-auto overflow-hidden rounded-xl">
+          <div className="relative">
             <div
-              className="py-4 text-center hover:bg-indigo-50"
+              className="p-4 text-center hover:bg-indigo-50"
               onClick={() => {
                 handleAction(bikeData, "history");
               }}
@@ -49,7 +43,7 @@ function BikeCard(props) {
                 </p>
               </div>
 
-              <div className="flex items-center justify-center mt-3">
+              <div className="flex items-center justify-center w-full mt-3">
                 <div className="flex items-center">
                   {[0, 1, 2, 3, 4].map((rating) => (
                     <StarIcon
@@ -69,11 +63,10 @@ function BikeCard(props) {
                 </p>
               </div>
             </div>
-
-            <div className="flex items-center justify-center text-center">
+            <div className="flex items-center justify-between w-full text-center">
               <button
                 type="button"
-                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-700 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
+                className="inline-flex justify-center w-full px-6 py-2 text-base font-medium text-white bg-indigo-500 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
                 onClick={() => {
                   handleAction(bikeData, "edit");
                 }}
@@ -86,7 +79,7 @@ function BikeCard(props) {
                   handleAction(bikeData, "delete");
                 }}
                 type="button"
-                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
+                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
               >
                 <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
                 <span className="ml-2">Delete</span>

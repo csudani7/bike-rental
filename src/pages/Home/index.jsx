@@ -544,7 +544,7 @@ const HomePage = () => {
 
               {/* Bike Card grid */}
               <div className="lg:col-span-3">
-                <div className="pb-3 text-right">
+                <div className="pb-3 pl-3 text-right">
                   <DatePicker
                     onChange={handleDateChange}
                     startDate={selectedStartDate}
@@ -561,7 +561,7 @@ const HomePage = () => {
                     }
                   />
                 </div>
-                <div className="grid grid-cols-2 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-x-4">
+                <div className="grid grid-cols-2 gap-4 pl-3 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
                   {filteredBikeData.map((bikeData, index) => (
                     <BikeCard bikeData={bikeData} key={index} />
                   ))}

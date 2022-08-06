@@ -198,7 +198,7 @@ const FormContainer = (props) => {
           </div>
           {errors.role && (
             <p className="text-sm font-semibold text-red-500">
-              Select a Role is Required.
+              {getErrorMessage(errors, "role", "Role")}
             </p>
           )}
         </div>

@@ -49,7 +49,7 @@ const ManageBike = () => {
         </div>
 
         {/* Data Listing Section */}
-        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
           {bikeData.map((items, index) => (
             <BikeCard
               key={index}
@@ -65,8 +65,8 @@ const ManageBike = () => {
         isModalOpen={formActionType !== ""}
         setIsModalOpen={() => setFormActionType("")}
         isConfirmation={false}
+        width="sm:max-w-lg sm:w-full"
       >
-        {formActionType}
         {formActionType === "delete" && (
           <CancleDeleteBikeModal
             setFormActionType={setFormActionType}

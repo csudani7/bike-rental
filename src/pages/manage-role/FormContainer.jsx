@@ -23,7 +23,6 @@ const FormContainer = (props) => {
   } = useForm();
 
   const onSubmit = (values) => {
-    console.log(actionType)
     if (actionType === "add") {
       auth
         .createUserWithEmailAndPassword(values.email, values.password)

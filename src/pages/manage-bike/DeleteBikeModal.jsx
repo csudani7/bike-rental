@@ -27,7 +27,6 @@ function CancleDeleteBikeModal({ setFormActionType, selectedBikeData }) {
         });
       })
       .catch((e) => {
-        console.log(e);
         toast.error("No bike found");
       })
   };

@@ -51,7 +51,6 @@ function DeleteUserModal({ setActionType, selectedUserData }) {
     <div className="text-lg font-bold">
       Are you sure to cancel the selected ride ?
       <div className="flex justify-end">
-        {selectedUserData.uid}
         <button
           onClick={deleteBike}
           type="submit"

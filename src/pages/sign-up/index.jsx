@@ -41,7 +41,7 @@ function SignUp() {
             navigate("/auth/sign-in");
           })
           .catch((error) => {
-            toast.error(error.data.message);
+            toast.error("Something went wrong!, Please try again later");
           });
       })
       .catch((error) => {

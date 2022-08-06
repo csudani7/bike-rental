@@ -40,34 +40,29 @@ function HistoryModal(props) {
   }, []);
 
   return (
-    <div className="flex flex-col justify-start max-h-[40rem] overflow-y-scroll pb-8 mx-auto pr-4 space-y-8">
-      <div className="flex items-center space-x-4">
-        <span className="text-base font-extrabold">BID : </span>
-        <span className="font-semibold text-normal">{}</span>
-      </div>
-      <div className="grid w-full grid-cols-1 gap-12 border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3">
-        {/* <div className="flex flex-wrap max-h-1/2"> */}
+    <div className="flex flex-col justify-start max-h-[40rem] overflow-y-auto mx-auto space-y-8">
+      <div className="grid grid-cols-1 gap-4 sm:mx-0 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2">
         {bikeHistory.map((items) => {
           return (
             <div
               key={items.id}
-              className="w-full bg-white shadow-sm cursor-pointer"
+              className="w-full bg-white shadow-sm hover:bg-gray-100"
             >
               <div className="mx-auto overflow-hidden">
-                <div className="relative p-2 border">
+                <div className="relative p-2 border border-gray-200 group">
                   <div className="py-4 text-center hover:bg-indigo-50">
                     <div className="flex items-center justify-between mx-8 space-x-8">
                       <p className="flex items-center text-base font-medium text-gray-600">
-                        <span className="text-lg font-bold text-black">
+                        <span className="text-base font-bold text-black">
                           {items.fullName}
                         </span>
                       </p>
-                      <p className="flex items-center text-base font-medium text-gray-600">
+                      <p className="flex items-center text-xs font-medium text-gray-600">
                         {items.email}
                       </p>
                     </div>
                     <div className="flex items-center justify-between mx-8">
-                      <h4 className="text-xl font-bold tracking-tight text-gray-600">
+                      <h4 className="text-base font-bold tracking-tight text-gray-600">
                         {selectedBikeData.modalName}
                       </h4>
                       <div className="justify-start focus:outline-none">
@@ -79,17 +74,17 @@ function HistoryModal(props) {
                     </div>
                     <div className="flex items-center justify-between mx-8 mt-3">
                       <div
-                        className="flex items-center justify-center w-8 h-8 border-2 rounded-full"
+                        className="flex items-center justify-center w-6 h-6 border-2 rounded-full"
                         style={{ borderColor: selectedBikeData.color }}
                       >
                         <div
-                          className="w-6 h-6 rounded-full"
+                          className="w-4 h-4 rounded-full"
                           style={{ background: selectedBikeData.color }}
                         />
                       </div>
                       <p className="flex items-center text-base font-medium text-gray-600">
                         <LocationMarkerIcon className="flex-shrink-0 w-4 h-4 text-gray-600" />
-                        <span className="ml-2 text-lg font-bold text-black">
+                        <span className="ml-2 text-base font-bold text-black">
                           {selectedBikeData?.location}
                         </span>
                       </p>

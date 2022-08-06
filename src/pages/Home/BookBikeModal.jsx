@@ -72,7 +72,7 @@ function BookModal(props) {
         })
         .then(() => handleCloseModal(false))
         .catch((error) => {
-          toast.error(error.data.message);
+          toast.error("Something went wrong!, Please try again later");
         });
     } else {
       setBookBikeButtonDisable(false);

@@ -35,12 +35,12 @@ const MyBike = () => {
                 setActionType("");
               })
               .catch((error) => {
-                toast.error(error.data.message);
+                toast.error("Something went wrong!, Please try again later");
               });
           });
       })
       .catch((error) => {
-        toast.error(error.data.message);
+        toast.error("Something went wrong!, Please try again later");
       });
   };
 
@@ -52,7 +52,7 @@ const MyBike = () => {
         setActionType("");
       })
       .catch((error) => {
-        toast.error(error.data.message);
+        toast.error("Something went wrong!, Please try again later");
       });
   };
 
@@ -83,7 +83,7 @@ const MyBike = () => {
             setTripDate(response);
           })
           .catch((error) => {
-            toast.error(error.data.message);
+            toast.error("Something went wrong!, Please try again later");
           });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps

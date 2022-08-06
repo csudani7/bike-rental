@@ -65,7 +65,7 @@ const ManageBike = () => {
         isModalOpen={formActionType !== ""}
         setIsModalOpen={() => setFormActionType("")}
         isConfirmation={false}
-        width="sm:max-w-lg sm:w-full"
+        width="sm:max-w-[40rem] sm:w-full"
       >
         {formActionType === "delete" && (
           <CancleDeleteBikeModal

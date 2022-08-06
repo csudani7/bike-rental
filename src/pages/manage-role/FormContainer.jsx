@@ -39,11 +39,11 @@ const FormContainer = (props) => {
               setSwitchValue(values.role);
             })
             .catch((error) => {
-              toast.error(error.data.message);
+              toast.error("Something went wrong!, Please try again later");
             });
         })
         .catch((error) => {
-          toast.error(error.data.message);
+          toast.error("Something went wrong!, Please try again later");
         });
     } else if (actionType === "edit") {
       db.collection("users")
@@ -54,7 +54,7 @@ const FormContainer = (props) => {
           setSwitchValue(values.role);
         })
         .catch((error) => {
-          toast.error(error.data.message);
+          toast.error("Something went wrong!, Please try again later");
         });
     }
   };

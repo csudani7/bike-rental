@@ -63,7 +63,7 @@ const FormContainer = (props) => {
         <div>
           <label
             htmlFor="modalName"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-gray-600"
           >
             Modal Name
           </label>
@@ -83,7 +83,7 @@ const FormContainer = (props) => {
                 errors.modalName
                   ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                   : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                "block w-full px-4 py-3 text-gray-600 rounded-md shadow-sm "
               )}
             />
           </div>
@@ -94,7 +94,7 @@ const FormContainer = (props) => {
         <div>
           <label
             htmlFor="color"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-gray-600"
           >
             Color
           </label>
@@ -107,7 +107,7 @@ const FormContainer = (props) => {
                   errors.color
                     ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                     : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  "block w-full px-4 py-3 text-gray-500 rounded-md shadow-sm outline-none"
                 )}
                 defaultValue={actionType === "edit" ? formData.color : ""}
                 {...register("color", {
@@ -133,7 +133,7 @@ const FormContainer = (props) => {
         <div>
           <label
             htmlFor="location"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-gray-600"
           >
             Location
           </label>
@@ -146,7 +146,7 @@ const FormContainer = (props) => {
                   errors.location
                     ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                     : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  "block w-full px-4 py-3 text-gray-500 rounded-md shadow-sm outline-none"
                 )}
                 defaultValue={actionType === "edit" ? formData.location : ""}
                 {...register("location", {
@@ -179,7 +179,7 @@ const FormContainer = (props) => {
           />
           <label
             htmlFor="isBikeAvailable"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-gray-600"
           >
             Is bike available for rent ?
           </label>

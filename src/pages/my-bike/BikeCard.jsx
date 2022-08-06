@@ -22,22 +22,22 @@ function BikeCard(props) {
     <>
       <div
         key={tripData.id}
-        className="w-full bg-white shadow-sm hover:bg-gray-100"
+        className="w-full bg-white border border-gray-200 shadow-sm hover:bg-gray-100"
       >
         <div className="max-w-md mx-auto overflow-hidden">
-          <div className="relative p-2 border border-gray-200 group">
+          <div className="relative p-2 group">
             <div className="py-4 text-center">
               <div className="flex items-center justify-around">
-                <h4 className="text-xl font-bold tracking-tight text-gray-900">
+                <h4 className="text-xl font-bold tracking-tight text-gray-600">
                   {tripData.modalName}
                 </h4>
                 <div className="justify-start focus:outline-none">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-600">
                     <span>
                       <strong>Booking: </strong>
                     </span>
                   </p>
-                  <p className="mt-1 text-sm font-medium text-gray-900">
+                  <p className="mt-1 text-sm font-medium text-gray-600">
                     {tripData.start_date.toDate().toLocaleDateString()} -{" "}
                     {tripData.end_date.toDate().toLocaleDateString()}
                   </p>
@@ -53,9 +53,9 @@ function BikeCard(props) {
                     style={{ background: tripData.color }}
                   />
                 </div>
-                <p className="flex items-center text-base font-medium text-gray-900">
+                <p className="flex items-center text-base font-medium text-gray-600">
                   <LocationMarkerIcon
-                    className="flex-shrink-0 w-4 h-4 text-gray-900"
+                    className="flex-shrink-0 w-4 h-4 text-gray-600"
                     aria-hidden="true"
                   />
                   {tripData.location}

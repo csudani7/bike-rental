@@ -68,7 +68,7 @@ const FormContainer = (props) => {
         <div>
           <label
             htmlFor="fullName"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-gray-600"
           >
             Full name
           </label>
@@ -85,8 +85,8 @@ const FormContainer = (props) => {
               className={clsx(
                 errors.fullName
                   ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                  : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  : "border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+                "block w-full px-4 py-3 text-gray-600 rounded-md shadow-sm"
               )}
             />
           </div>
@@ -102,7 +102,7 @@ const FormContainer = (props) => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-900"
+                className="block text-sm font-medium text-gray-600"
               >
                 Email
               </label>
@@ -120,7 +120,7 @@ const FormContainer = (props) => {
                     errors.email
                       ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                       : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                    "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                    "block w-full px-4 py-3 text-gray-600 rounded-md shadow-sm"
                   )}
                 />
               </div>
@@ -133,7 +133,7 @@ const FormContainer = (props) => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
+                className="block text-sm font-medium text-gray-600"
               >
                 Password
               </label>
@@ -152,7 +152,7 @@ const FormContainer = (props) => {
                     errors.password
                       ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                       : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                    "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                    "block w-full px-4 py-3 text-gray-600 rounded-md shadow-sm "
                   )}
                 />
               </div>
@@ -169,7 +169,7 @@ const FormContainer = (props) => {
           <div className="flex justify-between">
             <label
               htmlFor="role"
-              className="block text-sm font-medium text-gray-900"
+              className="block text-sm font-medium text-gray-600"
             >
               Role
             </label>
@@ -183,7 +183,7 @@ const FormContainer = (props) => {
                   errors.role
                     ? "border-red-500 focus:ring-red-500 focus:border-red-500"
                     : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
-                  "block w-full px-4 py-3 text-gray-900 rounded-md shadow-sm "
+                  "block w-full px-4 py-3 text-gray-500 rounded-md shadow-sm outline-none"
                 )}
                 {...register("role", {
                   required: true,

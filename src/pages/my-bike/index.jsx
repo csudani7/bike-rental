@@ -95,7 +95,7 @@ const MyBike = () => {
         <div>
           <main className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="relative z-10 flex items-baseline justify-between pt-12 pb-6 border-b border-gray-200">
-              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+              <h1 className="text-4xl font-extrabold tracking-tight text-gray-600">
                 Bikes
               </h1>
             </div>
@@ -104,7 +104,7 @@ const MyBike = () => {
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
                 {/* Bike Card grid */}
                 <div className="lg:col-span-6">
-                  <div className="grid grid-cols-2 -mx-px border-l border-gray-200 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-x-12">
+                  <div className="grid grid-cols-2 gap-6 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
                     {tripData.map((item, index) => {
                       return (
                         <BikeCard

@@ -57,21 +57,21 @@ function HistoryModal(props) {
                 <div className="relative p-2 border">
                   <div className="py-4 text-center hover:bg-indigo-50">
                     <div className="flex items-center justify-between mx-8 space-x-8">
-                      <p className="flex items-center text-base font-medium text-gray-900">
+                      <p className="flex items-center text-base font-medium text-gray-600">
                         <span className="text-lg font-bold text-black">
                           {items.fullName}
                         </span>
                       </p>
-                      <p className="flex items-center text-base font-medium text-gray-900">
+                      <p className="flex items-center text-base font-medium text-gray-600">
                         {items.email}
                       </p>
                     </div>
                     <div className="flex items-center justify-between mx-8">
-                      <h4 className="text-xl font-bold tracking-tight text-gray-900">
+                      <h4 className="text-xl font-bold tracking-tight text-gray-600">
                         {selectedBikeData.modalName}
                       </h4>
                       <div className="justify-start focus:outline-none">
-                        <p className="mt-1 text-sm font-medium text-gray-900">
+                        <p className="mt-1 text-sm font-medium text-gray-600">
                           {items.start_date.toDate().toLocaleDateString()} -{" "}
                           {items.end_date.toDate().toLocaleDateString()}
                         </p>
@@ -87,8 +87,8 @@ function HistoryModal(props) {
                           style={{ background: selectedBikeData.color }}
                         />
                       </div>
-                      <p className="flex items-center text-base font-medium text-gray-900">
-                        <LocationMarkerIcon className="flex-shrink-0 w-4 h-4 text-gray-900" />
+                      <p className="flex items-center text-base font-medium text-gray-600">
+                        <LocationMarkerIcon className="flex-shrink-0 w-4 h-4 text-gray-600" />
                         <span className="ml-2 text-lg font-bold text-black">
                           {selectedBikeData?.location}
                         </span>

@@ -39,7 +39,7 @@ function DropDown(props) {
                     key={color.id}
                     className={({ active }) =>
                       classNames(
-                        active ? "text-white bg-indigo-600" : "text-gray-900",
+                        active ? "text-white bg-indigo-600" : "text-gray-600",
                         "cursor-default select-none relative py-2 pl-3 pr-9"
                       )
                     }

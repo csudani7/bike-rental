@@ -62,13 +62,13 @@ function HistoryModal(props) {
                   <div className="flex items-center justify-between w-full gap-8">
                     <div className="flex items-center justify-between w-full">
                       <div className="justify-start focus:outline-none">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-600">
                           <span>
                             <strong>Modal: </strong>
                           </span>
                           {item.modalName}
                         </p>
-                        <p className="mt-6 text-sm font-medium text-gray-900">
+                        <p className="mt-6 text-sm font-medium text-gray-600">
                           <span>
                             <strong>Color: </strong>
                           </span>
@@ -76,13 +76,13 @@ function HistoryModal(props) {
                         </p>
                       </div>
                       <div className="justify-end focus:outline-none">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-600">
                           <span>
                             <strong>Location: </strong>
                           </span>
                           {item.location}
                         </p>
-                        <p className="mt-6 text-sm font-medium text-gray-900">
+                        <p className="mt-6 text-sm font-medium text-gray-600">
                           <span>
                             <strong>Rating: </strong>
                           </span>
@@ -90,13 +90,13 @@ function HistoryModal(props) {
                         </p>
                       </div>
                       <div className="justify-start focus:outline-none">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-600">
                           <span>
                             <strong>Start Date: </strong>
                           </span>
                           {item.start_date.toDate().toLocaleDateString()}
                         </p>
-                        <p className="mt-6 text-sm font-medium text-gray-900">
+                        <p className="mt-6 text-sm font-medium text-gray-600">
                           <span>
                             <strong>End Date: </strong>
                           </span>

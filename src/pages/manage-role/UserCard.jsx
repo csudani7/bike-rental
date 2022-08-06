@@ -12,41 +12,38 @@ function UserCard(props) {
   } = props;
 
   return (
-    <>
-      <div
-        key={userData.id}
-        className="w-full bg-white border shadow-sm cursor-pointer"
-      >
-        <div className="max-w-md mx-auto overflow-hidden">
-          <div className="relative">
-            <div
-              className="py-4 text-center hover:bg-indigo-50"
-              onClick={() => {
-                handleUserHistory(userData);
-                setUserHistoryModalOpen(true);
-                setSelectedUserData(userData);
-              }}
-            >
-              <div className="flex items-center justify-around">
-                <h4 className="text-xl font-bold tracking-tight text-gray-900">
-                  {userData.fullName}
-                </h4>
-                <p className="flex items-center">
-                  <span className="ml-2 text-sm font-bold text-gray-400 capitalize">
-                    Role: {userData?.role}
-                  </span>
-                </p>
-              </div>
-              <span className="ml-2 text-sm font-bold text-gray-400">
-                {userData?.email}
-              </span>
+    <div key={userData.id} className="shadow-lg cursor-pointer rounded-xl">
+      <div className="max-w-lg mx-auto overflow-hidden rounded-xl">
+        <div className="relative">
+          <div
+            className="p-4 text-center hover:bg-indigo-50"
+            onClick={() => {
+              handleUserHistory(userData);
+              setUserHistoryModalOpen(true);
+              setSelectedUserData(userData);
+            }}
+          >
+            <div className="flex items-center justify-around">
+              <h4 className="text-xl font-bold tracking-tight text-gray-600">
+                {userData.fullName}
+              </h4>
+              <p className="flex items-center">
+                <span className="ml-2 text-sm font-bold text-gray-600 capitalize">
+                  Role:
+                </span>
+                <span className="ml-2 text-sm font-bold text-gray-400 capitalize">
+                  {userData?.role}
+                </span>
+              </p>
             </div>
+            <span className="ml-2 text-sm font-bold text-gray-400">
+              {userData?.email}
+            </span>
           </div>
-
-          <div className="flex items-center justify-center text-center">
+          <div className="flex items-center justify-between w-full text-center">
             <button
               type="button"
-              className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-700 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
+              className="inline-flex justify-center w-full px-10 py-2 text-base font-medium text-white bg-indigo-500 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
               onClick={() => {
                 handleEditAction(userData);
               }}
@@ -56,7 +53,7 @@ function UserCard(props) {
             </button>
             <button
               type="button"
-              className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
+              className="inline-flex justify-center w-full px-10 py-2 text-base font-medium text-white bg-red-500 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
             >
               <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
               <span className="ml-2">Delete</span>
@@ -64,7 +61,7 @@ function UserCard(props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import Moment from "moment";
 import { toast } from "react-toastify";
 import { extendMoment } from "moment-range";
-import { XCircleIcon } from "@heroicons/react/outline";
+import { CalendarIcon, XCircleIcon } from "@heroicons/react/outline";
 
 //#Local Imports
 import db from "../../firebase";
@@ -151,7 +151,8 @@ function BookModal(props) {
           onClick={handleBookBikeTrip}
           className="inline-flex items-center justify-center w-full px-6 py-3 mt-3 mr-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
         >
-          Book Now
+          <CalendarIcon className="w-5 h-5" aria-hidden="true" />
+          <span className="ml-2">Book Now</span>
         </button>
         <button
           type="button"

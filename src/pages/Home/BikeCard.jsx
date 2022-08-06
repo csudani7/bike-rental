@@ -1,6 +1,7 @@
 //#Global Imports
 import React from "react";
 import { StarIcon, LocationMarkerIcon } from "@heroicons/react/solid";
+import { CalendarIcon } from "@heroicons/react/outline";
 
 //#Local Imports
 import BookBikeModal from "./BookBikeModal";
@@ -20,7 +21,7 @@ function BikeCard(props) {
         <div className="mx-auto overflow-hidden max-w-7xl">
           <div className="relative p-2 border border-gray-200 group">
             <div className="py-4 text-center">
-              <h4 className="text-xl font-bold tracking-tight text-gray-900">
+              <h4 className="text-xl font-bold tracking-tight text-gray-600">
                 {bikeData.modalName}
               </h4>
               <div className="flex items-center justify-around mt-3">
@@ -33,9 +34,9 @@ function BikeCard(props) {
                     style={{ background: bikeData.color }}
                   />
                 </div>
-                <p className="flex items-center text-base font-medium text-gray-900">
+                <p className="flex items-center text-base font-medium text-gray-600">
                   <LocationMarkerIcon
-                    className="flex-shrink-0 w-4 h-4 text-gray-900"
+                    className="flex-shrink-0 w-4 h-4 text-gray-600"
                     aria-hidden="true"
                   />
                   {bikeData.location}
@@ -70,7 +71,8 @@ function BikeCard(props) {
                 }}
                 className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
               >
-                Book Now
+                <CalendarIcon className="w-5 h-5" aria-hidden="true" />
+                <span className="ml-2">Book Now</span>
               </button>
             </div>
           </div>

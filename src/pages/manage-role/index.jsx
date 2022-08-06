@@ -51,8 +51,8 @@ const ManageRole = () => {
   }, [switchValue]);
 
   return (
-    <div className="flex flex-col items-center w-full py-8">
-      <div className="flex flex-col items-center justify-center w-2/3 gap-4">
+    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center justify-center gap-4">
         {/* Add and Toggle Button Section */}
         <div className="flex items-center justify-between w-full mb-12">
           <button
@@ -106,7 +106,7 @@ const ManageRole = () => {
           </div>
         </div>
         {/* Data Listing Section */}
-        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
+        <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
           {fetchedData.map((user, index) => {
             return (
               <UserCard

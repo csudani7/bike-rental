@@ -32,8 +32,8 @@ const ManageBike = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full h-screen py-8">
-      <div className="flex flex-col items-center justify-center w-2/3 gap-4">
+    <div className="py-8 mx-auto fpx-4 max-w-7xl sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center justify-center gap-4">
         {/* Add and Toggle Button Section */}
         <div className="flex items-center justify-between w-full mb-12">
           <button
@@ -49,7 +49,7 @@ const ManageBike = () => {
         </div>
 
         {/* Data Listing Section */}
-        <div className="grid grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
+        <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
           {bikeData.map((items, index) => (
             <BikeCard
               key={index}

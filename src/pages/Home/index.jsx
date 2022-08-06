@@ -151,7 +151,7 @@ const HomePage = () => {
               >
                 <Dialog.Panel className="relative flex flex-col w-full h-full max-w-xs py-4 pb-12 ml-auto overflow-y-auto bg-white shadow-xl">
                   <div className="flex items-center justify-between px-4">
-                    <h2 className="text-lg font-medium text-gray-900">
+                    <h2 className="text-lg font-medium text-gray-600">
                       Filters
                     </h2>
                     <button
@@ -192,7 +192,7 @@ const HomePage = () => {
                           <>
                             <h3 className="flow-root -mx-2 -my-3">
                               <Disclosure.Button className="flex items-center justify-between w-full px-2 py-3 text-gray-400 bg-white hover:text-gray-500">
-                                <span className="font-medium text-gray-900">
+                                <span className="font-medium text-gray-600">
                                   {section.name}
                                 </span>
                                 <span className="flex items-center ml-6">
@@ -248,7 +248,7 @@ const HomePage = () => {
                         <>
                           <h3 className="flow-root -my-3">
                             <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
+                              <span className="font-medium text-gray-600">
                                 Location
                               </span>
                               <span className="flex items-center ml-6">
@@ -272,7 +272,7 @@ const HomePage = () => {
                                 id="location"
                                 name="location"
                                 className={
-                                  "w-full block px-4 py-2 text-gray-900 rounded-md shadow-sm "
+                                  "w-full block px-4 py-2 text-gray-500 border border-gray-300 rounded-md shadow-sm outline-none"
                                 }
                                 value={filterLocation}
                                 onChange={(v) => {
@@ -299,7 +299,7 @@ const HomePage = () => {
                         <>
                           <h3 className="flow-root -my-3">
                             <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
+                              <span className="font-medium text-gray-600">
                                 Rating
                               </span>
                               <span className="flex items-center ml-6">
@@ -347,7 +347,7 @@ const HomePage = () => {
 
         <main className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative z-10 flex items-baseline justify-between pt-12 pb-6 border-b border-gray-200">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-600">
               Bikes
             </h1>
 
@@ -393,7 +393,7 @@ const HomePage = () => {
                       <>
                         <h3 className="flow-root -my-3">
                           <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
-                            <span className="font-medium text-gray-900">
+                            <span className="font-medium text-gray-600">
                               {section.name}
                             </span>
                             <span className="flex items-center ml-6">
@@ -450,7 +450,7 @@ const HomePage = () => {
                     <>
                       <h3 className="flow-root -my-3">
                         <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-gray-600">
                             Location
                           </span>
                           <span className="flex items-center ml-6">
@@ -474,7 +474,7 @@ const HomePage = () => {
                             id="location"
                             name="location"
                             className={
-                              "block w-full px-4 py-2 text-gray-900 rounded-md shadow-sm "
+                              "block w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-md shadow-sm outline-none"
                             }
                             value={filterLocation}
                             onChange={(v) => {
@@ -501,7 +501,7 @@ const HomePage = () => {
                     <>
                       <h3 className="flow-root -my-3">
                         <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-gray-600">
                             Rating
                           </span>
                           <span className="flex items-center ml-6">
@@ -553,7 +553,7 @@ const HomePage = () => {
                     selectsRange
                     customInput={
                       <input
-                        className="block w-[240px] outline-none mt-1 border border-gray-900 px-4 py-2 text-gray-900 rounded-md shadow-sm"
+                        className="block px-4 py-2 text-gray-500 border border-gray-300 rounded-md shadow-sm outline-none"
                         value={`${selectedStartDate} - ${
                           selectedEndDate ? selectedEndDate : selectedStartDate
                         }`}

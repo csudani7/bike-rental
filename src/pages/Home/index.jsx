@@ -292,7 +292,7 @@ const HomePage = () => {
                     </Disclosure>
                     <Disclosure
                       as="div"
-                      key="location"
+                      key="rating-selection"
                       className="px-4 py-6 border-t border-gray-200"
                     >
                       {({ open }) => (
@@ -494,7 +494,7 @@ const HomePage = () => {
                 </Disclosure>
                 <Disclosure
                   as="div"
-                  key="location"
+                  key="rating"
                   className="py-6 border-b border-gray-200"
                 >
                   {({ open }) => (

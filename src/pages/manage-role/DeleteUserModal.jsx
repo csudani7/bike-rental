@@ -17,7 +17,7 @@ function DeleteUserModal({ setActionType, selectedUserData }) {
       { method: "GET", headers: { "Access-Control-Allow-Origin": "*" } }
     )
       .then(() => {
-        db.collection("trip")
+        db.collection("trips")
           .where("uid", "==", selectedUserData.uid)
           .get()
           .then((data) => {
@@ -25,7 +25,7 @@ function DeleteUserModal({ setActionType, selectedUserData }) {
             data.docs
               .map((d) => d.id)
               .forEach((id) => {
-                let ref = db.collection("trip").doc(id);
+                let ref = db.collection("trips").doc(id);
                 batch.delete(ref);
               });
             batch.commit().then((d) => {

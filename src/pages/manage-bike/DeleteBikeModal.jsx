@@ -5,7 +5,7 @@ import db from "../../firebase";
 
 function CancleDeleteBikeModal({ setFormActionType, selectedBikeData }) {
   const deleteBike = () => {
-    db.collection("trip")
+    db.collection("trips")
       .where("bid", "==", selectedBikeData.id)
       .get()
       .then((data) => {
@@ -13,7 +13,7 @@ function CancleDeleteBikeModal({ setFormActionType, selectedBikeData }) {
         data.docs
           .map((d) => d.id)
           .forEach((id) => {
-            let ref = db.collection("trip").doc(id);
+            let ref = db.collection("trips").doc(id);
             batch.delete(ref);
           });
         batch.commit().then((d) => {

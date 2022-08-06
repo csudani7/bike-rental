@@ -17,7 +17,7 @@ import {
 //#Local Imports
 import db from "../../firebase";
 import BikeCard from "./BikeCard";
-import NoRecords from "../../components/NoRecords";
+import NoRecords from "../../components/noRecord";
 
 const filters = [
   {
@@ -53,7 +53,7 @@ const HomePage = () => {
 
   const fetchBikesFromTrip = (bike) => {
     return new Promise((resolve) => {
-      db.collection("trip")
+      db.collection("trips")
         .where("bid", "==", bike.id)
         .where("isRideCompleted", "==", false)
         .onSnapshot((snapshot) => {

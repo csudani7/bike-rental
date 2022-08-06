@@ -15,11 +15,11 @@ const MyBike = () => {
   const [selectedTrip, setSelectedTrip] = React.useState(null);
 
   const handleCompleteRide = (rate) => {
-    db.collection("trip")
+    db.collection("trips")
       .doc(selectedTrip.id)
       .update({ rating: rate, isRideCompleted: true })
       .then(() => {
-        db.collection("trip")
+        db.collection("trips")
           .where("bid", "==", selectedTrip.bid)
           .where("isRideCompleted", "==", true)
           .onSnapshot((snapshot) => {
@@ -46,7 +46,7 @@ const MyBike = () => {
   };
 
   const handleDeleteTrip = () => {
-    db.collection("trip")
+    db.collection("trips")
       .doc(selectedTrip.id)
       .delete()
       .then(() => {
@@ -68,7 +68,7 @@ const MyBike = () => {
   };
 
   React.useEffect(() => {
-    db.collection("trip")
+    db.collection("trips")
       .where("uid", "==", user.uid)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) => {

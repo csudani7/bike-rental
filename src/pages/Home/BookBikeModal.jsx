@@ -61,7 +61,7 @@ function BookModal(props) {
       .every((element) => element === false);
 
     if (disableStartDate) {
-      db.collection("trip")
+      db.collection("trips")
         .add({
           bid: bikeData.id,
           uid: user.uid,
@@ -80,7 +80,7 @@ function BookModal(props) {
   };
 
   React.useEffect(() => {
-    db.collection("trip")
+    db.collection("trips")
       .where("bid", "==", bikeData.id)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) =>

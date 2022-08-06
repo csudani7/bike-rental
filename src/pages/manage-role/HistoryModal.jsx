@@ -23,7 +23,7 @@ function HistoryModal(props) {
   };
 
   React.useEffect(() => {
-    db.collection("trip")
+    db.collection("trips")
       .where("uid", "==", selectedUserData.uid)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) => {

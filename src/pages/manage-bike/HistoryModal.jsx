@@ -22,7 +22,7 @@ function HistoryModal(props) {
   };
 
   React.useEffect(() => {
-    db.collection("trip")
+    db.collection("trips")
       .where("bid", "==", selectedBikeData.id)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) => {

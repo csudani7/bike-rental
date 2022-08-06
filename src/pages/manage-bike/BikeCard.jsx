@@ -34,7 +34,7 @@ function BikeCard(props) {
                   style={{ background: bikeData.color }}
                 />
               </div>
-              <p className="flex items-center text-base font-medium text-gray-600">
+              <p className="flex items-center text-base font-medium text-gray-600 capitalize">
                 <LocationMarkerIcon className="flex-shrink-0 w-4 h-4 text-gray-600" />
                 <span className="ml-2 text-lg font-bold text-black">
                   {bikeData?.location}

@@ -56,7 +56,7 @@ function HistoryModal(props) {
                   <div className="relative p-2 border border-gray-200 group">
                     <div className="py-4 text-center hover:bg-indigo-50">
                       <div className="flex items-center justify-between mx-8 space-x-8">
-                        <p className="flex items-center text-base font-medium text-gray-600">
+                        <p className="flex items-center text-base font-medium text-gray-600 capitalize">
                           <span className="text-base font-bold text-black">
                             {items.fullName}
                           </span>
@@ -86,7 +86,7 @@ function HistoryModal(props) {
                             style={{ background: selectedBikeData.color }}
                           />
                         </div>
-                        <p className="flex items-center text-base font-medium text-gray-600">
+                        <p className="flex items-center text-base font-medium text-gray-600 capitalize">
                           <LocationMarkerIcon className="flex-shrink-0 w-4 h-4 text-gray-600" />
                           <span className="ml-2 text-base font-bold text-black">
                             {selectedBikeData?.location}

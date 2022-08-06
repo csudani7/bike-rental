@@ -144,24 +144,15 @@ function BookModal(props) {
         endDate={tripEndDate}
         excludeDates={disableBookedBikeDate?.map((date) => new Date(date))}
       />
-      <div className="flex justify-end">
+      <div className="flex justify-center pt-3">
         <button
           type="submit"
           disabled={!isBookBikeButtonDisable}
           onClick={handleBookBikeTrip}
-          className="inline-flex items-center justify-center w-full px-6 py-3 mt-3 mr-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
+          className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
         >
           <CalendarIcon className="w-5 h-5" aria-hidden="true" />
           <span className="ml-2">Book Now</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            handleCloseModal(false);
-          }}
-          className="inline-flex items-center justify-center w-full px-6 py-3 mt-3 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto"
-        >
-          Not Now
         </button>
       </div>
     </div>

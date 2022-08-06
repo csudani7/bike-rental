@@ -8,7 +8,7 @@ import Modal from "../../components/modal";
 import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
 import BikeCard from "./BikeCard";
-import CancleDeleteBikeModal from "./CancleDeleteBikeModal";
+import DeleteBikeModal from "./DeleteBikeModal";
 
 const ManageBike = () => {
   const [bikeData, setBikeData] = React.useState([]);
@@ -68,7 +68,7 @@ const ManageBike = () => {
         width="sm:max-w-[40rem] sm:w-full"
       >
         {formActionType === "delete" && (
-          <CancleDeleteBikeModal
+          <DeleteBikeModal
             setFormActionType={setFormActionType}
             selectedBikeData={selectedBikeData}
           />

@@ -14,7 +14,7 @@ import {
 import db, { auth } from "../../firebase";
 
 const FormContainer = (props) => {
-  const { actionType, selectedUserData, setIsModalOpen, setSwitchValue } =
+  const { actionType, selectedUserData, setActionType, setSwitchValue } =
     props;
   const {
     handleSubmit,
@@ -23,6 +23,7 @@ const FormContainer = (props) => {
   } = useForm();
 
   const onSubmit = (values) => {
+    console.log(actionType)
     if (actionType === "add") {
       auth
         .createUserWithEmailAndPassword(values.email, values.password)
@@ -35,7 +36,7 @@ const FormContainer = (props) => {
               role: values.role,
             })
             .then(() => {
-              setIsModalOpen(false);
+              setActionType("");
               setSwitchValue(values.role);
             })
             .catch((error) => {
@@ -47,10 +48,10 @@ const FormContainer = (props) => {
         });
     } else if (actionType === "edit") {
       db.collection("users")
-        .doc(values.id)
+        .doc(selectedUserData.id)
         .update({ fullName: values.fullName, role: values.role })
         .then(() => {
-          setIsModalOpen(false);
+          setActionType("");
           setSwitchValue(values.role);
         })
         .catch((error) => {
@@ -77,6 +78,7 @@ const FormContainer = (props) => {
               id="fullName"
               name="fullName"
               type="fullName"
+              defaultValue={actionType === "edit" && selectedUserData?.fullName}
               autoComplete="fullName"
               {...register("fullName", {
                 required: true,

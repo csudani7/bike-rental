@@ -5,10 +5,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 function UserCard(props) {
   const {
     userData,
-    setUserHistoryModalOpen,
-    setSelectedUserData,
-    handleUserHistory,
-    handleEditAction,
+    handleAction
   } = props;
 
   return (
@@ -18,9 +15,7 @@ function UserCard(props) {
           <div
             className="p-4 text-center hover:bg-indigo-50"
             onClick={() => {
-              handleUserHistory(userData);
-              setUserHistoryModalOpen(true);
-              setSelectedUserData(userData);
+              handleAction(userData,"history")
             }}
           >
             <div className="flex items-center justify-around">
@@ -45,7 +40,7 @@ function UserCard(props) {
               type="button"
               className="inline-flex justify-center w-full px-10 py-2 text-base font-medium text-white bg-indigo-500 border border-transparent shadow-sm hover:bg-indigo-800 focus:outline-none sm:w-auto sm:text-sm"
               onClick={() => {
-                handleEditAction(userData);
+                handleAction(userData,"edit");
               }}
             >
               <PencilIcon className="w-5 h-5" aria-hidden="true" />
@@ -54,6 +49,9 @@ function UserCard(props) {
             <button
               type="button"
               className="inline-flex justify-center w-full px-10 py-2 text-base font-medium text-white bg-red-500 border border-transparent shadow-sm hover:bg-red-700 sm:w-auto sm:text-sm"
+              onClick={() => {
+                handleAction(userData,"delete");
+              }}
             >
               <TrashIcon className="w-5 h-5 cursor" aria-hidden="true" />
               <span className="ml-2">Delete</span>

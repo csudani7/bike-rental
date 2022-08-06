@@ -8,7 +8,7 @@ import db from "../../firebase";
 import { classNames } from "../../utils";
 
 function HistoryModal(props) {
-  const { selectedUserHistory } = props;
+  const { selectedUserData } = props;
   const [userHistory, setUserHistory] = React.useState([]);
 
   const fetchBikes = (trip) => {
@@ -23,7 +23,7 @@ function HistoryModal(props) {
 
   React.useEffect(() => {
     db.collection("trip")
-      .where("uid", "==", selectedUserHistory.uid)
+      .where("uid", "==", selectedUserData.uid)
       .where("isRideCompleted", "==", false)
       .onSnapshot((snapshot) => {
         Promise.all(

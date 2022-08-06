@@ -1,15 +1,40 @@
 //#Global imports
 import React from "react";
+import { toast } from "react-toastify";
+import db from "../../firebase";
 
 function CancleDeleteBikeModal({ setFormActionType, selectedBikeData }) {
   const deleteBike = () => {
-    setTimeout(() => {
-      setFormActionType("");
-    }, 1500);
+    db.collection("trip")
+      .where("bid", "==", selectedBikeData.id)
+      .get()
+      .then((data) => {
+        let batch = db.batch();
+        data.docs
+          .map((d) => d.id)
+          .forEach((id) => {
+            let ref = db.collection("trip").doc(id);
+            batch.delete(ref);
+          });
+        batch.commit().then((d) => {
+          db.collection("bikes")
+            .doc(selectedBikeData.id)
+            .delete()
+            .then(() => {
+              toast.success("Bike deleted");
+              setFormActionType("")
+            });
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("No bike found");
+      })
   };
 
   return (
     <div className="text-lg font-bold">
+      {selectedBikeData.id}
       Are you sure to cancel the selected ride ?
       <div className="flex justify-end">
         <button

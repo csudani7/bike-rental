@@ -78,7 +78,7 @@ const FormContainer = (props) => {
               id="fullName"
               name="fullName"
               type="fullName"
-              defaultValue={actionType === "edit" && selectedUserData?.fullName}
+              defaultValue={actionType === "edit" ? selectedUserData?.fullName : ""}
               autoComplete="fullName"
               {...register("fullName", {
                 required: true,

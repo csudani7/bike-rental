@@ -27,7 +27,6 @@ const ManageRole = () => {
     setFetchedData([]);
     db.collection("users")
       .where("role", "==", switchValue)
-      .where("uid", "!=", user.uid)
       .onSnapshot((snapshot) => {
         setFetchedData(
           snapshot.docs.map((doc) => ({

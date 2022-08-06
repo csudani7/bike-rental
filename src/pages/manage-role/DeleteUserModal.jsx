@@ -1,11 +1,17 @@
 //#Global imports
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
+import { UserConfigContext } from "../../context";
 import db from "../../firebase";
 
 function DeleteUserModal({ setActionType, selectedUserData }) {
-  console.log("hihi")
+  const { user } = useContext(UserConfigContext);
   const deleteBike = () => {
+    if(user.uid === selectedUserData.uid){
+      toast.error("You can not delete your self from system")
+      setActionType("")
+      return
+    }
     db.collection("trip")
       .where("uid", "==", selectedUserData.uid)
       .get()
@@ -23,14 +29,14 @@ function DeleteUserModal({ setActionType, selectedUserData }) {
             .delete()
             .then(() => {
               toast.success("User deleted");
-              setActionType("")
+              setActionType("");
             });
         });
       })
       .catch((e) => {
         console.log(e);
         toast.error("No bike found");
-      })
+      });
   };
 
   return (

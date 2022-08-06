@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import db from "../../firebase";
 import BikeCard from "./BikeCard";
 import { UserConfigContext } from "../../context";
-import NoRecords from "../../components/NoRecords";
+import NoRecords from "../../components/noRecord";
 
 const MyBike = () => {
   const { user } = React.useContext(UserConfigContext);

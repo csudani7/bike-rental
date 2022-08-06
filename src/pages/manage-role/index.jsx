@@ -11,7 +11,7 @@ import HistoryModal from "./HistoryModal";
 import UserCard from "./UserCard";
 import DeleteUserModal from "./DeleteUserModal";
 import { UserConfigContext } from "../../context";
-import NoRecords from "../../components/NoRecords";
+import NoRecords from "../../components/noRecord";
 
 const ManageRole = () => {
   const [fetchedData, setFetchedData] = React.useState([]);

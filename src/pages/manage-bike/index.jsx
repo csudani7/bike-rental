@@ -9,7 +9,7 @@ import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
 import BikeCard from "./BikeCard";
 import DeleteBikeModal from "./DeleteBikeModal";
-import NoRecords from "../../components/NoRecords";
+import NoRecords from "../../components/noRecord";
 
 const ManageBike = () => {
   const [bikeData, setBikeData] = React.useState([]);

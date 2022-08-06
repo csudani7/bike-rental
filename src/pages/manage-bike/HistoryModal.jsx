@@ -5,7 +5,7 @@ import { StarIcon, LocationMarkerIcon } from "@heroicons/react/solid";
 //#Local Imports
 import db from "../../firebase";
 import { classNames } from "../../utils";
-import NoRecords from "../../components/NoRecords";
+import NoRecords from "../../components/noRecord";
 
 function HistoryModal(props) {
   const { selectedBikeData } = props;

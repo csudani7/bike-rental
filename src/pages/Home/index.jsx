@@ -79,6 +79,14 @@ const HomePage = () => {
     });
   };
 
+  const handleResetFilter = () => {
+    setFilterColor("");
+    setFilterLocation("");
+    setFilterRating(0);
+    filterBikeModal("");
+    setSelectedEndDate(null);
+  };
+
   React.useEffect(() => {
     let query = db.collection("bikes");
     query = query.where("isBikeAvailable", "==", true);
@@ -393,7 +401,7 @@ const HomePage = () => {
                     {({ open }) => (
                       <>
                         <h3 className="flow-root -my-3">
-                          <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm text-gray-400 bg-white hover:text-gray-500">
+                          <Disclosure.Button className="flex items-center justify-between w-full py-3 text-sm capitalize bg-white hover:text-gray-500">
                             <span className="font-medium text-gray-600">
                               {section.name}
                             </span>
@@ -545,7 +553,7 @@ const HomePage = () => {
 
               {/* Bike Card grid */}
               <div className="lg:col-span-3">
-                <div className="pb-3 pl-3 text-right">
+                <div className="flex items-center justify-between pb-3 pl-3 text-right">
                   <DatePicker
                     onChange={handleDateChange}
                     startDate={selectedStartDate}
@@ -561,6 +569,12 @@ const HomePage = () => {
                       />
                     }
                   />
+                  <div
+                    className="w-24 text-base text-indigo-600 cursor-pointer"
+                    onClick={handleResetFilter}
+                  >
+                    Reset filter
+                  </div>
                 </div>
                 {filteredBikeData?.length === 0 ? (
                   <NoRecords />

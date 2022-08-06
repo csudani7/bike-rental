@@ -7,35 +7,43 @@ import db from "../../firebase";
 function DeleteUserModal({ setActionType, selectedUserData }) {
   const { user } = useContext(UserConfigContext);
   const deleteBike = () => {
-    if(user.uid === selectedUserData.uid){
-      toast.error("You can not delete your self from system")
-      setActionType("")
-      return
+    if (user.uid === selectedUserData.uid) {
+      toast.error("You can not delete your self from system");
+      setActionType("");
+      return;
     }
-    db.collection("trip")
-      .where("uid", "==", selectedUserData.uid)
-      .get()
-      .then((data) => {
-        let batch = db.batch();
-        data.docs
-          .map((d) => d.id)
-          .forEach((id) => {
-            let ref = db.collection("trip").doc(id);
-            batch.delete(ref);
-          });
-        batch.commit().then((d) => {
-          db.collection("users")
-            .doc(selectedUserData.id)
-            .delete()
-            .then(() => {
-              toast.success("User deleted");
-              setActionType("");
+    fetch(
+      `${process.env.REACT_APP_API_ENDPOINT}/deleteUser?uid=${selectedUserData.uid}`,
+      { method: "GET", headers: { "Access-Control-Allow-Origin": "*" } }
+    )
+      .then(() => {
+        db.collection("trip")
+          .where("uid", "==", selectedUserData.uid)
+          .get()
+          .then((data) => {
+            let batch = db.batch();
+            data.docs
+              .map((d) => d.id)
+              .forEach((id) => {
+                let ref = db.collection("trip").doc(id);
+                batch.delete(ref);
+              });
+            batch.commit().then((d) => {
+              db.collection("users")
+                .doc(selectedUserData.id)
+                .delete()
+                .then(() => {
+                  toast.success("User deleted");
+                  setActionType("");
+                });
             });
-        });
+          })
+          .catch((e) => {
+            toast.error("No bike found");
+          });
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("No bike found");
+        toast.error("No User Found");
       });
   };
 
@@ -43,6 +51,7 @@ function DeleteUserModal({ setActionType, selectedUserData }) {
     <div className="text-lg font-bold">
       Are you sure to cancel the selected ride ?
       <div className="flex justify-end">
+        {selectedUserData.uid}
         <button
           onClick={deleteBike}
           type="submit"

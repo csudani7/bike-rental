@@ -17,6 +17,7 @@ import {
 //#Local Imports
 import db from "../../firebase";
 import BikeCard from "./BikeCard";
+import NoRecords from "../../components/NoRecords";
 
 const filters = [
   {
@@ -561,11 +562,15 @@ const HomePage = () => {
                     }
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4 pl-3 -mx-p sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
-                  {filteredBikeData.map((bikeData, index) => (
-                    <BikeCard bikeData={bikeData} key={index} />
-                  ))}
-                </div>
+                {filteredBikeData?.length === 0 ? (
+                  <NoRecords />
+                ) : (
+                  <div className="grid grid-cols-2 gap-4 pl-3 -mx-p sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3">
+                    {filteredBikeData.map((bikeData, index) => (
+                      <BikeCard bikeData={bikeData} key={index} />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>

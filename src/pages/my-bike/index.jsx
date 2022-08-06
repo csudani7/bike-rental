@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import db from "../../firebase";
 import BikeCard from "./BikeCard";
 import { UserConfigContext } from "../../context";
+import NoRecords from "../../components/NoRecords";
 
 const MyBike = () => {
   const { user } = React.useContext(UserConfigContext);
@@ -104,21 +105,25 @@ const MyBike = () => {
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
                 {/* Bike Card grid */}
                 <div className="lg:col-span-6">
-                  <div className="grid grid-cols-2 gap-6 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
-                    {tripData.map((item, index) => {
-                      return (
-                        <BikeCard
-                          key={index}
-                          tripData={item}
-                          actionType={actionType}
-                          setActionType={setActionType}
-                          setSelectedTrip={setSelectedTrip}
-                          handleDeleteTrip={handleDeleteTrip}
-                          handleCompleteRide={handleCompleteRide}
-                        />
-                      );
-                    })}
-                  </div>
+                  {tripData?.length === 0 ? (
+                    <NoRecords />
+                  ) : (
+                    <div className="grid grid-cols-2 gap-6 sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+                      {tripData.map((item, index) => {
+                        return (
+                          <BikeCard
+                            key={index}
+                            tripData={item}
+                            actionType={actionType}
+                            setActionType={setActionType}
+                            setSelectedTrip={setSelectedTrip}
+                            handleDeleteTrip={handleDeleteTrip}
+                            handleCompleteRide={handleCompleteRide}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             </section>

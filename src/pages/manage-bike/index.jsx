@@ -9,6 +9,7 @@ import FormContainer from "./FormContainer";
 import HistoryModal from "./HistoryModal";
 import BikeCard from "./BikeCard";
 import DeleteBikeModal from "./DeleteBikeModal";
+import NoRecords from "../../components/NoRecords";
 
 const ManageBike = () => {
   const [bikeData, setBikeData] = React.useState([]);
@@ -49,15 +50,19 @@ const ManageBike = () => {
         </div>
 
         {/* Data Listing Section */}
-        <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
-          {bikeData.map((items, index) => (
-            <BikeCard
-              key={index}
-              bikeData={items}
-              handleAction={handleAction}
-            />
-          ))}
-        </div>
+        {bikeData?.length === 0 ? (
+          <NoRecords />
+        ) : (
+          <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+            {bikeData.map((items, index) => (
+              <BikeCard
+                key={index}
+                bikeData={items}
+                handleAction={handleAction}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Add, Edit, Delete, History User/Manager Form Modal Section */}

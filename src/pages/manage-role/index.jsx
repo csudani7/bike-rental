@@ -11,6 +11,7 @@ import HistoryModal from "./HistoryModal";
 import UserCard from "./UserCard";
 import DeleteUserModal from "./DeleteUserModal";
 import { UserConfigContext } from "../../context";
+import NoRecords from "../../components/NoRecords";
 
 const ManageRole = () => {
   const [fetchedData, setFetchedData] = React.useState([]);
@@ -95,18 +96,22 @@ const ManageRole = () => {
           </div>
         </div>
         {/* Data Listing Section */}
-        <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
-          {fetchedData.map((user, index) => {
-            return (
-              <UserCard
-                key={index}
-                userData={user}
-                handleAction={handleAction}
-                setSelectedUserData={setSelectedUserData}
-              />
-            );
-          })}
-        </div>
+        {fetchedData.length === 0 ? (
+          <NoRecords />
+        ) : (
+          <div className="grid w-full grid-cols-2 gap-8 -mx-px sm:mx-0 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4">
+            {fetchedData.map((user, index) => {
+              return (
+                <UserCard
+                  key={index}
+                  userData={user}
+                  handleAction={handleAction}
+                  setSelectedUserData={setSelectedUserData}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Add and Edit User/Manager Form Modal Section */}
